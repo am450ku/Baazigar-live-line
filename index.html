@@ -161,4 +161,1071 @@ Series
 
 <a onclick="showPage('teams')" data-page="teams"
 class="nav flex items-center gap-3 px-6 py-3 cursor-pointer text-[#c3caac] hover:bg-[#292a2e]">
-<span class
+<span class="material-symbols-outlined">groups</span>
+Teams
+</a>
+
+<a onclick="showPage('players')" data-page="players"
+class="nav flex items-center gap-3 px-6 py-3 cursor-pointer text-[#c3caac] hover:bg-[#292a2e]">
+<span class="material-symbols-outlined">person_search</span>
+Players
+</a>
+
+<a onclick="showPage('api')" data-page="api"
+class="nav flex items-center gap-3 px-6 py-3 cursor-pointer text-[#c3caac] hover:bg-[#292a2e]">
+<span class="material-symbols-outlined">api</span>
+API Settings
+</a>
+
+<a onclick="showPage('users')" data-page="users"
+class="nav flex items-center gap-3 px-6 py-3 cursor-pointer text-[#c3caac] hover:bg-[#292a2e]">
+<span class="material-symbols-outlined">manage_accounts</span>
+User Management
+</a>
+
+</nav>
+
+<div class="border-t border-[#343539]">
+<a onclick="showPage('settings')" data-page="settings"
+class="nav flex items-center gap-3 px-6 py-3 cursor-pointer text-[#c3caac] hover:bg-[#292a2e]">
+<span class="material-symbols-outlined">settings</span>
+Settings
+</a>
+
+<a onclick="logout()"
+class="flex items-center gap-3 px-6 py-3 cursor-pointer text-[#ffb4ab] hover:bg-[#292a2e]">
+<span class="material-symbols-outlined">logout</span>
+Logout
+</a>
+</div>
+
+</aside>
+
+
+<!-- HEADER -->
+<header
+class="fixed top-0 right-0 left-[260px] h-16 z-40 bg-[#121317] border-b border-[#343539] flex items-center justify-between px-6">
+
+<button onclick="toggleMenu()" class="mobile-menu hidden text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+
+<div class="font-bold text-white text-lg">
+BAAZIGAR LIVE LINE
+</div>
+
+<div class="flex items-center gap-4">
+
+<div class="flex items-center gap-2 text-[#b8f600] text-xs font-bold border border-[#b8f600]/30 bg-[#b8f600]/10 px-3 py-2 rounded">
+<span class="w-2 h-2 rounded-full bg-[#b8f600] animate-pulse"></span>
+API STATUS: <span id="apiStatus">ACTIVE</span>
+</div>
+
+<div class="w-9 h-9 rounded-full bg-[#b8f600] text-black flex items-center justify-center font-black">
+A
+</div>
+
+</div>
+</header>
+
+
+<!-- MAIN -->
+<main class="ml-[260px] pt-16 min-h-screen">
+
+<div class="p-6 md:p-8">
+
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="page active">
+
+<div class="flex items-center justify-between mb-7">
+<div>
+<h1 class="text-3xl font-black text-white">Overview</h1>
+<p class="text-[#c3caac] text-sm mt-1">
+BAAZIGAR LIVE control center
+</p>
+</div>
+
+<div class="text-xs text-[#c3caac]">
+LAST UPDATED: <span id="lastUpdated">JUST NOW</span>
+</div>
+</div>
+
+
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+
+<div class="card p-6">
+<div class="flex justify-between text-xs font-bold text-[#c3caac]">
+TOTAL USERS
+<span class="material-symbols-outlined">group</span>
+</div>
+<div id="totalUsers" class="text-3xl font-black mt-4 text-white">0</div>
+</div>
+
+<div class="card p-6 border-l-4 border-l-[#b8f600]">
+<div class="flex justify-between text-xs font-bold text-[#c3caac]">
+LIVE MATCHES
+<span class="material-symbols-outlined text-[#b8f600]">sports_cricket</span>
+</div>
+<div id="liveMatches" class="text-3xl font-black mt-4 text-white">0</div>
+</div>
+
+<div class="card p-6">
+<div class="flex justify-between text-xs font-bold text-[#c3caac]">
+UPCOMING MATCHES
+<span class="material-symbols-outlined">event</span>
+</div>
+<div id="upcomingMatches" class="text-3xl font-black mt-4 text-white">0</div>
+</div>
+
+<div class="card p-6">
+<div class="flex justify-between text-xs font-bold text-[#c3caac]">
+ACTIVE SERIES
+<span class="material-symbols-outlined">view_timeline</span>
+</div>
+<div id="activeSeries" class="text-3xl font-black mt-4 text-white">0</div>
+</div>
+
+</div>
+
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-6">
+
+<div class="card p-6">
+<div class="flex items-center justify-between mb-5">
+<h2 class="font-bold text-white">DATA STREAMS</h2>
+<span class="text-xs text-[#b8f600]">LIVE</span>
+</div>
+
+<div class="space-y-4">
+
+<div class="border border-[#343539] rounded p-5">
+<div class="flex justify-between">
+<div class="flex gap-3 items-center">
+<span class="material-symbols-outlined text-[#b8f600]">api</span>
+<div>
+<div class="font-bold">Cricket Data</div>
+<div class="text-xs text-[#c3caac] mt-1">Match data connection</div>
+</div>
+</div>
+<span class="text-[#b8f600] text-xs font-bold">CONNECTED</span>
+</div>
+</div>
+
+<div class="border border-[#343539] rounded p-5">
+<div class="flex justify-between">
+<div class="flex gap-3 items-center">
+<span class="material-symbols-outlined">swap_calls</span>
+<div>
+<div class="font-bold">Odds Data</div>
+<div class="text-xs text-[#c3caac] mt-1">Odds provider connection</div>
+</div>
+</div>
+<span class="text-[#b8f600] text-xs font-bold">CONNECTED</span>
+</div>
+</div>
+
+</div>
+</div>
+
+
+<div class="card p-6">
+<div class="flex justify-between mb-5">
+<h2 class="font-bold text-white">RECENT ACTIVITY</h2>
+<button onclick="showPage('matches')" class="text-xs text-[#b8f600]">
+VIEW MATCHES
+</button>
+</div>
+
+<div id="activity" class="space-y-4 text-sm">
+<div class="text-[#c3caac]">No activity yet.</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- MATCHES -->
+<section id="matches" class="page">
+
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+<div>
+<h1 class="text-3xl font-black text-white">Match Management</h1>
+<p class="text-[#c3caac] text-sm mt-1">Create and manage matches</p>
+</div>
+
+<button onclick="openNewMatch()" class="btn flex items-center gap-2 w-fit">
+<span class="material-symbols-outlined">add</span>
+New Match
+</button>
+</div>
+
+<div class="card overflow-hidden">
+<div class="p-5 border-b border-[#343539]">
+<input id="matchSearch" oninput="renderMatches()"
+class="input"
+placeholder="Search teams or match...">
+</div>
+
+<div id="matchList" class="divide-y divide-[#343539]"></div>
+</div>
+
+</section>
+
+
+<!-- SERIES -->
+<section id="series" class="page">
+
+<div class="flex justify-between items-center mb-6">
+<div>
+<h1 class="text-3xl font-black text-white">Series</h1>
+<p class="text-[#c3caac] text-sm">Manage cricket series</p>
+</div>
+<button onclick="addSeries()" class="btn">+ Add Series</button>
+</div>
+
+<div id="seriesList" class="grid md:grid-cols-2 xl:grid-cols-3 gap-5"></div>
+
+</section>
+
+
+<!-- TEAMS -->
+<section id="teams" class="page">
+
+<div class="flex justify-between items-center mb-6">
+<div>
+<h1 class="text-3xl font-black text-white">Teams</h1>
+<p class="text-[#c3caac] text-sm">Manage teams</p>
+</div>
+<button onclick="addTeam()" class="btn">+ Add Team</button>
+</div>
+
+<div id="teamList" class="grid md:grid-cols-2 xl:grid-cols-3 gap-5"></div>
+
+</section>
+
+
+<!-- PLAYERS -->
+<section id="players" class="page">
+
+<div class="flex justify-between items-center mb-6">
+<div>
+<h1 class="text-3xl font-black text-white">Players</h1>
+<p class="text-[#c3caac] text-sm">Manage player database</p>
+</div>
+<button onclick="addPlayer()" class="btn">+ Add Player</button>
+</div>
+
+<div class="card overflow-hidden">
+<div id="playerList"></div>
+</div>
+
+</section>
+
+
+<!-- API -->
+<section id="api" class="page">
+
+<div class="mb-6">
+<h1 class="text-3xl font-black text-white">API Settings</h1>
+<p class="text-[#c3caac] text-sm mt-1">
+Configure cricket and odds data providers
+</p>
+</div>
+
+<div class="grid md:grid-cols-2 gap-5">
+
+<div class="card p-6">
+<h2 class="font-bold text-white mb-5">Cricket API</h2>
+
+<label class="text-xs text-[#c3caac]">API URL</label>
+<input id="cricketApiUrl" class="input mt-2"
+placeholder="https://api.example.com">
+
+<label class="text-xs text-[#c3caac] block mt-4">API KEY</label>
+<input id="cricketApiKey" type="password" class="input mt-2"
+placeholder="Enter API key">
+
+<button onclick="saveApi()" class="btn mt-5">
+Save Cricket API
+</button>
+</div>
+
+<div class="card p-6">
+<h2 class="font-bold text-white mb-5">Odds API</h2>
+
+<label class="text-xs text-[#c3caac]">API URL</label>
+<input id="oddsApiUrl" class="input mt-2"
+placeholder="https://api.example.com">
+
+<label class="text-xs text-[#c3caac] block mt-4">API KEY</label>
+<input id="oddsApiKey" type="password" class="input mt-2"
+placeholder="Enter API key">
+
+<button onclick="saveApi()" class="btn mt-5">
+Save Odds API
+</button>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- USERS -->
+<section id="users" class="page">
+
+<div class="flex justify-between items-center mb-6">
+<div>
+<h1 class="text-3xl font-black text-white">User Management</h1>
+<p class="text-[#c3caac] text-sm">Manage admin users</p>
+</div>
+
+<button onclick="addUser()" class="btn">+ Add User</button>
+</div>
+
+<div class="card overflow-hidden">
+<div id="userList"></div>
+</div>
+
+</section>
+
+
+<!-- SETTINGS -->
+<section id="settings" class="page">
+
+<div class="mb-6">
+<h1 class="text-3xl font-black text-white">Settings</h1>
+<p class="text-[#c3caac] text-sm mt-1">Application settings</p>
+</div>
+
+<div class="card p-6 max-w-xl">
+
+<label class="text-xs text-[#c3caac]">APPLICATION NAME</label>
+<input id="appName" class="input mt-2"
+value="BAAZIGAR LIVE LINE">
+
+<label class="text-xs text-[#c3caac] block mt-5">
+ADMIN NAME
+</label>
+<input id="adminName" class="input mt-2"
+value="Administrator">
+
+<button onclick="saveSettings()" class="btn mt-6">
+Save Settings
+</button>
+
+<button onclick="clearAllData()" class="btn-danger mt-6 ml-2">
+Reset Demo Data
+</button>
+
+</div>
+
+</section>
+
+</div>
+</main>
+
+
+<!-- NEW MATCH MODAL -->
+<div id="matchModal" class="overlay">
+
+<div class="modal">
+
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-xl font-black">Create New Match</h2>
+
+<button onclick="closeModal()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+
+<label class="text-xs text-[#c3caac]">TEAM 1</label>
+<input id="team1" class="input mt-2" placeholder="India">
+
+<label class="text-xs text-[#c3caac] block mt-4">TEAM 2</label>
+<input id="team2" class="input mt-2" placeholder="Australia">
+
+<label class="text-xs text-[#c3caac] block mt-4">MATCH TYPE</label>
+
+<select id="matchType" class="input mt-2">
+<option>T20</option>
+<option>ODI</option>
+<option>Test</option>
+<option>Other</option>
+</select>
+
+<label class="text-xs text-[#c3caac] block mt-4">
+MATCH DATE
+</label>
+
+<input id="matchDate" type="datetime-local" class="input mt-2">
+
+<div class="flex justify-end gap-3 mt-7">
+<button onclick="closeModal()" class="btn-dark">
+Cancel
+</button>
+
+<button onclick="createMatch()" class="btn">
+Create Match
+</button>
+</div>
+
+</div>
+</div>
+
+
+<script>
+
+const defaultData = {
+ matches: [],
+ series: [
+   {id:1,name:"International Series",status:"ACTIVE"},
+   {id:2,name:"Domestic League",status:"ACTIVE"},
+   {id:3,name:"T20 Championship",status:"ACTIVE"}
+ ],
+ teams: [
+   {id:1,name:"India"},
+   {id:2,name:"Australia"}
+ ],
+ players: [],
+ users: [
+   {id:1,name:"Administrator",email:"admin@baazigar.live",role:"SUPER ADMIN"}
+ ],
+ api:{
+   cricketUrl:"",
+   cricketKey:"",
+   oddsUrl:"",
+   oddsKey:""
+ },
+ settings:{
+   appName:"BAAZIGAR LIVE LINE",
+   adminName:"Administrator"
+ }
+};
+
+function loadData(){
+
+ let saved=localStorage.getItem("baazigarData");
+
+ if(saved){
+   return JSON.parse(saved);
+ }
+
+ localStorage.setItem(
+   "baazigarData",
+   JSON.stringify(defaultData)
+ );
+
+ return JSON.parse(JSON.stringify(defaultData));
+}
+
+let data=loadData();
+
+
+function saveData(){
+ localStorage.setItem("baazigarData",JSON.stringify(data));
+ updateDashboard();
+ renderMatches();
+ renderSeries();
+ renderTeams();
+ renderPlayers();
+ renderUsers();
+}
+
+
+function showPage(page){
+
+ document.querySelectorAll(".page").forEach(p=>{
+   p.classList.remove("active");
+ });
+
+ document.getElementById(page).classList.add("active");
+
+ document.querySelectorAll(".nav").forEach(n=>{
+   n.classList.remove("nav-active");
+   n.classList.add("text-[#c3caac]");
+ });
+
+ const active=document.querySelector(`[data-page="${page}"]`);
+
+ if(active){
+   active.classList.add("nav-active");
+   active.classList.remove("text-[#c3caac]");
+ }
+
+ document.getElementById("sidebar").classList.remove("open");
+
+ window.scrollTo(0,0);
+}
+
+
+function toggleMenu(){
+ document.getElementById("sidebar").classList.toggle("open");
+}
+
+
+function openNewMatch(){
+
+ document.getElementById("matchModal").classList.add("show");
+
+ const now=new Date();
+ now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
+
+ document.getElementById("matchDate").value=
+   now.toISOString().slice(0,16);
+}
+
+
+function closeModal(){
+ document.getElementById("matchModal").classList.remove("show");
+}
+
+
+function createMatch(){
+
+ const t1=document.getElementById("team1").value.trim();
+ const t2=document.getElementById("team2").value.trim();
+ const type=document.getElementById("matchType").value;
+ const date=document.getElementById("matchDate").value;
+
+ if(!t1 || !t2){
+   alert("Please enter both teams.");
+   return;
+ }
+
+ if(t1.toLowerCase()===t2.toLowerCase()){
+   alert("Team 1 and Team 2 cannot be same.");
+   return;
+ }
+
+ const match={
+   id:Date.now(),
+   team1:t1,
+   team2:t2,
+   type:type,
+   date:date,
+   status:"UPCOMING",
+   score1:"0/0",
+   score2:"0/0"
+ };
+
+ data.matches.unshift(match);
+
+ if(!data.teams.find(t=>t.name.toLowerCase()===t1.toLowerCase())){
+   data.teams.push({id:Date.now()+1,name:t1});
+ }
+
+ if(!data.teams.find(t=>t.name.toLowerCase()===t2.toLowerCase())){
+   data.teams.push({id:Date.now()+2,name:t2});
+ }
+
+ saveData();
+
+ closeModal();
+
+ document.getElementById("team1").value="";
+ document.getElementById("team2").value="";
+
+ showPage("matches");
+
+ addActivity(
+   `${t1} vs ${t2} match created`
+ );
+}
+
+
+function renderMatches(){
+
+ const box=document.getElementById("matchList");
+ const search=(document.getElementById("matchSearch")?.value||"").toLowerCase();
+
+ const matches=data.matches.filter(m=>
+   `${m.team1} ${m.team2} ${m.type}`.toLowerCase().includes(search)
+ );
+
+ if(!matches.length){
+   box.innerHTML=`
+   <div class="p-10 text-center text-[#c3caac]">
+   No matches found.<br>
+   <button onclick="openNewMatch()" class="text-[#b8f600] mt-3">
+   Create your first match
+   </button>
+   </div>`;
+   return;
+ }
+
+ box.innerHTML=matches.map(m=>`
+
+ <div class="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+
+   <div>
+     <div class="flex items-center gap-3">
+       <span class="font-black text-white">
+       ${escapeHtml(m.team1)} vs ${escapeHtml(m.team2)}
+       </span>
+
+       <span class="text-xs border border-[#434933] px-2 py-1 rounded text-[#c3caac]">
+       ${m.type}
+       </span>
+     </div>
+
+     <div class="text-xs text-[#c3caac] mt-2">
+       ${m.date ? new Date(m.date).toLocaleString() : "Date not set"}
+     </div>
+   </div>
+
+   <div class="flex items-center gap-3">
+
+     <span class="text-xs font-bold
+       ${m.status==="LIVE" ? "text-[#b8f600]" : "text-[#c3caac]"}">
+       ${m.status}
+     </span>
+
+     <button onclick="toggleMatch(${m.id})"
+       class="btn-dark">
+       ${m.status==="LIVE" ? "Stop Live" : "Start Live"}
+     </button>
+
+     <button onclick="deleteMatch(${m.id})"
+       class="btn-danger">
+       Delete
+     </button>
+
+   </div>
+
+ </div>
+
+ `).join("");
+}
+
+
+function toggleMatch(id){
+
+ const m=data.matches.find(x=>x.id===id);
+
+ if(!m)return;
+
+ m.status=m.status==="LIVE" ? "UPCOMING" : "LIVE";
+
+ addActivity(
+   `${m.team1} vs ${m.team2} is now ${m.status}`
+ );
+
+ saveData();
+}
+
+
+function deleteMatch(id){
+
+ if(!confirm("Delete this match?"))return;
+
+ data.matches=data.matches.filter(m=>m.id!==id);
+
+ saveData();
+}
+
+
+function renderSeries(){
+
+ const box=document.getElementById("seriesList");
+
+ box.innerHTML=data.series.map(s=>`
+
+ <div class="card p-5">
+
+ <div class="flex justify-between">
+
+ <div>
+ <div class="font-bold text-white">${escapeHtml(s.name)}</div>
+ <div class="text-xs text-[#b8f600] mt-2">${s.status}</div>
+ </div>
+
+ <button onclick="deleteSeries(${s.id})"
+ class="text-[#ffb4ab]">
+ <span class="material-symbols-outlined">delete</span>
+ </button>
+
+ </div>
+
+ </div>
+
+ `).join("");
+}
+
+
+function addSeries(){
+
+ const name=prompt("Series name:");
+
+ if(!name)return;
+
+ data.series.push({
+   id:Date.now(),
+   name:name.trim(),
+   status:"ACTIVE"
+ });
+
+ saveData();
+}
+
+
+function deleteSeries(id){
+
+ if(!confirm("Delete this series?"))return;
+
+ data.series=data.series.filter(s=>s.id!==id);
+
+ saveData();
+}
+
+
+function renderTeams(){
+
+ const box=document.getElementById("teamList");
+
+ box.innerHTML=data.teams.map(t=>`
+
+ <div class="card p-5 flex justify-between items-center">
+
+ <div class="flex items-center gap-3">
+ <div class="w-11 h-11 rounded-full bg-[#b8f600] text-black flex items-center justify-center font-black">
+ ${escapeHtml(t.name.charAt(0).toUpperCase())}
+ </div>
+
+ <div>
+ <div class="font-bold">${escapeHtml(t.name)}</div>
+ <div class="text-xs text-[#c3caac]">Cricket Team</div>
+ </div>
+ </div>
+
+ <button onclick="deleteTeam(${t.id})"
+ class="text-[#ffb4ab]">
+ <span class="material-symbols-outlined">delete</span>
+ </button>
+
+ </div>
+
+ `).join("");
+}
+
+
+function addTeam(){
+
+ const name=prompt("Team name:");
+
+ if(!name)return;
+
+ data.teams.push({
+   id:Date.now(),
+   name:name.trim()
+ });
+
+ saveData();
+}
+
+
+function deleteTeam(id){
+
+ if(!confirm("Delete this team?"))return;
+
+ data.teams=data.teams.filter(t=>t.id!==id);
+
+ saveData();
+}
+
+
+function renderPlayers(){
+
+ const box=document.getElementById("playerList");
+
+ if(!data.players.length){
+   box.innerHTML=`
+   <div class="p-10 text-center text-[#c3caac]">
+   No players added yet.
+   </div>`;
+   return;
+ }
+
+ box.innerHTML=data.players.map(p=>`
+
+ <div class="p-5 border-b border-[#343539] flex justify-between">
+
+ <div>
+ <div class="font-bold">${escapeHtml(p.name)}</div>
+ <div class="text-xs text-[#c3caac] mt-1">
+ ${escapeHtml(p.team)} • ${escapeHtml(p.role)}
+ </div>
+ </div>
+
+ <button onclick="deletePlayer(${p.id})"
+ class="text-[#ffb4ab]">
+ Delete
+ </button>
+
+ </div>
+
+ `).join("");
+}
+
+
+function addPlayer(){
+
+ const name=prompt("Player name:");
+ if(!name)return;
+
+ const team=prompt("Team name:","India");
+ if(!team)return;
+
+ const role=prompt("Role:","Batter");
+ if(!role)return;
+
+ data.players.push({
+   id:Date.now(),
+   name:name.trim(),
+   team:team.trim(),
+   role:role.trim()
+ });
+
+ saveData();
+}
+
+
+function deletePlayer(id){
+
+ data.players=data.players.filter(p=>p.id!==id);
+
+ saveData();
+}
+
+
+function renderUsers(){
+
+ const box=document.getElementById("userList");
+
+ box.innerHTML=data.users.map(u=>`
+
+ <div class="p-5 border-b border-[#343539] flex justify-between items-center">
+
+ <div>
+ <div class="font-bold">${escapeHtml(u.name)}</div>
+ <div class="text-xs text-[#c3caac] mt-1">
+ ${escapeHtml(u.email)}
+ </div>
+ </div>
+
+ <span class="text-xs text-[#b8f600] font-bold">
+ ${escapeHtml(u.role)}
+ </span>
+
+ </div>
+
+ `).join("");
+}
+
+
+function addUser(){
+
+ const name=prompt("User name:");
+ if(!name)return;
+
+ const email=prompt("Email:");
+ if(!email)return;
+
+ data.users.push({
+   id:Date.now(),
+   name:name.trim(),
+   email:email.trim(),
+   role:"ADMIN"
+ });
+
+ saveData();
+}
+
+
+function saveApi(){
+
+ data.api.cricketUrl=
+   document.getElementById("cricketApiUrl").value;
+
+ data.api.cricketKey=
+   document.getElementById("cricketApiKey").value;
+
+ data.api.oddsUrl=
+   document.getElementById("oddsApiUrl").value;
+
+ data.api.oddsKey=
+   document.getElementById("oddsApiKey").value;
+
+ saveData();
+
+ alert("API settings saved.");
+}
+
+
+function loadApi(){
+
+ document.getElementById("cricketApiUrl").value=data.api.cricketUrl||"";
+ document.getElementById("cricketApiKey").value=data.api.cricketKey||"";
+ document.getElementById("oddsApiUrl").value=data.api.oddsUrl||"";
+ document.getElementById("oddsApiKey").value=data.api.oddsKey||"";
+}
+
+
+function saveSettings(){
+
+ data.settings.appName=
+   document.getElementById("appName").value;
+
+ data.settings.adminName=
+   document.getElementById("adminName").value;
+
+ saveData();
+
+ alert("Settings saved.");
+}
+
+
+function loadSettings(){
+
+ document.getElementById("appName").value=
+   data.settings.appName;
+
+ document.getElementById("adminName").value=
+   data.settings.adminName;
+}
+
+
+function updateDashboard(){
+
+ const live=data.matches.filter(m=>m.status==="LIVE").length;
+ const upcoming=data.matches.filter(m=>m.status==="UPCOMING").length;
+
+ document.getElementById("totalUsers").textContent=
+   data.users.length;
+
+ document.getElementById("liveMatches").textContent=
+   live;
+
+ document.getElementById("upcomingMatches").textContent=
+   upcoming;
+
+ document.getElementById("activeSeries").textContent=
+   data.series.filter(s=>s.status==="ACTIVE").length;
+
+ document.getElementById("lastUpdated").textContent=
+   new Date().toLocaleTimeString();
+
+}
+
+
+function addActivity(text){
+
+ let logs=JSON.parse(
+   localStorage.getItem("baazigarLogs")||"[]"
+ );
+
+ logs.unshift({
+   text:text,
+   time:new Date().toLocaleTimeString()
+ });
+
+ logs=logs.slice(0,8);
+
+ localStorage.setItem(
+   "baazigarLogs",
+   JSON.stringify(logs)
+ );
+
+ renderActivity();
+}
+
+
+function renderActivity(){
+
+ const box=document.getElementById("activity");
+
+ const logs=JSON.parse(
+   localStorage.getItem("baazigarLogs")||"[]"
+ );
+
+ if(!logs.length){
+   box.innerHTML=
+   `<div class="text-[#c3caac]">No activity yet.</div>`;
+   return;
+ }
+
+ box.innerHTML=logs.map(l=>`
+
+ <div class="flex gap-3">
+
+ <div class="w-8 h-8 rounded bg-[#292a2e] flex items-center justify-center text-[#b8f600]">
+ <span class="material-symbols-outlined text-[17px]">
+ sports_cricket
+ </span>
+ </div>
+
+ <div>
+ <div class="text-white">${escapeHtml(l.text)}</div>
+ <div class="text-xs text-[#c3caac] mt-1">
+ ${escapeHtml(l.time)}
+ </div>
+ </div>
+
+ </div>
+
+ `).join("");
+}
+
+
+function clearAllData(){
+
+ if(!confirm("Reset all demo data?"))return;
+
+ localStorage.removeItem("baazigarData");
+ localStorage.removeItem("baazigarLogs");
+
+ location.reload();
+}
+
+
+function logout(){
+
+ alert("Logout system will be connected with authentication backend in the next step.");
+}
+
+
+function escapeHtml(value){
+
+ return String(value)
+ .replaceAll("&","&amp;")
+ .replaceAll("<","&lt;")
+ .replaceAll(">","&gt;")
+ .replaceAll('"',"&quot;")
+ .replaceAll("'","&#039;");
+}
+
+
+function init(){
+
+ updateDashboard();
+ renderMatches();
+ renderSeries();
+ renderTeams();
+ renderPlayers();
+ renderUsers();
+ renderActivity();
+ loadApi();
+ loadSettings();
+
+}
+
+init();
+
+</script>
+
+</body>
+</html>
