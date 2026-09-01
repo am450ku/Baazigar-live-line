@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
-<title>BAAZIGAR LIVE LINE — Admin</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<title>BAAZIGAR LIVE — Admin Dashboard</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-
 :root{
   --bg:#0d0f12;
   --panel:#181b20;
@@ -16,24 +15,15 @@
   --text:#f1f3ed;
   --muted:#aeb3a2;
   --lime:#b7ff00;
-  --limeDark:#182304;
-  --red:#ff8888;
+  --red:#ff7777;
 }
-
 html,body{
   background:var(--bg);
   color:var(--text);
   font-family:Arial,Helvetica,sans-serif;
-  min-height:100%;
 }
-
-body{overflow-x:hidden}
-
-button,input,select{
-  font:inherit;
-}
-
-button{cursor:pointer}
+body{min-height:100vh;overflow-x:hidden}
+button,input,select{font:inherit}
 
 .header{
   height:68px;
@@ -44,815 +34,268 @@ button{cursor:pointer}
   align-items:center;
   justify-content:space-between;
   padding:0 14px;
-  background:rgba(13,15,18,.96);
+  background:rgba(13,15,18,.97);
   border-bottom:1px solid var(--border);
-  backdrop-filter:blur(12px);
 }
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  min-width:0;
-}
-
+.brand{display:flex;align-items:center;gap:10px}
 .menu{
-  width:38px;
-  height:38px;
+  width:38px;height:38px;border-radius:9px;
   border:1px solid var(--border);
-  border-radius:9px;
-  background:var(--panel);
-  color:#fff;
-  font-size:20px;
+  background:var(--panel);color:white;
+  font-size:20px;cursor:pointer
 }
-
-.logo{
-  font-size:17px;
-  font-weight:900;
-  white-space:nowrap;
+.logo{font-size:17px;font-weight:900;white-space:nowrap}
+.logo span{color:var(--lime)}
+.status{
+  display:flex;align-items:center;gap:6px;
+  color:var(--lime);font-size:9px;font-weight:bold;
+  border:1px solid #4c6900;border-radius:8px;padding:7px 9px
 }
-
-.logo span,.lime{color:var(--lime)}
-
-.headerRight{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
-.apiDot{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  padding:6px 9px;
-  border:1px solid #506d00;
-  border-radius:8px;
-  color:var(--lime);
-  font-size:9px;
-  font-weight:800;
-}
-
 .dot{
-  width:7px;
-  height:7px;
-  background:var(--lime);
-  border-radius:50%;
-  box-shadow:0 0 9px var(--lime);
+  width:7px;height:7px;border-radius:50%;
+  background:var(--lime);box-shadow:0 0 8px var(--lime)
 }
-
 .avatar{
-  width:37px;
-  height:37px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:var(--lime);
-  color:#111;
-  font-weight:900;
+  width:37px;height:37px;border-radius:50%;
+  background:var(--lime);color:#111;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900
 }
+.head-right{display:flex;align-items:center;gap:8px}
 
 .overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.65);
-  z-index:150;
-  opacity:0;
-  pointer-events:none;
-  transition:.2s;
+  position:fixed;inset:0;background:#000a;
+  z-index:150;display:none
 }
-
-.overlay.show{
-  opacity:1;
-  pointer-events:auto;
-}
+.overlay.show{display:block}
 
 .sidebar{
-  position:fixed;
-  left:0;
-  top:0;
-  bottom:0;
-  width:285px;
-  z-index:200;
-  background:#0a0c0e;
+  position:fixed;left:0;top:0;bottom:0;
+  width:285px;background:#090b0d;
   border-right:1px solid var(--border);
+  z-index:200;
   transform:translateX(-100%);
-  transition:.25s;
-  overflow-y:auto;
+  transition:.22s;
+  overflow:auto;
+  padding:22px 10px
 }
-
 .sidebar.open{transform:translateX(0)}
-
-.sideHead{
-  padding:24px 20px 10px;
+.side-logo{
+  padding:0 10px 22px;
+  font-size:25px;font-weight:900
 }
-
-.sideLogo{
-  font-size:25px;
-  font-weight:900;
+.side-logo span{color:var(--lime)}
+.sub{
+  color:#858b7e;font-size:10px;
+  letter-spacing:3px;margin-top:8px
 }
-
-.sideLogo span{color:var(--lime)}
-
-.sideSub{
-  margin-top:10px;
-  color:#8f9589;
-  font-size:10px;
-  letter-spacing:3px;
+.new{
+  width:100%;height:48px;border:0;
+  border-radius:10px;background:var(--lime);
+  color:#101400;font-weight:900;
+  margin-bottom:15px;cursor:pointer
 }
-
-.newMatch{
-  width:calc(100% - 40px);
-  margin:20px;
-  height:50px;
-  border:0;
-  border-radius:12px;
-  background:var(--lime);
-  color:#111600;
-  font-weight:900;
+.nav-item{
+  height:46px;border-radius:9px;
+  display:flex;align-items:center;gap:12px;
+  padding:0 13px;color:#adb2a5;
+  cursor:pointer;font-size:14px;margin:3px 0
 }
-
-.nav{padding:0 10px}
-
-.navItem{
-  height:49px;
-  display:flex;
-  align-items:center;
-  gap:13px;
-  padding:0 13px;
-  margin:3px 0;
-  border-radius:9px;
-  color:#b4b8ad;
-  font-size:14px;
-}
-
-.navItem:hover{
+.nav-item.active{
   color:var(--lime);
-  background:#171b0d;
+  background:#182204;
+  border-left:3px solid var(--lime)
+}
+.nav-item:hover{color:var(--lime);background:#161c0b}
+.bottom{
+  margin-top:25px;padding-top:10px;
+  border-top:1px solid var(--border)
 }
 
-.navItem.active{
-  color:var(--lime);
-  background:#172107;
-  border-left:3px solid var(--lime);
-}
-
-.navIcon{
-  width:22px;
-  text-align:center;
-  font-size:17px;
-}
-
-.sideBottom{
-  position:absolute;
-  bottom:0;
-  width:100%;
-  padding:10px;
-  border-top:1px solid var(--border);
-  background:#0a0c0e;
-}
-
-.logout{color:#ff9d9d}
-
-main{
-  width:100%;
-}
-
+main{width:100%}
 .container{
-  width:100%;
-  max-width:1180px;
-  margin:auto;
-  padding:22px 14px 80px;
+  width:100%;max-width:1180px;
+  margin:auto;padding:22px 14px 70px
 }
-
-.pageHead{
-  margin-bottom:22px;
+.page-head{
+  display:flex;justify-content:space-between;
+  align-items:flex-end;gap:15px;margin-bottom:22px
 }
-
-.pageTitle{
-  font-size:34px;
-  font-weight:900;
-  letter-spacing:-1.4px;
+.title{
+  font-size:34px;line-height:1;
+  font-weight:900;letter-spacing:-1px
 }
-
-.pageDesc{
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.5;
-  margin-top:8px;
+.desc{
+  color:var(--muted);font-size:14px;
+  margin-top:9px;line-height:1.5
 }
-
-.updated{
-  color:#aeb3a2;
-  font-size:10px;
-  margin-top:10px;
-}
+.updated{font-size:11px;color:#bfc4b5;text-align:right}
 
 .stats{
   display:grid;
   grid-template-columns:repeat(2,1fr);
-  gap:10px;
+  gap:9px
 }
-
 .stat{
   background:var(--panel);
   border:1px solid var(--border);
   border-radius:12px;
-  padding:14px;
-  min-height:115px;
+  min-height:112px;padding:14px
+}
+.stat-top{
+  display:flex;justify-content:space-between;
+  color:#b8bdaf;font-size:10px;font-weight:800
+}
+.stat-icon{color:var(--lime);font-size:16px}
+.num{
+  font-size:31px;font-weight:900;
+  margin-top:20px
 }
 
-.statLabel{
-  color:#b9bdb2;
-  font-size:10px;
-  font-weight:800;
+.section{margin-top:22px}
+.section-head{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:10px;margin-bottom:12px
 }
-
-.statNum{
-  margin-top:19px;
-  font-size:32px;
-  font-weight:900;
-}
-
-.section{
-  margin-top:23px;
-}
-
-.sectionHead{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:13px;
-}
-
-.sectionTitle{
-  font-size:18px;
-  font-weight:900;
-}
+.section-title{font-size:17px;font-weight:900}
 
 .btn{
-  min-height:40px;
-  padding:8px 12px;
-  border-radius:8px;
   border:1px solid var(--border);
   background:var(--panel);
-  color:#fff;
-  font-size:12px;
-  font-weight:700;
+  color:white;border-radius:8px;
+  padding:9px 11px;
+  cursor:pointer;font-size:12px;font-weight:700
 }
-
-.btn:hover{
-  border-color:var(--lime);
-  color:var(--lime);
-}
-
-.btnPrimary{
+.btn:hover{border-color:var(--lime);color:var(--lime)}
+.primary{
   background:var(--lime);
-  color:#111600;
-  border-color:var(--lime);
+  color:#101400;border-color:var(--lime)
 }
+.danger{color:#ff9999}
 
-.btnDanger{
-  color:#ffaaaa;
-}
-
-.btnFull{
-  width:100%;
-}
-
-.matchList{
-  display:grid;
-  gap:11px;
-}
-
-.matchCard{
+.match-list{display:grid;gap:10px}
+.match{
   background:var(--panel);
   border:1px solid var(--border);
-  border-radius:13px;
-  padding:14px;
+  border-radius:12px;padding:14px
 }
-
-.matchTop{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
+.match-top{
+  display:flex;justify-content:space-between;
+  gap:10px;align-items:flex-start
 }
-
-.matchName{
-  font-size:16px;
-  font-weight:900;
-}
-
-.matchMeta{
-  color:var(--muted);
-  font-size:11px;
-  margin-top:5px;
-}
-
+.match-name{font-size:16px;font-weight:900}
+.meta{color:var(--muted);font-size:11px;margin-top:5px}
 .badge{
-  height:max-content;
-  padding:5px 8px;
-  border-radius:30px;
-  font-size:9px;
-  font-weight:900;
+  padding:5px 8px;border-radius:30px;
+  font-size:9px;font-weight:900;white-space:nowrap
 }
-
-.live{
-  color:var(--lime);
-  background:var(--limeDark);
-  border:1px solid #506d00;
-}
-
-.upcoming{
-  color:#ddd;
-  background:#24282e;
-}
-
-.ended{
-  color:#999;
-  background:#191b1e;
-}
+.live{color:var(--lime);background:#192400;border:1px solid #4b6800}
+.upcoming{color:#ddd;background:#25282d}
+.ended{color:#999;background:#1b1d20}
 
 .score{
   display:grid;
   grid-template-columns:1fr auto 1fr;
   align-items:center;
-  gap:10px;
-  margin:18px 0;
   text-align:center;
+  margin:18px 0
 }
-
-.team{
-  font-size:14px;
-  font-weight:800;
-  overflow-wrap:anywhere;
-}
-
-.scoreNum{
-  font-size:24px;
-  font-weight:900;
-  white-space:nowrap;
-}
-
-.vs{
-  color:#777;
-  font-size:9px;
-  padding:0 6px;
-}
-
-.actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:7px;
-}
-
-.empty{
-  text-align:center;
-  padding:35px 15px;
-  background:var(--panel);
-  border:1px dashed var(--border);
-  border-radius:13px;
-}
-
-.emptyIcon{
-  font-size:30px;
-  margin-bottom:8px;
-}
-
-.empty h3{font-size:16px}
-
-.empty p{
-  margin-top:5px;
-  color:var(--muted);
-  font-size:12px;
-}
+.team{font-size:14px;font-weight:800}
+.score-num{font-size:23px;font-weight:900}
+.vs{font-size:10px;color:#777;padding:0 8px}
+.actions{display:flex;flex-wrap:wrap;gap:7px}
 
 .grid{
   display:grid;
-  grid-template-columns:1fr;
-  gap:13px;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px
 }
-
 .card{
-  background:#15181c;
-  border:1px solid var(--border);
-  border-radius:13px;
-  padding:16px;
-}
-
-.card h3{
-  font-size:16px;
-  margin-bottom:8px;
-}
-
-.card p{
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.5;
-}
-
-.cardHead{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  padding-bottom:12px;
-  margin-bottom:14px;
-  border-bottom:1px solid var(--border);
-}
-
-.cardTitle{
-  font-size:17px;
-  font-weight:900;
-}
-
-.status{
-  padding:5px 8px;
-  border-radius:30px;
-  color:var(--lime);
-  background:var(--limeDark);
-  border:1px solid #506d00;
-  font-size:9px;
-  font-weight:900;
-}
-
-.field{
-  margin-bottom:13px;
-}
-
-.field label{
-  display:block;
-  color:#bfc4b6;
-  font-size:10px;
-  font-weight:800;
-  margin-bottom:6px;
-  text-transform:uppercase;
-  letter-spacing:.5px;
-}
-
-.input,.select{
-  width:100%;
-  height:43px;
-  border:1px solid var(--border);
-  border-radius:8px;
-  background:#0b0e12;
-  color:#fff;
-  padding:0 11px;
-  outline:none;
-  font-size:13px;
-}
-
-.input:focus,.select:focus{
-  border-color:var(--lime);
-}
-
-.keyWrap{
-  position:relative;
-}
-
-.keyWrap .input{
-  padding-right:45px;
-}
-
-.eye{
-  position:absolute;
-  right:6px;
-  top:4px;
-  height:35px;
-  width:35px;
-  border:0;
-  background:transparent;
-  color:#999;
-}
-
-.apiActions{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-}
-
-.rangeRow{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:8px;
-}
-
-.rangeValue{
-  color:var(--lime);
-  font-weight:900;
-}
-
-.range{
-  width:100%;
-  accent-color:var(--lime);
-}
-
-.switchRow{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  padding:12px;
   background:var(--panel);
   border:1px solid var(--border);
-  border-radius:9px;
+  border-radius:12px;padding:16px
 }
+.card h3{font-size:15px;margin-bottom:7px}
+.card p{font-size:12px;color:var(--muted);line-height:1.5}
 
-.switch{
-  width:44px;
-  height:24px;
-  position:relative;
+.empty{
+  text-align:center;padding:35px 15px;
+  border:1px dashed var(--border);
+  border-radius:12px;background:var(--panel)
 }
+.empty-icon{font-size:30px;margin-bottom:8px}
+.empty h3{font-size:16px}
+.empty p{font-size:12px;color:var(--muted);margin-top:5px}
 
-.switch input{display:none}
-
-.slider{
-  position:absolute;
-  inset:0;
-  background:#333840;
-  border-radius:30px;
+.modal-bg{
+  position:fixed;inset:0;z-index:300;
+  background:#000b;display:none;
+  align-items:center;justify-content:center;padding:14px
 }
-
-.slider:before{
-  content:"";
-  position:absolute;
-  width:18px;
-  height:18px;
-  left:3px;
-  top:3px;
-  background:#fff;
-  border-radius:50%;
-  transition:.2s;
-}
-
-.switch input:checked + .slider{
-  background:var(--lime);
-}
-
-.switch input:checked + .slider:before{
-  transform:translateX(20px);
-}
-
-.providerGrid{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:10px;
-}
-
-.provider{
-  padding:13px;
-  border:1px solid var(--border);
-  border-radius:10px;
-  background:var(--panel);
-}
-
-.provider.active{
-  border-color:#506d00;
-}
-
-.providerTop{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.providerName{
-  font-weight:900;
-  font-size:14px;
-}
-
-.providerStatus{
-  color:var(--lime);
-  font-size:9px;
-  margin-top:4px;
-}
-
-.radio{
-  accent-color:var(--lime);
-}
-
-.corsList{
-  display:grid;
-  gap:7px;
-  margin-bottom:10px;
-}
-
-.corsItem{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  padding:9px;
-  background:#0b0e12;
-  border:1px solid var(--border);
-  border-radius:7px;
-}
-
-.corsText{
-  font-family:monospace;
-  font-size:10px;
-  overflow-wrap:anywhere;
-}
-
-.remove{
-  border:0;
-  background:transparent;
-  color:var(--red);
-  font-size:16px;
-}
-
-.inline{
-  display:flex;
-  gap:7px;
-}
-
-.inline .input{flex:1}
-
-.note{
-  margin-top:9px;
-  color:#888f82;
-  font-size:10px;
-  line-height:1.5;
-}
-
-.modalBack{
-  position:fixed;
-  inset:0;
-  z-index:300;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:15px;
-  background:rgba(0,0,0,.75);
-}
-
-.modalBack.show{display:flex}
-
+.modal-bg.show{display:flex}
 .modal{
-  width:100%;
-  max-width:500px;
-  max-height:90vh;
-  overflow:auto;
-  padding:17px;
+  width:100%;max-width:500px;
+  max-height:90vh;overflow:auto;
   background:#15181c;
   border:1px solid var(--border);
-  border-radius:14px;
+  border-radius:14px;padding:17px
 }
-
-.modalHead{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:17px;
+.modal-head{
+  display:flex;justify-content:space-between;
+  align-items:center;margin-bottom:18px
 }
-
-.modalTitle{
-  font-size:19px;
-  font-weight:900;
-}
-
+.modal-title{font-size:20px;font-weight:900}
 .close{
-  width:34px;
-  height:34px;
+  width:34px;height:34px;
+  background:var(--panel);color:white;
   border:1px solid var(--border);
-  border-radius:8px;
-  background:var(--panel);
-  color:#fff;
-  font-size:20px;
+  border-radius:8px;cursor:pointer;font-size:20px
 }
-
-.formActions{
-  display:flex;
-  gap:8px;
+.form{display:grid;gap:12px}
+.field{display:grid;gap:6px}
+.field label{
+  font-size:11px;color:#bfc4b6;font-weight:700
 }
-
-.formActions .btn{flex:1}
+.field input,.field select{
+  width:100%;height:44px;
+  background:#0e1013;color:white;
+  border:1px solid var(--border);
+  border-radius:8px;padding:0 11px;
+  outline:none;font-size:13px
+}
+.field input:focus,.field select:focus{
+  border-color:var(--lime)
+}
+.form-actions{display:flex;gap:8px;margin-top:4px}
+.form-actions .btn{flex:1;height:44px}
 
 .toast{
-  position:fixed;
-  z-index:500;
-  left:50%;
-  bottom:25px;
+  position:fixed;z-index:500;
+  left:50%;bottom:22px;
   transform:translate(-50%,20px);
-  opacity:0;
-  pointer-events:none;
-  background:#eef2e8;
-  color:#111;
-  padding:11px 15px;
-  border-radius:9px;
-  font-size:12px;
-  font-weight:800;
-  transition:.2s;
-  max-width:90%;
-  text-align:center;
+  opacity:0;pointer-events:none;
+  background:#eef2e8;color:#111;
+  padding:11px 15px;border-radius:9px;
+  font-size:12px;font-weight:700;
+  transition:.2s
 }
+.toast.show{opacity:1;transform:translate(-50%,0)}
 
-.toast.show{
-  opacity:1;
-  transform:translate(-50%,0);
+@media(min-width:900px){
+  .container{padding:30px 28px 60px}
+  .title{font-size:45px}
+  .stats{grid-template-columns:repeat(4,1fr)}
+  .stat{min-height:135px;padding:18px}
+  .num{font-size:38px}
+  .sidebar{transform:none}
+  .overlay{display:none!important}
+  main{margin-left:285px}
+  .menu{display:none}
+  .header{padding-left:305px}
 }
-
-.bottomNav{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  z-index:120;
-  height:62px;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-  background:rgba(25,29,34,.97);
-  border-top:1px solid var(--border);
-  backdrop-filter:blur(10px);
-}
-
-.bottomItem{
-  border:0;
-  background:transparent;
-  color:#8f9589;
-  font-size:9px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:3px;
-}
-
-.bottomItem b{
-  font-size:17px;
-}
-
-.bottomItem.active{
-  color:var(--lime);
-}
-
-@media(min-width:701px){
-
-  .header{
-    padding:0 25px;
-  }
-
-  .container{
-    padding:30px 28px 60px;
-  }
-
-  .pageHead{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-end;
-  }
-
-  .stats{
-    grid-template-columns:repeat(4,1fr);
-    gap:14px;
-  }
-
-  .grid.two{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .providerGrid{
-    grid-template-columns:repeat(3,1fr);
-  }
-
-  .bottomNav{display:none}
-}
-
-@media(min-width:1000px){
-
-  .menu{
-    display:none;
-  }
-
-  .sidebar{
-    transform:translateX(0);
-  }
-
-  main{
-    margin-left:285px;
-  }
-
-  .header{
-    margin-left:285px;
-  }
-
-  .grid.apiGrid{
-    grid-template-columns:2fr 1fr;
-  }
-}
-
 @media(max-width:380px){
-
-  .apiDot{display:none}
-
+  .status{display:none}
   .logo{font-size:15px}
-
-  .container{
-    padding-left:11px;
-    padding-right:11px;
-  }
 }
 </style>
 </head>
@@ -860,276 +303,247 @@ main{
 <body>
 
 <header class="header">
-
   <div class="brand">
     <button class="menu" id="menuBtn">☰</button>
-
-    <div class="logo">
-      BAAZIGAR <span>LIVE LINE</span>
-    </div>
+    <div class="logo">BAAZIGAR <span>LIVE LINE</span></div>
   </div>
 
-  <div class="headerRight">
-    <div class="apiDot">
-      <span class="dot"></span>
-      API ACTIVE
-    </div>
+  <div class="head-right">
+    <div class="status"><span class="dot"></span>API ACTIVE</div>
     <div class="avatar">A</div>
   </div>
-
 </header>
 
 <div class="overlay" id="overlay"></div>
 
 <aside class="sidebar" id="sidebar">
-
-  <div class="sideHead">
-    <div class="sideLogo">
-      BAAZIGAR <span>LIVE LINE</span>
-    </div>
-
-    <div class="sideSub">
-      ADMIN CONTROL PANEL
-    </div>
+  <div class="side-logo">
+    BAAZIGAR <span>LIVE LINE</span>
+    <div class="sub">ADMIN CONTROL PANEL</div>
   </div>
 
-  <button class="newMatch" id="sideNewMatch">
-    ＋ New Match
-  </button>
+  <button class="new" id="newMatch">＋ NEW MATCH</button>
 
-  <nav class="nav">
-
-    <div class="navItem active" data-page="dashboard">
-      <span class="navIcon">▦</span>
-      Dashboard
-    </div>
-
-    <div class="navItem" data-page="matches">
-      <span class="navIcon">⚔</span>
-      Match Management
-    </div>
-
-    <div class="navItem" data-page="series">
-      <span class="navIcon">▣</span>
-      Series
-    </div>
-
-    <div class="navItem" data-page="teams">
-      <span class="navIcon">♟</span>
-      Teams
-    </div>
-
-    <div class="navItem" data-page="players">
-      <span class="navIcon">♙</span>
-      Players
-    </div>
-
-    <div class="navItem" data-page="commentary">
-      <span class="navIcon">🎙</span>
-      Live Commentary
-    </div>
-
-    <div class="navItem" data-page="api">
-      <span class="navIcon">◆</span>
-      API Settings
-    </div>
-
-    <div class="navItem" data-page="users">
-      <span class="navIcon">♙</span>
-      User Management
-    </div>
-
-    <div class="navItem" data-page="settings">
-      <span class="navIcon">⚙</span>
-      Settings
-    </div>
-
-  </nav>
-
-  <div class="sideBottom">
-    <div class="navItem logout" id="logoutBtn">
-      <span class="navIcon">↪</span>
-      Logout
-    </div>
+  <div class="nav">
+    <div class="nav-item active" data-page="dashboard">▦ Dashboard</div>
+    <div class="nav-item" data-page="matches">⚔ Match Management</div>
+    <div class="nav-item" data-page="series">▣ Series</div>
+    <div class="nav-item" data-page="teams">♟ Teams</div>
+    <div class="nav-item" data-page="players">♙ Players</div>
+    <div class="nav-item" data-page="api">◆ API Settings</div>
+    <div class="nav-item" data-page="users">♙ Users</div>
+    <div class="nav-item" data-page="settings">⚙ Settings</div>
   </div>
 
+  <div class="bottom">
+    <div class="nav-item" id="logout">↪ Logout</div>
+  </div>
 </aside>
 
 <main>
   <div class="container" id="app"></div>
 </main>
 
-<nav class="bottomNav">
-
-  <button class="bottomItem active" data-page="dashboard">
-    <b>▦</b>
-    Dashboard
-  </button>
-
-  <button class="bottomItem" data-page="matches">
-    <b>⚔</b>
-    Matches
-  </button>
-
-  <button class="bottomItem" data-page="commentary">
-    <b>🎙</b>
-    Live
-  </button>
-
-  <button class="bottomItem" data-page="api">
-    <b>◆</b>
-    API
-  </button>
-
-</nav>
-
-<!-- MATCH MODAL -->
-
-<div class="modalBack" id="matchModal">
-
+<div class="modal-bg" id="modal">
   <div class="modal">
-
-    <div class="modalHead">
-      <div class="modalTitle">Create New Match</div>
-
-      <button class="close" id="closeModal">×</button>
+    <div class="modal-head">
+      <div class="modal-title">Create New Match</div>
+      <button class="close" id="close">×</button>
     </div>
 
-    <form id="matchForm">
+    <form class="form" id="form">
 
       <div class="field">
         <label>Match Name</label>
-        <input class="input" id="matchName" required
-               placeholder="India vs Australia">
+        <input id="name" required placeholder="India vs Australia">
       </div>
 
       <div class="field">
         <label>Team 1</label>
-        <input class="input" id="team1" required
-               placeholder="India">
+        <input id="team1" required placeholder="India">
       </div>
 
       <div class="field">
         <label>Team 2</label>
-        <input class="input" id="team2" required
-               placeholder="Australia">
+        <input id="team2" required placeholder="Australia">
       </div>
 
       <div class="field">
         <label>Series</label>
-        <input class="input" id="matchSeries"
-               placeholder="ODI Series">
+        <input id="series" placeholder="ODI Series">
       </div>
 
       <div class="field">
-        <label>Match Date</label>
-        <input class="input" type="datetime-local"
-               id="matchDate" required>
+        <label>Date & Time</label>
+        <input id="date" type="datetime-local" required>
       </div>
 
       <div class="field">
         <label>Status</label>
-        <select class="select" id="matchStatus">
+        <select id="status">
           <option value="upcoming">Upcoming</option>
           <option value="live">Live</option>
         </select>
       </div>
 
-      <div class="formActions">
-
-        <button type="button" class="btn" id="cancelModal">
-          Cancel
-        </button>
-
-        <button type="submit" class="btn btnPrimary">
-          Create Match
-        </button>
-
+      <div class="form-actions">
+        <button type="button" class="btn" id="cancel">Cancel</button>
+        <button class="btn primary" type="submit">Create Match</button>
       </div>
 
     </form>
-
   </div>
-
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
+/* =========================================
+   SUPABASE CONFIG
+========================================= */
 
-/* =========================================================
-   STORAGE
-========================================================= */
+const SUPABASE_URL =
+"https://lzvwictzhtfbdbgvekuq.supabase.co";
+
+const SUPABASE_ANON_KEY =
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx6dndpY3R6aHRmYmRiZ3Zla3VxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgxNTkyNTcsImV4cCI6MjEwMzczNTI1N30.k1yRlaI6AzB9zZ_QUEQeOEHyYv0BMTI0-038cvfkGtw";
+
+
+/* =========================================
+   LOCAL DATABASE
+   Works immediately in GitHub Pages.
+========================================= */
 
 let matches = JSON.parse(
   localStorage.getItem("baazigar_matches") || "[]"
 );
 
-let apiSettings = JSON.parse(
-  localStorage.getItem("baazigar_api") || "null"
-) || {
-  supabaseUrl:"",
-  anonKey:"",
-  polling:10,
-  realtime:true,
-  provider:"CricketData",
-  providerKeys:{
-    CricketData:"",
-    Sportradar:""
-  },
-  cors:[
-    "https://admin.baazigarlive.com",
-    "https://api.baazigarlive.com"
-  ],
-  sessionTimeout:"30 Minutes"
-};
-
 let currentPage = "dashboard";
+
+
+/* =========================================
+   ELEMENTS
+========================================= */
 
 const app = document.getElementById("app");
 const sidebar = document.getElementById("sidebar");
 const overlay = document.getElementById("overlay");
-const modal = document.getElementById("matchModal");
-const matchForm = document.getElementById("matchForm");
+const modal = document.getElementById("modal");
+const form = document.getElementById("form");
 
 
-/* =========================================================
-   HELPERS
-========================================================= */
+/* =========================================
+   STORAGE
+========================================= */
 
-function saveMatches(){
+function save(){
   localStorage.setItem(
     "baazigar_matches",
     JSON.stringify(matches)
   );
 }
 
-function saveApi(){
-  localStorage.setItem(
-    "baazigar_api",
-    JSON.stringify(apiSettings)
-  );
+
+/* =========================================
+   MENU
+========================================= */
+
+document.getElementById("menuBtn").onclick = ()=>{
+  sidebar.classList.add("open");
+  overlay.classList.add("show");
+};
+
+overlay.onclick = ()=>{
+  sidebar.classList.remove("open");
+  overlay.classList.remove("show");
+};
+
+
+/* =========================================
+   MODAL
+========================================= */
+
+function openModal(){
+  modal.classList.add("show");
 }
+
+function closeModal(){
+  modal.classList.remove("show");
+  form.reset();
+}
+
+document.getElementById("newMatch").onclick = ()=>{
+  sidebar.classList.remove("open");
+  overlay.classList.remove("show");
+  openModal();
+};
+
+document.getElementById("close").onclick = closeModal;
+document.getElementById("cancel").onclick = closeModal;
+
+modal.onclick = e=>{
+  if(e.target === modal) closeModal();
+};
+
+
+/* =========================================
+   TOAST
+========================================= */
 
 let toastTimer;
 
-function toast(message){
+function showToast(text){
+  const t = document.getElementById("toast");
 
-  const el = document.getElementById("toast");
-
-  el.textContent = message;
-  el.classList.add("show");
+  t.textContent = text;
+  t.classList.add("show");
 
   clearTimeout(toastTimer);
 
   toastTimer = setTimeout(()=>{
-    el.classList.remove("show");
+    t.classList.remove("show");
   },2200);
 }
 
-function escapeHTML(value){
 
-  return String(value ?? "")
+/* =========================================
+   CREATE MATCH
+========================================= */
+
+form.onsubmit = e=>{
+  e.preventDefault();
+
+  const match = {
+    id:Date.now(),
+    name:document.getElementById("name").value.trim(),
+    team1:document.getElementById("team1").value.trim(),
+    team2:document.getElementById("team2").value.trim(),
+    series:document.getElementById("series").value.trim() || "General",
+    date:document.getElementById("date").value,
+    status:document.getElementById("status").value,
+    score1:0,
+    score2:0
+  };
+
+  matches.unshift(match);
+  save();
+
+  closeModal();
+
+  currentPage = "matches";
+  setActive("matches");
+  render();
+
+  showToast("Match created successfully");
+};
+
+
+/* =========================================
+   HELPERS
+========================================= */
+
+function esc(v){
+  return String(v)
     .replaceAll("&","&amp;")
     .replaceAll("<","&lt;")
     .replaceAll(">","&gt;")
@@ -1137,13 +551,12 @@ function escapeHTML(value){
     .replaceAll("'","&#039;");
 }
 
-function formatDate(value){
+function dateFormat(v){
+  if(!v) return "Date not set";
 
-  if(!value) return "Date not set";
+  const d = new Date(v);
 
-  const d = new Date(value);
-
-  if(isNaN(d.getTime())) return value;
+  if(isNaN(d.getTime())) return v;
 
   return d.toLocaleString([],{
     day:"2-digit",
@@ -1155,217 +568,114 @@ function formatDate(value){
 }
 
 
-/* =========================================================
-   MENU
-========================================================= */
+/* =========================================
+   DASHBOARD
+========================================= */
 
-function openMenu(){
-  sidebar.classList.add("open");
-  overlay.classList.add("show");
-}
+function dashboard(){
 
-function closeMenu(){
-  sidebar.classList.remove("open");
-  overlay.classList.remove("show");
-}
+  const live =
+    matches.filter(m=>m.status==="live").length;
 
-document.getElementById("menuBtn")
-  .addEventListener("click",openMenu);
+  const upcoming =
+    matches.filter(m=>m.status==="upcoming").length;
 
-overlay.addEventListener("click",closeMenu);
-
-
-/* =========================================================
-   MODAL
-========================================================= */
-
-function openMatchModal(){
-  modal.classList.add("show");
-  setTimeout(()=>{
-    document.getElementById("matchName").focus();
-  },100);
-}
-
-function closeMatchModal(){
-  modal.classList.remove("show");
-  matchForm.reset();
-}
-
-document.getElementById("sideNewMatch")
-  .addEventListener("click",()=>{
-    closeMenu();
-    openMatchModal();
-  });
-
-document.getElementById("closeModal")
-  .addEventListener("click",closeMatchModal);
-
-document.getElementById("cancelModal")
-  .addEventListener("click",closeMatchModal);
-
-modal.addEventListener("click",e=>{
-  if(e.target===modal) closeMatchModal();
-});
-
-
-/* =========================================================
-   CREATE MATCH
-========================================================= */
-
-matchForm.addEventListener("submit",e=>{
-
-  e.preventDefault();
-
-  const match = {
-
-    id:Date.now(),
-
-    name:document.getElementById("matchName")
-      .value.trim(),
-
-    team1:document.getElementById("team1")
-      .value.trim(),
-
-    team2:document.getElementById("team2")
-      .value.trim(),
-
-    series:document.getElementById("matchSeries")
-      .value.trim() || "General",
-
-    date:document.getElementById("matchDate")
-      .value,
-
-    status:document.getElementById("matchStatus")
-      .value,
-
-    score1:0,
-    score2:0
-
-  };
-
-  matches.unshift(match);
-
-  saveMatches();
-
-  closeMatchModal();
-
-  currentPage="matches";
-
-  setActiveNav();
-
-  render();
-
-  toast("Match created successfully");
-
-});
-
-
-/* =========================================================
-   MATCH CARD
-========================================================= */
-
-function matchCard(m){
-
-  const badge =
-    m.status==="live"
-      ? "live"
-      : m.status==="ended"
-      ? "ended"
-      : "upcoming";
-
-  const statusText =
-    m.status==="live"
-      ? "LIVE"
-      : m.status==="ended"
-      ? "ENDED"
-      : "UPCOMING";
+  const series =
+    new Set(matches.map(m=>m.series)).size;
 
   return `
-
-    <div class="matchCard">
-
-      <div class="matchTop">
-
-        <div>
-
-          <div class="matchName">
-            ${escapeHTML(m.name)}
-          </div>
-
-          <div class="matchMeta">
-            ${escapeHTML(m.series)}
-            ·
-            ${formatDate(m.date)}
-          </div>
-
+    <div class="page-head">
+      <div>
+        <div class="title">Overview</div>
+        <div class="desc">
+          BAAZIGAR LIVE LINE control center
         </div>
-
-        <span class="badge ${badge}">
-          ${statusText}
-        </span>
-
       </div>
 
-      <div class="score">
+      <div class="updated">
+        LAST UPDATED<br>
+        ${new Date().toLocaleTimeString()}
+      </div>
+    </div>
 
-        <div class="team">
-          ${escapeHTML(m.team1)}
+    <div class="stats">
+
+      <div class="stat">
+        <div class="stat-top">
+          TOTAL MATCHES <span class="stat-icon">⚔</span>
         </div>
-
-        <div class="scoreNum">
-          ${Number(m.score1)||0}
-          <span class="vs">VS</span>
-          ${Number(m.score2)||0}
-        </div>
-
-        <div class="team">
-          ${escapeHTML(m.team2)}
-        </div>
-
+        <div class="num">${matches.length}</div>
       </div>
 
-      <div class="actions">
+      <div class="stat">
+        <div class="stat-top">
+          LIVE MATCHES <span class="stat-icon">●</span>
+        </div>
+        <div class="num">${live}</div>
+      </div>
 
-        ${
-          m.status!=="ended"
-          ? `
-          <button class="btn"
-            onclick="changeStatus(${m.id})">
-            ${m.status==="live" ? "End Match" : "Start Live"}
-          </button>
-          `
-          : ""
-        }
+      <div class="stat">
+        <div class="stat-top">
+          UPCOMING <span class="stat-icon">▣</span>
+        </div>
+        <div class="num">${upcoming}</div>
+      </div>
 
-        ${
-          m.status==="live"
-          ? `
-          <button class="btn"
-            onclick="addScore(${m.id},1)">
-            + ${escapeHTML(m.team1)}
-          </button>
+      <div class="stat">
+        <div class="stat-top">
+          ACTIVE SERIES <span class="stat-icon">▤</span>
+        </div>
+        <div class="num">${series}</div>
+      </div>
 
-          <button class="btn"
-            onclick="addScore(${m.id},2)">
-            + ${escapeHTML(m.team2)}
-          </button>
-          `
-          : ""
-        }
+    </div>
 
-        <button class="btn btnDanger"
-          onclick="deleteMatch(${m.id})">
-          Delete
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">Recent Matches</div>
+        <button class="btn primary" onclick="openModal()">
+          + New Match
         </button>
-
       </div>
 
+      ${matchList(3)}
     </div>
   `;
 }
 
 
-function renderMatchList(limit){
+/* =========================================
+   MATCHES
+========================================= */
+
+function matchesPage(){
+
+  return `
+    <div class="page-head">
+      <div>
+        <div class="title">Matches</div>
+        <div class="desc">
+          Create, manage and update live matches.
+        </div>
+      </div>
+
+      <button class="btn primary" onclick="openModal()">
+        + New Match
+      </button>
+    </div>
+
+    <div class="section">
+      ${matchList()}
+    </div>
+  `;
+}
+
+
+/* =========================================
+   MATCH LIST
+========================================= */
+
+function matchList(limit){
 
   let list = limit
     ? matches.slice(0,limit)
@@ -1375,24 +685,114 @@ function renderMatchList(limit){
 
     return `
       <div class="empty">
-        <div class="emptyIcon">⚔</div>
+        <div class="empty-icon">⚔</div>
         <h3>No matches yet</h3>
-        <p>Create your first match using New Match.</p>
+        <p>Create your first match.</p>
       </div>
     `;
   }
 
   return `
-    <div class="matchList">
+    <div class="match-list">
       ${list.map(matchCard).join("")}
     </div>
   `;
 }
 
 
-/* =========================================================
-   MATCH ACTIONS
-========================================================= */
+/* =========================================
+   MATCH CARD
+========================================= */
+
+function matchCard(m){
+
+  const cls =
+    m.status==="live"
+      ? "live"
+      : m.status==="ended"
+      ? "ended"
+      : "upcoming";
+
+  const text =
+    m.status==="live"
+      ? "LIVE"
+      : m.status==="ended"
+      ? "ENDED"
+      : "UPCOMING";
+
+  return `
+    <div class="match">
+
+      <div class="match-top">
+        <div>
+          <div class="match-name">${esc(m.name)}</div>
+          <div class="meta">
+            ${esc(m.series)} · ${dateFormat(m.date)}
+          </div>
+        </div>
+
+        <span class="badge ${cls}">
+          ${text}
+        </span>
+      </div>
+
+      <div class="score">
+        <div class="team">${esc(m.team1)}</div>
+
+        <div class="score-num">
+          ${m.score1}
+          <span class="vs">VS</span>
+          ${m.score2}
+        </div>
+
+        <div class="team">${esc(m.team2)}</div>
+      </div>
+
+      <div class="actions">
+
+        ${
+          m.status !== "ended"
+          ? `
+            <button class="btn"
+              onclick="changeStatus(${m.id})">
+              ${m.status==="live"
+                ? "End Match"
+                : "Start Live"}
+            </button>
+          `
+          : ""
+        }
+
+        ${
+          m.status==="live"
+          ? `
+            <button class="btn"
+              onclick="addScore(${m.id},1)">
+              + ${esc(m.team1)}
+            </button>
+
+            <button class="btn"
+              onclick="addScore(${m.id},2)">
+              + ${esc(m.team2)}
+            </button>
+          `
+          : ""
+        }
+
+        <button class="btn danger"
+          onclick="deleteMatch(${m.id})">
+          Delete
+        </button>
+
+      </div>
+    </div>
+  `;
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
 
 function changeStatus(id){
 
@@ -1402,16 +802,21 @@ function changeStatus(id){
 
   if(m.status==="upcoming"){
     m.status="live";
-    toast("Match is now LIVE");
+    showToast("Match is LIVE");
   }
   else if(m.status==="live"){
     m.status="ended";
-    toast("Match ended");
+    showToast("Match ended");
   }
 
-  saveMatches();
+  save();
   render();
 }
+
+
+/* =========================================
+   SCORE
+========================================= */
 
 function addScore(id,team){
 
@@ -1420,965 +825,162 @@ function addScore(id,team){
   if(!m || m.status!=="live") return;
 
   if(team===1) m.score1++;
-  else m.score2++;
+  if(team===2) m.score2++;
 
-  saveMatches();
+  save();
   render();
 }
+
+
+/* =========================================
+   DELETE
+========================================= */
 
 function deleteMatch(id){
 
   if(!confirm("Delete this match?")) return;
 
-  matches=matches.filter(x=>x.id!==id);
+  matches = matches.filter(x=>x.id!==id);
 
-  saveMatches();
+  save();
   render();
 
-  toast("Match deleted");
+  showToast("Match deleted");
 }
 
 
-/* =========================================================
-   DASHBOARD
-========================================================= */
+/* =========================================
+   SIMPLE PAGES
+========================================= */
 
-function dashboardPage(){
-
-  const live=matches.filter(m=>m.status==="live").length;
-  const upcoming=matches.filter(m=>m.status==="upcoming").length;
-
-  const series=new Set(
-    matches.map(m=>m.series)
-  ).size;
+function simple(title,desc,html){
 
   return `
-
-    <div class="pageHead">
-
+    <div class="page-head">
       <div>
-
-        <div class="pageTitle">
-          Overview
-        </div>
-
-        <div class="pageDesc">
-          BAAZIGAR LIVE LINE control center
-        </div>
-
+        <div class="title">${title}</div>
+        <div class="desc">${desc}</div>
       </div>
-
-      <div class="updated">
-        LAST UPDATED · ${new Date().toLocaleTimeString()}
-      </div>
-
     </div>
 
-    <div class="stats">
-
-      <div class="stat">
-        <div class="statLabel">TOTAL USERS</div>
-        <div class="statNum">1</div>
-      </div>
-
-      <div class="stat">
-        <div class="statLabel">LIVE MATCHES</div>
-        <div class="statNum">${live}</div>
-      </div>
-
-      <div class="stat">
-        <div class="statLabel">UPCOMING</div>
-        <div class="statNum">${upcoming}</div>
-      </div>
-
-      <div class="stat">
-        <div class="statLabel">ACTIVE SERIES</div>
-        <div class="statNum">${series}</div>
-      </div>
-
-    </div>
-
-    <div class="section">
-
-      <div class="sectionHead">
-
-        <div class="sectionTitle">
-          Recent Matches
-        </div>
-
-        <button class="btn btnPrimary"
-          onclick="openMatchModal()">
-          + New Match
-        </button>
-
-      </div>
-
-      ${renderMatchList(3)}
-
-    </div>
-  `;
-}
-
-
-/* =========================================================
-   MATCH PAGE
-========================================================= */
-
-function matchesPage(){
-
-  return `
-
-    <div class="pageHead">
-
-      <div>
-
-        <div class="pageTitle">
-          Match Management
-        </div>
-
-        <div class="pageDesc">
-          Create, manage and score matches.
-        </div>
-
-      </div>
-
-      <button class="btn btnPrimary"
-        onclick="openMatchModal()">
-        + New Match
-      </button>
-
-    </div>
-
-    <div class="section">
-      ${renderMatchList()}
-    </div>
-  `;
-}
-
-
-/* =========================================================
-   API SETTINGS
-========================================================= */
-
-function apiPage(){
-
-  return `
-
-    <div class="pageHead">
-
-      <div>
-
-        <div class="pageTitle">
-          API & Security
-        </div>
-
-        <div class="pageDesc">
-          Configure data providers, Supabase connection
-          and security settings.
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="grid apiGrid">
-
-      <!-- SUPABASE -->
-
-      <div class="card">
-
-        <div class="cardHead">
-
-          <div class="cardTitle">
-            🔌 Supabase Configuration
-          </div>
-
-          <div class="status" id="supabaseStatus">
-            ${apiSettings.supabaseUrl ? "CONFIGURED" : "NOT SET"}
-          </div>
-
-        </div>
-
-        <div class="field">
-
-          <label>Project URL</label>
-
-          <input
-            class="input"
-            id="supabaseUrl"
-            value="${escapeHTML(apiSettings.supabaseUrl)}"
-            placeholder="https://your-project.supabase.co">
-
-        </div>
-
-        <div class="field">
-
-          <label>Anon / Public Key</label>
-
-          <div class="keyWrap">
-
-            <input
-              class="input"
-              id="anonKey"
-              type="password"
-              value="${escapeHTML(apiSettings.anonKey)}"
-              placeholder="Paste your Supabase anon public key">
-
-            <button class="eye"
-              onclick="toggleKey('anonKey',this)">
-              👁
-            </button>
-
-          </div>
-
-        </div>
-
-        <div class="apiActions">
-
-          <button class="btn btnPrimary"
-            onclick="saveSupabase()">
-            Save Configuration
-          </button>
-
-          <button class="btn"
-            onclick="testSupabase()">
-            Test Connection
-          </button>
-
-        </div>
-
-        <div class="note">
-          Only use the Supabase anon/public key in this
-          browser application. Never put the Service Role
-          Key inside frontend HTML or JavaScript.
-        </div>
-
-      </div>
-
-
-      <!-- SYNC -->
-
-      <div class="card">
-
-        <div class="cardHead">
-          <div class="cardTitle">🔄 Sync Settings</div>
-        </div>
-
-        <div class="field">
-
-          <div class="rangeRow">
-
-            <label style="margin:0">
-              POLLING INTERVAL
-            </label>
-
-            <span class="rangeValue"
-              id="pollValue">
-              ${apiSettings.polling}s
-            </span>
-
-          </div>
-
-          <input
-            class="range"
-            id="polling"
-            type="range"
-            min="1"
-            max="60"
-            value="${apiSettings.polling}"
-            oninput="updatePolling(this.value)">
-
-        </div>
-
-        <div class="switchRow">
-
-          <div>
-            <strong style="font-size:12px">
-              Real-time Sync
-            </strong>
-
-            <p style="font-size:10px;margin-top:4px">
-              Supabase Realtime
-            </p>
-          </div>
-
-          <label class="switch">
-
-            <input
-              id="realtime"
-              type="checkbox"
-              ${apiSettings.realtime ? "checked" : ""}
-              onchange="saveRealtime(this.checked)">
-
-            <span class="slider"></span>
-
-          </label>
-
-        </div>
-
-      </div>
-
-
-      <!-- PROVIDERS -->
-
-      <div class="card">
-
-        <div class="cardHead">
-
-          <div class="cardTitle">
-            🌐 External Data Providers
-          </div>
-
-        </div>
-
-        <div class="providerGrid">
-
-          <div class="provider ${
-            apiSettings.provider==="CricketData" ? "active" : ""
-          }">
-
-            <div class="providerTop">
-
-              <div>
-
-                <div class="providerName">
-                  CricketData
-                </div>
-
-                <div class="providerStatus">
-                  ● Ready
-                </div>
-
-              </div>
-
-              <input
-                class="radio"
-                type="radio"
-                name="provider"
-                value="CricketData"
-                ${
-                  apiSettings.provider==="CricketData"
-                  ? "checked"
-                  : ""
-                }
-                onchange="selectProvider(this.value)">
-
-            </div>
-
-            <div class="field" style="margin-top:12px">
-
-              <label>API Key</label>
-
-              <input
-                class="input"
-                type="password"
-                id="cricketKey"
-                value="${escapeHTML(
-                  apiSettings.providerKeys.CricketData || ""
-                )}"
-                placeholder="Enter API key">
-
-            </div>
-
-          </div>
-
-
-          <div class="provider ${
-            apiSettings.provider==="Sportradar" ? "active" : ""
-          }">
-
-            <div class="providerTop">
-
-              <div>
-
-                <div class="providerName">
-                  Sportradar
-                </div>
-
-                <div class="providerStatus"
-                     style="color:#888">
-                  ● Idle
-                </div>
-
-              </div>
-
-              <input
-                class="radio"
-                type="radio"
-                name="provider"
-                value="Sportradar"
-                ${
-                  apiSettings.provider==="Sportradar"
-                  ? "checked"
-                  : ""
-                }
-                onchange="selectProvider(this.value)">
-
-            </div>
-
-            <div class="field" style="margin-top:12px">
-
-              <label>API Key</label>
-
-              <input
-                class="input"
-                type="password"
-                id="sportKey"
-                value="${escapeHTML(
-                  apiSettings.providerKeys.Sportradar || ""
-                )}"
-                placeholder="Enter API key">
-
-            </div>
-
-          </div>
-
-        </div>
-
-        <button class="btn btnPrimary btnFull"
-          onclick="saveProviders()">
-          Save Provider Settings
-        </button>
-
-      </div>
-
-
-      <!-- SECURITY -->
-
-      <div class="card">
-
-        <div class="cardHead">
-
-          <div class="cardTitle">
-            🔐 Security Policies
-          </div>
-
-        </div>
-
-        <div class="field">
-
-          <label>CORS Whitelist</label>
-
-          <div class="corsList" id="corsList">
-
-            ${renderCors()}
-
-          </div>
-
-          <div class="inline">
-
-            <input
-              class="input"
-              id="newCors"
-              placeholder="https://example.com">
-
-            <button class="btn btnPrimary"
-              onclick="addCors()">
-              Add
-            </button>
-
-          </div>
-
-        </div>
-
-        <div class="switchRow">
-
-          <div>
-
-            <strong style="font-size:12px">
-              API Protection
-            </strong>
-
-            <p style="font-size:10px;margin-top:4px">
-              Frontend uses public/anon credentials only.
-            </p>
-
-          </div>
-
-          <span class="lime"
-                style="font-size:10px;font-weight:900">
-            ENABLED
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <!-- SESSION -->
-
-      <div class="card">
-
-        <div class="cardHead">
-
-          <div class="cardTitle">
-            ⏱ Session Security
-          </div>
-
-        </div>
-
-        <div class="field">
-
-          <label>Admin Session Timeout</label>
-
-          <select class="select"
-            id="sessionTimeout"
-            onchange="saveSessionTimeout(this.value)">
-
-            <option ${
-              apiSettings.sessionTimeout==="15 Minutes"
-              ? "selected" : ""
-            }>
-              15 Minutes
-            </option>
-
-            <option ${
-              apiSettings.sessionTimeout==="30 Minutes"
-              ? "selected" : ""
-            }>
-              30 Minutes
-            </option>
-
-            <option ${
-              apiSettings.sessionTimeout==="1 Hour"
-              ? "selected" : ""
-            }>
-              1 Hour
-            </option>
-
-          </select>
-
-        </div>
-
-        <button class="btn btnDanger btnFull"
-          onclick="rotateKeys()">
-          ⚠ Rotate Internal API Keys
-        </button>
-
-        <div class="note">
-          Key rotation should ultimately be handled by
-          your secure backend, not frontend JavaScript.
-        </div>
-
-      </div>
-
-    </div>
-  `;
-}
-
-
-/* =========================================================
-   API FUNCTIONS
-========================================================= */
-
-function toggleKey(id,button){
-
-  const input=document.getElementById(id);
-
-  if(!input) return;
-
-  if(input.type==="password"){
-    input.type="text";
-    button.textContent="🙈";
-  }else{
-    input.type="password";
-    button.textContent="👁";
-  }
-}
-
-function saveSupabase(){
-
-  const url=document.getElementById("supabaseUrl")
-    .value.trim();
-
-  const key=document.getElementById("anonKey")
-    .value.trim();
-
-  if(url && !/^https:\/\/.+\.supabase\.co/i.test(url)){
-    toast("Enter a valid Supabase Project URL");
-    return;
-  }
-
-  apiSettings.supabaseUrl=url;
-  apiSettings.anonKey=key;
-
-  saveApi();
-
-  const status=document.getElementById("supabaseStatus");
-
-  if(status){
-    status.textContent=url ? "CONFIGURED" : "NOT SET";
-  }
-
-  toast("Supabase settings saved");
-}
-
-async function testSupabase(){
-
-  const url=document.getElementById("supabaseUrl")
-    ?.value.trim();
-
-  const key=document.getElementById("anonKey")
-    ?.value.trim();
-
-  if(!url || !key){
-    toast("Enter Project URL and Anon Key first");
-    return;
-  }
-
-  if(!/^https:\/\/.+\.supabase\.co/i.test(url)){
-    toast("Invalid Supabase Project URL");
-    return;
-  }
-
-  toast("Testing Supabase connection...");
-
-  try{
-
-    const response=await fetch(
-      url.replace(/\/$/,"") + "/rest/v1/",
-      {
-        method:"GET",
-        headers:{
-          "apikey":key,
-          "Authorization":"Bearer "+key
-        }
-      }
-    );
-
-    if(response.ok){
-
-      toast("✓ Supabase connection successful");
-
-      apiSettings.supabaseUrl=url;
-      apiSettings.anonKey=key;
-      saveApi();
-
-    }else{
-
-      toast(
-        "Connection failed · HTTP "+response.status
-      );
-
-    }
-
-  }catch(error){
-
-    toast(
-      "Connection failed · check URL, key or CORS"
-    );
-
-  }
-}
-
-function updatePolling(value){
-
-  apiSettings.polling=Number(value);
-
-  const el=document.getElementById("pollValue");
-
-  if(el) el.textContent=value+"s";
-
-  saveApi();
-}
-
-function saveRealtime(value){
-
-  apiSettings.realtime=value;
-
-  saveApi();
-
-  toast(
-    value
-      ? "Realtime Sync enabled"
-      : "Realtime Sync disabled"
-  );
-}
-
-function selectProvider(value){
-
-  apiSettings.provider=value;
-
-  saveApi();
-
-  render();
-
-  toast(value+" selected");
-}
-
-function saveProviders(){
-
-  const cricket=document.getElementById("cricketKey");
-  const sport=document.getElementById("sportKey");
-
-  if(cricket){
-    apiSettings.providerKeys.CricketData=
-      cricket.value.trim();
-  }
-
-  if(sport){
-    apiSettings.providerKeys.Sportradar=
-      sport.value.trim();
-  }
-
-  saveApi();
-
-  toast("Provider settings saved");
-}
-
-function renderCors(){
-
-  if(!apiSettings.cors.length){
-
-    return `
-      <div class="note">
-        No CORS origins added.
-      </div>
-    `;
-  }
-
-  return apiSettings.cors.map((origin,index)=>`
-
-    <div class="corsItem">
-
-      <span class="corsText">
-        ${escapeHTML(origin)}
-      </span>
-
-      <button
-        class="remove"
-        onclick="removeCors(${index})">
-        ×
-      </button>
-
-    </div>
-
-  `).join("");
-}
-
-function addCors(){
-
-  const input=document.getElementById("newCors");
-
-  if(!input) return;
-
-  const origin=input.value.trim();
-
-  if(!origin){
-    toast("Enter an origin first");
-    return;
-  }
-
-  try{
-    new URL(origin);
-  }catch{
-    toast("Enter a valid URL");
-    return;
-  }
-
-  if(apiSettings.cors.includes(origin)){
-    toast("Origin already exists");
-    return;
-  }
-
-  apiSettings.cors.push(origin);
-
-  saveApi();
-  render();
-
-  toast("CORS origin added");
-}
-
-function removeCors(index){
-
-  apiSettings.cors.splice(index,1);
-
-  saveApi();
-  render();
-
-  toast("CORS origin removed");
-}
-
-function saveSessionTimeout(value){
-
-  apiSettings.sessionTimeout=value;
-
-  saveApi();
-
-  toast("Session timeout saved");
-}
-
-function rotateKeys(){
-
-  if(!confirm(
-    "Key rotation should be performed by your secure backend. Continue with demo action?"
-  )) return;
-
-  toast(
-    "Backend key rotation is required for production"
-  );
-}
-
-
-/* =========================================================
-   OTHER PAGES
-========================================================= */
-
-function simplePage(title,desc,html){
-
-  return `
-
-    <div class="pageHead">
-
-      <div class="pageTitle">
-        ${title}
-      </div>
-
-      <div class="pageDesc">
-        ${desc}
-      </div>
-
-    </div>
-
-    <div class="grid">
-      ${html}
-    </div>
+    <div class="grid">${html}</div>
   `;
 }
 
 function seriesPage(){
 
-  const series=[
-    ...new Set(matches.map(m=>m.series))
-  ];
+  const list =
+    [...new Set(matches.map(m=>m.series))];
 
-  return simplePage(
+  return simple(
     "Series",
     "Manage cricket series.",
-    series.length
-      ? series.map(s=>`
-          <div class="card">
-            <h3>${escapeHTML(s)}</h3>
-            <p>
-              ${matches.filter(m=>m.series===s).length}
-              match(es)
-            </p>
-          </div>
-        `).join("")
-      : `
+    list.length
+    ? list.map(s=>`
         <div class="card">
-          <h3>No Series</h3>
-          <p>Create a match and assign a series.</p>
+          <h3>${esc(s)}</h3>
+          <p>
+            ${matches.filter(m=>m.series===s).length}
+            match(es)
+          </p>
         </div>
-      `
+      `).join("")
+    : `
+      <div class="card">
+        <h3>No Series</h3>
+        <p>Create a match to add a series.</p>
+      </div>
+    `
   );
 }
 
 function teamsPage(){
 
-  const teams=[
-    ...new Set(
+  const teams =
+    [...new Set(
       matches.flatMap(m=>[m.team1,m.team2])
-    )
-  ];
+    )];
 
-  return simplePage(
+  return simple(
     "Teams",
     "Manage participating teams.",
     teams.length
-      ? teams.map(t=>`
-          <div class="card">
-            <h3>${escapeHTML(t)}</h3>
-            <p>Active team in match database.</p>
-          </div>
-        `).join("")
-      : `
+    ? teams.map(t=>`
         <div class="card">
-          <h3>No Teams</h3>
-          <p>Create a match to add teams.</p>
+          <h3>${esc(t)}</h3>
+          <p>Active team.</p>
         </div>
-      `
+      `).join("")
+    : `
+      <div class="card">
+        <h3>No Teams</h3>
+        <p>Create a match to add teams.</p>
+      </div>
+    `
   );
 }
 
 function playersPage(){
 
-  return simplePage(
+  return simple(
     "Players",
-    "Manage players and player information.",
+    "Manage player information.",
     `
       <div class="card">
-        <h3>Player Management</h3>
-        <p>
-          Player database can be connected to Supabase
-          in the next backend step.
-        </p>
+        <h3>Player Database</h3>
+        <p>Player management module ready.</p>
       </div>
 
       <div class="card">
         <h3>Statistics</h3>
-        <p>
-          Runs, wickets and player statistics will appear here.
-        </p>
+        <p>Runs, wickets and player statistics.</p>
       </div>
     `
   );
 }
 
-function commentaryPage(){
+function apiPage(){
 
-  const live=matches.filter(
-    m=>m.status==="live"
-  );
+  return simple(
+    "API Settings",
+    "Configure data providers.",
+    `
+      <div class="card">
+        <h3>Supabase</h3>
+        <p>
+          ${SUPABASE_URL}
+        </p>
+      </div>
 
-  return simplePage(
-    "Live Commentary",
-    "Live match commentary control.",
-    live.length
-      ? live.map(m=>`
-          <div class="card">
-            <h3>${escapeHTML(m.name)}</h3>
-            <p>
-              ${escapeHTML(m.team1)}
-              ${m.score1}
-              -
-              ${m.score2}
-              ${escapeHTML(m.team2)}
-            </p>
+      <div class="card">
+        <h3>Connection</h3>
+        <p id="apiConnection">
+          Checking configuration...
+        </p>
+      </div>
 
-            <div style="margin-top:12px">
-              <button class="btn btnPrimary"
-                onclick="toast('Commentary module ready')">
-                + Add Commentary
-              </button>
-            </div>
-          </div>
-        `).join("")
-      : `
-        <div class="card">
-          <h3>No Live Match</h3>
-          <p>
-            Start a match as LIVE to manage commentary.
-          </p>
-        </div>
-      `
+      <div class="card">
+        <h3>Polling</h3>
+        <p>Live refresh configuration.</p>
+      </div>
+    `
   );
 }
 
 function usersPage(){
 
-  return simplePage(
-    "User Management",
+  return simple(
+    "Users",
     "Manage dashboard users.",
     `
       <div class="card">
-        <h3>Admin User</h3>
+        <h3>Admin</h3>
         <p>Administrator · Active</p>
       </div>
 
       <div class="card">
         <h3>Total Users</h3>
-        <p>1 registered admin user.</p>
+        <p>1 administrator</p>
       </div>
     `
   );
@@ -2386,124 +988,113 @@ function usersPage(){
 
 function settingsPage(){
 
-  return simplePage(
+  return simple(
     "Settings",
-    "Application preferences.",
+    "Application settings.",
     `
       <div class="card">
         <h3>Theme</h3>
-        <p>Dark mode is enabled.</p>
+        <p>Dark mode enabled.</p>
       </div>
 
       <div class="card">
         <h3>Storage</h3>
-        <p>
-          Current demo match data is stored in this browser.
-        </p>
+        <p>Local browser storage enabled.</p>
       </div>
 
       <div class="card">
         <h3>Version</h3>
-        <p>BAAZIGAR LIVE LINE v2.0</p>
+        <p>BAAZIGAR LIVE LINE v1.0</p>
       </div>
     `
   );
 }
 
 
-/* =========================================================
-   ROUTER
-========================================================= */
-
-function render(){
-
-  if(currentPage==="dashboard"){
-    app.innerHTML=dashboardPage();
-  }
-  else if(currentPage==="matches"){
-    app.innerHTML=matchesPage();
-  }
-  else if(currentPage==="series"){
-    app.innerHTML=seriesPage();
-  }
-  else if(currentPage==="teams"){
-    app.innerHTML=teamsPage();
-  }
-  else if(currentPage==="players"){
-    app.innerHTML=playersPage();
-  }
-  else if(currentPage==="commentary"){
-    app.innerHTML=commentaryPage();
-  }
-  else if(currentPage==="api"){
-    app.innerHTML=apiPage();
-  }
-  else if(currentPage==="users"){
-    app.innerHTML=usersPage();
-  }
-  else if(currentPage==="settings"){
-    app.innerHTML=settingsPage();
-  }
-
-  setActiveNav();
-}
-
-
-/* =========================================================
+/* =========================================
    NAVIGATION
-========================================================= */
+========================================= */
 
-function setActiveNav(){
+function setActive(page){
 
   document
-    .querySelectorAll("[data-page]")
-    .forEach(item=>{
-
-      item.classList.toggle(
+    .querySelectorAll(".nav-item[data-page]")
+    .forEach(x=>{
+      x.classList.toggle(
         "active",
-        item.dataset.page===currentPage
+        x.dataset.page===page
       );
-
     });
 }
 
 document
-  .querySelectorAll(".navItem[data-page],.bottomItem[data-page]")
-  .forEach(item=>{
+.querySelectorAll(".nav-item[data-page]")
+.forEach(item=>{
 
-    item.addEventListener("click",()=>{
+  item.onclick = ()=>{
 
-      currentPage=item.dataset.page;
+    currentPage=item.dataset.page;
 
-      closeMenu();
+    setActive(currentPage);
 
-      render();
+    sidebar.classList.remove("open");
+    overlay.classList.remove("show");
 
-    });
+    render();
+  };
+});
 
-  });
 
-
-/* =========================================================
+/* =========================================
    LOGOUT
-========================================================= */
+========================================= */
 
-document.getElementById("logoutBtn")
-  .addEventListener("click",()=>{
+document.getElementById("logout").onclick = ()=>{
 
-    if(confirm("Are you sure you want to logout?")){
-      toast("Logout system ready");
-    }
+  if(confirm("Are you sure you want to logout?")){
+    showToast("Logout system ready");
+  }
 
-  });
+};
 
 
-/* =========================================================
+/* =========================================
+   ROUTER
+========================================= */
+
+function render(){
+
+  if(currentPage==="dashboard")
+    app.innerHTML=dashboard();
+
+  else if(currentPage==="matches")
+    app.innerHTML=matchesPage();
+
+  else if(currentPage==="series")
+    app.innerHTML=seriesPage();
+
+  else if(currentPage==="teams")
+    app.innerHTML=teamsPage();
+
+  else if(currentPage==="players")
+    app.innerHTML=playersPage();
+
+  else if(currentPage==="api")
+    app.innerHTML=apiPage();
+
+  else if(currentPage==="users")
+    app.innerHTML=usersPage();
+
+  else if(currentPage==="settings")
+    app.innerHTML=settingsPage();
+}
+
+
+/* =========================================
    START
-========================================================= */
+========================================= */
 
 render();
-
 </script>
 
 </body>
