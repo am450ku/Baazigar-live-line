@@ -1,1265 +1,1881 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>BAAZIGAR LIVE LINE — Admin Dashboard</title>
+<html lang="en" class="dark">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>BAAZIGAR LIVE LINE — Admin</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0" rel="stylesheet">
-
-<script>
-tailwind.config = {
-    darkMode: "class",
-
-    theme: {
-        extend: {
-            colors: {
-                bg: "#0d0f12",
-                panel: "#1d1f24",
-                panel2: "#25272c",
-                line: "#34373d",
-                text: "#f3f4f6",
-                muted: "#c5c9b1",
-                lime: "#b8ff00",
-                limeDark: "#5f8500",
-                danger: "#ffaaa5"
-            },
-
-            fontFamily: {
-                inter: ["Inter", "sans-serif"]
-            }
-        }
-    }
-}
-</script>
-
 <style>
 
-* {
-    box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+
+  margin:0;
+
+  background:#0d0f12;
+
+  color:#e8eadf;
+
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+
 }
 
-html {
-    background: #0d0f12;
+button,input,select{font:inherit}
+
+button{cursor:pointer}
+
+.neon{color:#b7ff00}
+
+.bg-neon{background:#b7ff00;color:#080a08}
+
+.panel{
+
+  background:#191c21;
+
+  border:1px solid #343840;
+
+  border-radius:18px;
+
 }
 
-body {
-    margin: 0;
-    background: #0d0f12;
-    color: #f3f4f6;
-    font-family: "Inter", sans-serif;
-    overflow-x: hidden;
+.nav-item{
+
+  width:100%;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:16px;
+
+  padding:18px 20px;
+
+  color:#bfc3b5;
+
+  background:transparent;
+
+  border:0;
+
+  text-align:left;
+
 }
 
-.material-symbols-outlined {
-    font-variation-settings:
-        "FILL" 0,
-        "wght" 400,
-        "GRAD" 0,
-        "opsz" 24;
+.nav-item:hover,.nav-item.active{
+
+  background:#182207;
+
+  color:#b7ff00;
+
+  border-left:4px solid #b7ff00;
+
 }
 
-.sidebar {
-    width: 260px;
-    background: #090b0e;
-    border-right: 1px solid #30333a;
+.modal-bg{
+
+  position:fixed;
+
+  inset:0;
+
+  background:rgba(0,0,0,.75);
+
+  z-index:100;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  padding:20px;
+
 }
 
-.topbar {
-    height: 72px;
-    background: #0d0f12;
-    border-bottom: 1px solid #30333a;
+.modal{
+
+  width:100%;
+
+  max-width:650px;
+
+  max-height:90vh;
+
+  overflow:auto;
+
+  background:#191c21;
+
+  border:1px solid #3b4048;
+
+  border-radius:20px;
+
+  padding:24px;
+
 }
 
-.card {
-    background: #1d1f24;
-    border: 1px solid #35383f;
-    border-radius: 16px;
+.field{
+
+  width:100%;
+
+  background:#0f1115;
+
+  border:1px solid #3c4149;
+
+  color:white;
+
+  padding:13px 14px;
+
+  border-radius:10px;
+
+  outline:none;
+
 }
 
-.nav-item {
-    transition: all .2s ease;
+.field:focus{border-color:#b7ff00}
+
+.score-btn{
+
+  min-height:65px;
+
+  border:1px solid #3b4048;
+
+  background:#22262d;
+
+  color:white;
+
+  border-radius:14px;
+
+  font-size:22px;
+
+  font-weight:700;
+
 }
 
-.nav-item:hover {
-    background: #1a1d21;
-    color: #b8ff00;
-}
+.score-btn:hover{background:#30353e}
 
-.nav-item.active {
-    background: rgba(184,255,0,.10);
-    color: #b8ff00;
-    border-left: 4px solid #b8ff00;
-}
+.danger{color:#ff8e8e}
 
-.overlay {
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .25s ease;
-}
+@media(max-width:800px){
 
-.overlay.show {
-    opacity: 1;
-    pointer-events: auto;
-}
+  #sidebar{transform:translateX(-100%);transition:.25s}
 
-.modal {
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(15px) scale(.98);
-    transition: all .2s ease;
-}
+  #sidebar.open{transform:translateX(0)}
 
-.modal.show {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(0) scale(1);
-}
+  #overlay.show{display:block}
 
-@media (max-width: 767px) {
-
-    .sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        z-index: 100;
-        transform: translateX(-100%);
-        transition: transform .25s ease;
-    }
-
-    .sidebar.open {
-        transform: translateX(0);
-    }
-
-    .main-area {
-        margin-left: 0 !important;
-    }
-
-    .topbar {
-        left: 0 !important;
-    }
-
-    .desktop-only {
-        display: none !important;
-    }
 }
 
 </style>
+
 </head>
 
 <body>
 
-<!-- ================= SIDEBAR ================= -->
+<!-- MOBILE OVERLAY -->
+
+<div id="overlay" onclick="closeSidebar()"
+
+style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:40"></div>
+
+<!-- SIDEBAR -->
 
 <aside id="sidebar"
-class="sidebar fixed top-0 left-0 bottom-0 z-50 flex flex-col">
 
-    <!-- Logo -->
-    <div class="px-6 pt-7 pb-5">
+style="position:fixed;left:0;top:0;bottom:0;width:290px;background:#090b0d;border-right:1px solid #292d33;z-index:50;overflow-y:auto">
 
-        <div class="flex items-start justify-between">
+  <div style="padding:28px 24px 18px">
 
-            <div>
-                <h1 class="text-[28px] leading-8 font-black tracking-tight">
-                    BAAZIGAR
-                    <span class="text-lime">LIVE</span>
-                    <span class="text-lime">LINE</span>
-                </h1>
+    <div style="font-size:28px;font-weight:900">
 
-                <p class="mt-3 text-[12px] tracking-[0.22em] text-muted font-semibold">
-                    ADMIN CONTROL PANEL
-                </p>
-            </div>
-
-            <!-- Mobile close -->
-            <button
-                id="closeSidebar"
-                class="md:hidden text-gray-400 hover:text-white p-1">
-                <span class="material-symbols-outlined text-[28px]">
-                    close
-                </span>
-            </button>
-
-        </div>
+      BAAZIGAR <span class="neon">LIVE LINE</span>
 
     </div>
 
+    <div style="margin-top:18px;letter-spacing:5px;color:#aeb3a5">
 
-    <!-- New Match -->
-    <div class="px-5 mb-7">
-
-        <button
-            onclick="openNewMatch()"
-            class="w-full h-14 rounded-2xl bg-lime text-black font-bold text-[18px] flex items-center justify-center gap-3 hover:brightness-110 active:scale-[.98] transition">
-
-            <span class="material-symbols-outlined text-[28px]">
-                add
-            </span>
-
-            New Match
-
-        </button>
+      ADMIN CONTROL PANEL
 
     </div>
 
+  </div>
 
-    <!-- Navigation -->
-    <nav class="flex-1">
+  <div style="padding:18px">
 
-        <button
-            onclick="showSection('dashboard', this)"
-            class="nav-item active w-full flex items-center gap-4 px-6 py-4 text-[17px] text-left">
+    <button class="bg-neon"
 
-            <span class="material-symbols-outlined text-[28px]">
-                dashboard
-            </span>
+      onclick="openNewMatch()"
 
-            Dashboard
+      style="width:100%;padding:18px;border:0;border-radius:16px;font-size:20px;font-weight:800">
 
-        </button>
+      ＋ New Match
 
+    </button>
 
-        <button
-            onclick="showSection('matches', this)"
-            class="nav-item w-full flex items-center gap-4 px-6 py-4 text-[17px] text-gray-300 text-left">
+  </div>
 
-            <span class="material-symbols-outlined text-[28px]">
-                sports_cricket
-            </span>
+  <nav>
 
-            Match Management
+    <button class="nav-item active" onclick="showPage('dashboard',this)">▦ <span>Dashboard</span></button>
 
-        </button>
+    <button class="nav-item" onclick="showPage('matches',this)">⚒ <span>Match Management</span></button>
 
+    <button class="nav-item" onclick="showPage('series',this)">▣ <span>Series</span></button>
 
-        <button
-            onclick="showSection('series', this)"
-            class="nav-item w-full flex items-center gap-4 px-6 py-4 text-[17px] text-gray-300 text-left">
+    <button class="nav-item" onclick="showPage('teams',this)">♟ <span>Teams</span></button>
 
-            <span class="material-symbols-outlined text-[28px]">
-                event_note
-            </span>
+    <button class="nav-item" onclick="showPage('players',this)">♙ <span>Players</span></button>
 
-            Series
+    <button class="nav-item" onclick="showPage('api',this)">◆ <span>API Settings</span></button>
 
-        </button>
+    <button class="nav-item" onclick="showPage('users',this)">♙ <span>User Management</span></button>
 
+  </nav>
 
-        <button
-            onclick="showSection('teams', this)"
-            class="nav-item w-full flex items-center gap-4 px-6 py-4 text-[17px] text-gray-300 text-left">
+  <div style="position:absolute;bottom:0;width:100%;border-top:1px solid #292d33">
 
-            <span class="material-symbols-outlined text-[28px]">
-                groups
-            </span>
+    <button class="nav-item" onclick="showPage('settings',this)">⚙ <span>Settings</span></button>
 
-            Teams
+    <button class="nav-item danger" onclick="logout()">⇥ <span>Logout</span></button>
 
-        </button>
-
-
-        <button
-            onclick="showSection('players', this)"
-            class="nav-item w-full flex items-center gap-4 px-6 py-4 text-[17px] text-gray-300 text-left">
-
-            <span class="material-symbols-outlined text-[28px]">
-                person_search
-            </span>
-
-            Players
-
-        </button>
-
-
-        <button
-            onclick="showSection('api', this)"
-            class="nav-item w-full flex items-center gap-4 px-6 py-4 text-[17px] text-gray-300 text-left">
-
-            <span class="material-symbols-outlined text-[28px]">
-                api
-            </span>
-
-            API Settings
-
-        </button>
-
-
-        <button
-            onclick="showSection('users', this)"
-            class="nav-item w-full flex items-center gap-4 px-6 py-4 text-[17px] text-gray-300 text-left">
-
-            <span class="material-symbols-outlined text-[28px]">
-                manage_accounts
-            </span>
-
-            User Management
-
-        </button>
-
-    </nav>
-
-
-    <!-- Bottom navigation -->
-    <div class="border-t border-line">
-
-        <button
-            onclick="showSection('settings', this)"
-            class="nav-item w-full flex items-center gap-4 px-6 py-4 text-[17px] text-gray-300 text-left">
-
-            <span class="material-symbols-outlined text-[28px]">
-                settings
-            </span>
-
-            Settings
-
-        </button>
-
-
-        <button
-            onclick="logout()"
-            class="w-full flex items-center gap-4 px-6 py-4 text-[17px] text-danger hover:bg-red-500/5 transition text-left">
-
-            <span class="material-symbols-outlined text-[28px]">
-                logout
-            </span>
-
-            Logout
-
-        </button>
-
-    </div>
+  </div>
 
 </aside>
 
+<!-- MAIN -->
 
-<!-- Overlay -->
-<div
-id="overlay"
-class="overlay fixed inset-0 z-[90] bg-black/70 md:hidden">
-</div>
+<main style="margin-left:290px;min-height:100vh">
 
+<header style="height:90px;border-bottom:1px solid #292d33;display:flex;align-items:center;justify-content:space-between;padding:0 28px">
 
-<!-- ================= MAIN ================= -->
+  <button onclick="openSidebar()" style="background:none;border:0;color:white;font-size:28px;display:none" id="menuBtn">☰</button>
 
-<div class="main-area ml-[260px] min-h-screen">
+  <div>
 
-    <!-- TOP BAR -->
-    <header
-    class="topbar fixed top-0 right-0 left-[260px] z-40 flex items-center justify-between px-4 md:px-8">
+    <b id="pageTitle" style="font-size:25px">Overview</b>
 
-        <div class="flex items-center gap-4">
+  </div>
 
-            <!-- Mobile menu -->
-            <button
-                id="openSidebar"
-                class="md:hidden text-gray-300">
+  <div style="display:flex;align-items:center;gap:15px">
 
-                <span class="material-symbols-outlined text-[30px]">
-                    menu
-                </span>
+    <div style="border:1px solid #597d00;color:#b7ff00;padding:10px 15px;border-radius:10px">
 
-            </button>
-
-            <div class="hidden md:block">
-
-                <div class="font-bold text-lg">
-                    BAAZIGAR
-                    <span class="text-lime">LIVE LINE</span>
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="flex items-center gap-3 md:gap-6">
-
-            <!-- API -->
-            <div class="flex items-center gap-2 border border-lime/40 bg-lime/10 text-lime rounded-lg px-3 py-2">
-
-                <span class="w-2 h-2 rounded-full bg-lime animate-pulse"></span>
-
-                <span class="text-[11px] md:text-xs font-bold tracking-wide">
-                    API STATUS:
-                    <span class="ml-1">ACTIVE</span>
-                </span>
-
-            </div>
-
-
-            <!-- Notifications -->
-            <button
-                onclick="showMessage('No new notifications.')"
-                class="hidden sm:block text-gray-400 hover:text-white">
-
-                <span class="material-symbols-outlined">
-                    notifications
-                </span>
-
-            </button>
-
-
-            <!-- Help -->
-            <button
-                onclick="showMessage('BAAZIGAR LIVE LINE Admin Control Panel')"
-                class="hidden sm:block text-gray-400 hover:text-white">
-
-                <span class="material-symbols-outlined">
-                    help
-                </span>
-
-            </button>
-
-
-            <!-- Avatar -->
-            <div
-                class="w-11 h-11 rounded-full bg-lime text-black flex items-center justify-center font-black text-xl">
-
-                A
-
-            </div>
-
-        </div>
-
-    </header>
-
-
-    <!-- ================= CONTENT ================= -->
-
-    <main class="pt-[100px] px-4 md:px-8 pb-12">
-
-        <!-- DASHBOARD -->
-
-        <section id="dashboardSection">
-
-            <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-8">
-
-                <div>
-
-                    <h2 class="text-4xl md:text-5xl font-black tracking-tight">
-                        Overview
-                    </h2>
-
-                    <p class="text-muted mt-3 text-base md:text-lg">
-                        BAAZIGAR LIVE control center
-                    </p>
-
-                </div>
-
-                <div class="text-muted text-xs md:text-sm font-semibold mt-5 md:mt-0">
-                    LAST UPDATED:
-                    <span id="lastUpdated">JUST NOW</span>
-                </div>
-
-            </div>
-
-
-            <!-- KPI -->
-
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
-
-                <!-- Users -->
-                <div class="card p-6 min-h-[180px]">
-
-                    <div class="flex justify-between items-start">
-
-                        <span class="text-muted font-bold text-sm">
-                            TOTAL USERS
-                        </span>
-
-                        <span class="material-symbols-outlined text-muted">
-                            group
-                        </span>
-
-                    </div>
-
-                    <div class="mt-12 text-5xl font-black">
-                        1
-                    </div>
-
-                </div>
-
-
-                <!-- Live -->
-                <div class="card p-6 min-h-[180px] border-l-4 border-l-lime">
-
-                    <div class="flex justify-between items-start">
-
-                        <span class="text-muted font-bold text-sm">
-                            LIVE MATCHES
-                        </span>
-
-                        <span class="material-symbols-outlined text-lime">
-                            sports_cricket
-                        </span>
-
-                    </div>
-
-                    <div class="mt-12 text-5xl font-black">
-                        0
-                    </div>
-
-                    <div class="text-lime text-xs font-bold mt-2">
-                        ACTIVE NOW
-                    </div>
-
-                </div>
-
-
-                <!-- Upcoming -->
-                <div class="card p-6 min-h-[180px]">
-
-                    <div class="flex justify-between items-start">
-
-                        <span class="text-muted font-bold text-sm">
-                            UPCOMING MATCHES
-                        </span>
-
-                        <span class="material-symbols-outlined text-muted">
-                            event
-                        </span>
-
-                    </div>
-
-                    <div class="mt-12 text-5xl font-black">
-                        0
-                    </div>
-
-                    <div class="text-muted text-xs font-bold mt-2">
-                        TODAY
-                    </div>
-
-                </div>
-
-
-                <!-- Series -->
-                <div class="card p-6 min-h-[180px]">
-
-                    <div class="flex justify-between items-start">
-
-                        <span class="text-muted font-bold text-sm">
-                            ACTIVE SERIES
-                        </span>
-
-                        <span class="material-symbols-outlined text-muted">
-                            view_timeline
-                        </span>
-
-                    </div>
-
-                    <div class="mt-12 text-5xl font-black">
-                        3
-                    </div>
-
-                    <div class="text-lime text-xs font-bold mt-2">
-                        STABLE
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- DATA STREAMS -->
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-                <div class="lg:col-span-2">
-
-                    <div class="flex justify-between items-center border-b border-line pb-3 mb-5">
-
-                        <h3 class="text-xs tracking-[.16em] text-muted font-bold">
-                            DATA STREAMS
-                        </h3>
-
-                        <span class="text-lime text-xs font-bold">
-                            SYSTEM ONLINE
-                        </span>
-
-                    </div>
-
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-
-                        <!-- Cricket API -->
-                        <div class="card p-6">
-
-                            <div class="flex justify-between items-center">
-
-                                <div class="flex items-center gap-3">
-
-                                    <span class="material-symbols-outlined text-lime">
-                                        api
-                                    </span>
-
-                                    <span class="font-bold">
-                                        Cricket Data
-                                    </span>
-
-                                </div>
-
-                                <span class="text-lime text-xs font-bold">
-                                    ● CONNECTED
-                                </span>
-
-                            </div>
-
-                            <div class="border-t border-line mt-5 pt-4 flex justify-between">
-
-                                <span class="text-muted text-xs font-bold">
-                                    LATENCY
-                                </span>
-
-                                <span class="font-mono">
-                                    120ms
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- Odds API -->
-                        <div class="card p-6">
-
-                            <div class="flex justify-between items-center">
-
-                                <div class="flex items-center gap-3">
-
-                                    <span class="material-symbols-outlined text-lime">
-                                        swap_calls
-                                    </span>
-
-                                    <span class="font-bold">
-                                        Odds Data
-                                    </span>
-
-                                </div>
-
-                                <span class="text-lime text-xs font-bold">
-                                    ● CONNECTED
-                                </span>
-
-                            </div>
-
-                            <div class="border-t border-line mt-5 pt-4 flex justify-between">
-
-                                <span class="text-muted text-xs font-bold">
-                                    LATENCY
-                                </span>
-
-                                <span class="font-mono">
-                                    340ms
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- SYSTEM LOG -->
-
-                <div>
-
-                    <div class="flex justify-between border-b border-line pb-3 mb-5">
-
-                        <h3 class="text-xs tracking-[.16em] text-muted font-bold">
-                            SYSTEM LOGS
-                        </h3>
-
-                        <button
-                            onclick="showMessage('All system logs are currently displayed.')"
-                            class="text-lime text-xs font-bold">
-                            VIEW ALL
-                        </button>
-
-                    </div>
-
-
-                    <div class="card p-5 space-y-5">
-
-                        <div class="flex gap-3">
-
-                            <div class="w-9 h-9 rounded-lg bg-panel2 flex items-center justify-center text-lime shrink-0">
-
-                                <span class="material-symbols-outlined text-[19px]">
-                                    sports_score
-                                </span>
-
-                            </div>
-
-                            <div>
-
-                                <p class="text-sm">
-                                    System initialized successfully.
-                                </p>
-
-                                <p class="text-[10px] text-muted mt-1">
-                                    JUST NOW
-                                </p>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="flex gap-3">
-
-                            <div class="w-9 h-9 rounded-lg bg-panel2 flex items-center justify-center text-lime shrink-0">
-
-                                <span class="material-symbols-outlined text-[19px]">
-                                    api
-                                </span>
-
-                            </div>
-
-                            <div>
-
-                                <p class="text-sm">
-                                    Cricket API connected.
-                                </p>
-
-                                <p class="text-[10px] text-muted mt-1">
-                                    2 MINS AGO
-                                </p>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="flex gap-3">
-
-                            <div class="w-9 h-9 rounded-lg bg-panel2 flex items-center justify-center text-gray-300 shrink-0">
-
-                                <span class="material-symbols-outlined text-[19px]">
-                                    person_add
-                                </span>
-
-                            </div>
-
-                            <div>
-
-                                <p class="text-sm">
-                                    New user registration.
-                                </p>
-
-                                <p class="text-[10px] text-muted mt-1">
-                                    5 MINS AGO
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- OTHER SECTIONS -->
-
-        <section
-            id="otherSection"
-            class="hidden">
-
-            <div class="max-w-4xl mx-auto">
-
-                <div class="card p-8 md:p-12 text-center">
-
-                    <span
-                        id="sectionIcon"
-                        class="material-symbols-outlined text-lime text-6xl">
-                        sports_cricket
-                    </span>
-
-                    <h2
-                        id="sectionTitle"
-                        class="text-3xl font-black mt-5">
-                        Match Management
-                    </h2>
-
-                    <p
-                        id="sectionText"
-                        class="text-muted mt-3">
-                        This section is ready to be connected.
-                    </p>
-
-                    <button
-                        onclick="openNewMatch()"
-                        class="mt-8 bg-lime text-black px-7 py-3 rounded-xl font-bold hover:brightness-110">
-
-                        + New Match
-
-                    </button>
-
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-</div>
-
-
-<!-- ================= NEW MATCH MODAL ================= -->
-
-<div
-id="newMatchModal"
-class="modal fixed inset-0 z-[200] flex items-center justify-center p-4">
-
-    <div
-        onclick="closeNewMatch()"
-        class="absolute inset-0 bg-black/75">
-    </div>
-
-
-    <div
-        class="relative w-full max-w-lg bg-[#17191d] border border-line rounded-2xl shadow-2xl overflow-hidden">
-
-        <!-- Header -->
-
-        <div class="flex items-center justify-between px-6 py-5 border-b border-line">
-
-            <div>
-
-                <h2 class="text-xl font-black">
-                    Create New Match
-                </h2>
-
-                <p class="text-xs text-muted mt-1">
-                    Add a new match to BAAZIGAR LIVE LINE
-                </p>
-
-            </div>
-
-            <button
-                onclick="closeNewMatch()"
-                class="text-gray-400 hover:text-white">
-
-                <span class="material-symbols-outlined">
-                    close
-                </span>
-
-            </button>
-
-        </div>
-
-
-        <!-- Form -->
-
-        <form
-            onsubmit="createMatch(event)"
-            class="p-6 space-y-5">
-
-            <div>
-
-                <label class="block text-xs text-muted font-bold mb-2">
-                    TEAM 1
-                </label>
-
-                <input
-                    id="team1"
-                    required
-                    placeholder="e.g. India"
-                    class="w-full bg-[#0d0f12] border border-line rounded-xl px-4 py-3 text-white outline-none focus:border-lime">
-
-            </div>
-
-
-            <div>
-
-                <label class="block text-xs text-muted font-bold mb-2">
-                    TEAM 2
-                </label>
-
-                <input
-                    id="team2"
-                    required
-                    placeholder="e.g. Australia"
-                    class="w-full bg-[#0d0f12] border border-line rounded-xl px-4 py-3 text-white outline-none focus:border-lime">
-
-            </div>
-
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-                <div>
-
-                    <label class="block text-xs text-muted font-bold mb-2">
-                        DATE
-                    </label>
-
-                    <input
-                        id="matchDate"
-                        type="date"
-                        required
-                        class="w-full bg-[#0d0f12] border border-line rounded-xl px-4 py-3 text-white outline-none focus:border-lime">
-
-                </div>
-
-
-                <div>
-
-                    <label class="block text-xs text-muted font-bold mb-2">
-                        TIME
-                    </label>
-
-                    <input
-                        id="matchTime"
-                        type="time"
-                        required
-                        class="w-full bg-[#0d0f12] border border-line rounded-xl px-4 py-3 text-white outline-none focus:border-lime">
-
-                </div>
-
-            </div>
-
-
-            <div>
-
-                <label class="block text-xs text-muted font-bold mb-2">
-                    MATCH TYPE
-                </label>
-
-                <select
-                    id="matchType"
-                    class="w-full bg-[#0d0f12] border border-line rounded-xl px-4 py-3 text-white outline-none focus:border-lime">
-
-                    <option>T20</option>
-                    <option>ODI</option>
-                    <option>Test</option>
-                    <option>Domestic T20</option>
-
-                </select>
-
-            </div>
-
-
-            <!-- Buttons -->
-
-            <div class="flex gap-3 pt-3">
-
-                <button
-                    type="button"
-                    onclick="closeNewMatch()"
-                    class="flex-1 py-3 rounded-xl border border-line font-bold text-gray-300 hover:bg-panel2">
-
-                    Cancel
-
-                </button>
-
-
-                <button
-                    type="submit"
-                    class="flex-1 py-3 rounded-xl bg-lime text-black font-black hover:brightness-110">
-
-                    Create Match
-
-                </button>
-
-            </div>
-
-        </form>
+      ● API STATUS: <b>ACTIVE</b>
 
     </div>
 
-</div>
+    <div class="bg-neon"
 
+      style="width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px">
 
-<!-- ================= MESSAGE MODAL ================= -->
-
-<div
-id="messageModal"
-class="modal fixed inset-0 z-[210] flex items-center justify-center p-5">
-
-    <div
-        onclick="closeMessage()"
-        class="absolute inset-0 bg-black/70">
-    </div>
-
-    <div
-        class="relative bg-white text-black rounded-2xl w-full max-w-md p-7 shadow-2xl">
-
-        <div class="flex items-start gap-4">
-
-            <div class="w-11 h-11 rounded-full bg-lime flex items-center justify-center shrink-0">
-
-                <span class="material-symbols-outlined">
-                    check
-                </span>
-
-            </div>
-
-            <div>
-
-                <h3 class="font-black text-lg">
-                    BAAZIGAR LIVE LINE
-                </h3>
-
-                <p
-                    id="messageText"
-                    class="mt-2 text-gray-600">
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <button
-            onclick="closeMessage()"
-            class="mt-6 w-full bg-black text-white py-3 rounded-xl font-bold">
-
-            Close
-
-        </button>
+      A
 
     </div>
 
-</div>
+  </div>
 
+</header>
+
+<div id="app" style="padding:28px;max-width:1400px;margin:auto"></div>
+
+</main>
+
+<!-- MODAL -->
+
+<div id="modalRoot"></div>
 
 <script>
 
-/* ================= SIDEBAR ================= */
+/* =========================================================
 
-const sidebar = document.getElementById("sidebar");
-const overlay = document.getElementById("overlay");
+   BAAZIGAR LIVE LINE
 
-document.getElementById("openSidebar").addEventListener("click", () => {
-    sidebar.classList.add("open");
-    overlay.classList.add("show");
-});
+   Complete frontend admin + cricket scoring system
 
-document.getElementById("closeSidebar").addEventListener("click", closeSidebar);
+========================================================= */
 
-overlay.addEventListener("click", closeSidebar);
+const KEY="baazigar_live_line_data";
 
-function closeSidebar() {
-    sidebar.classList.remove("open");
-    overlay.classList.remove("show");
+let data=JSON.parse(localStorage.getItem(KEY)||"null")||{
+
+  matches:[],
+
+  series:[],
+
+  teams:[],
+
+  players:[],
+
+  users:[
+
+    {id:1,name:"Admin",email:"admin@baazigar.local",role:"Administrator"}
+
+  ],
+
+  settings:{
+
+    siteName:"BAAZIGAR LIVE LINE",
+
+    apiUrl:"",
+
+    apiKey:""
+
+  }
+
+};
+
+function save(){
+
+  localStorage.setItem(KEY,JSON.stringify(data));
+
 }
 
+let currentPage="dashboard";
+
+let currentMatch=null;
+
+function esc(v){
+
+  return String(v??"").replace(/[&<>"']/g,m=>({
+
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+
+  }[m]));
+
+}
+
+function showPage(page,el){
+
+  currentPage=page;
+
+  document.querySelectorAll(".nav-item").forEach(x=>x.classList.remove("active"));
+
+  if(el)el.classList.add("active");
+
+  const titles={
+
+    dashboard:"Overview",
+
+    matches:"Match Management",
+
+    series:"Series",
+
+    teams:"Teams",
+
+    players:"Players",
+
+    api:"API Settings",
+
+    users:"User Management",
+
+    settings:"Settings"
+
+  };
+
+  document.getElementById("pageTitle").textContent=titles[page]||"Overview";
+
+  if(innerWidth<=800)closeSidebar();
+
+  render();
+
+}
+
+function render(){
+
+  const app=document.getElementById("app");
+
+  if(currentPage==="dashboard")app.innerHTML=dashboardHTML();
+
+  if(currentPage==="matches")app.innerHTML=matchesHTML();
+
+  if(currentPage==="series")app.innerHTML=seriesHTML();
+
+  if(currentPage==="teams")app.innerHTML=teamsHTML();
+
+  if(currentPage==="players")app.innerHTML=playersHTML();
+
+  if(currentPage==="api")app.innerHTML=apiHTML();
+
+  if(currentPage==="users")app.innerHTML=usersHTML();
+
+  if(currentPage==="settings")app.innerHTML=settingsHTML();
+
+}
+
+/* ================= DASHBOARD ================= */
+
+function dashboardHTML(){
+
+  const live=data.matches.filter(m=>m.status==="LIVE").length;
+
+  const upcoming=data.matches.filter(m=>m.status==="UPCOMING").length;
+
+  const finished=data.matches.filter(m=>m.status==="FINISHED").length;
+
+  return `
+
+  <section>
+
+    <h1 style="font-size:48px;margin:0;font-weight:900">Overview</h1>
+
+    <p style="font-size:20px;color:#b9bdad">BAAZIGAR LIVE control center</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:30px">
+
+      ${stat("TOTAL USERS",data.users.length,"♟")}
+
+      ${stat("LIVE MATCHES",live,"⚒")}
+
+      ${stat("UPCOMING MATCHES",upcoming,"▣")}
+
+      ${stat("FINISHED MATCHES",finished,"✓")}
+
+      ${stat("ACTIVE SERIES",data.series.length,"▤")}
+
+    </div>
+
+    <div class="panel" style="padding:22px;margin-top:25px">
+
+      <div style="display:flex;justify-content:space-between;align-items:center">
+
+        <h2 style="margin:0">Recent Matches</h2>
+
+        <button onclick="showPage('matches')" style="background:none;border:1px solid #444;color:white;padding:9px 13px;border-radius:9px">
+
+          View all
+
+        </button>
+
+      </div>
+
+      <div style="margin-top:15px">
+
+        ${
+
+          data.matches.length
+
+          ? data.matches.slice().reverse().slice(0,5).map(matchRow).join("")
+
+          : `<p style="color:#92978c">No matches created yet.</p>`
+
+        }
+
+      </div>
+
+    </div>
+
+  </section>`;
+
+}
+
+function stat(name,value,icon){
+
+ return `
+
+ <div class="panel" style="padding:26px;min-height:160px">
+
+   <div style="display:flex;justify-content:space-between;color:#c5c9b8;font-weight:700">
+
+     <span>${name}</span><span class="neon" style="font-size:28px">${icon}</span>
+
+   </div>
+
+   <div style="font-size:55px;font-weight:900;margin-top:25px">${value}</div>
+
+ </div>`;
+
+}
+
+/* ================= MATCHES ================= */
+
+function matchesHTML(){
+
+ return `
+
+ <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+
+   <div>
+
+     <h1 style="font-size:40px;margin:0">Match Management</h1>
+
+     <p style="color:#aeb3a5">Create, manage and score matches.</p>
+
+   </div>
+
+   <button class="bg-neon" onclick="openNewMatch()"
+
+     style="border:0;padding:14px 20px;border-radius:12px;font-weight:800">
+
+     ＋ New Match
+
+   </button>
+
+ </div>
+
+ <div style="display:grid;gap:16px;margin-top:25px">
+
+ ${
+
+   data.matches.length
+
+   ? data.matches.slice().reverse().map(matchCard).join("")
+
+   : `<div class="panel" style="padding:35px;text-align:center;color:#92978c">
+
+       No matches yet. Create your first match.
+
+      </div>`
+
+ }
+
+ </div>`;
+
+}
+
+function matchRow(m){
+
+ return `
+
+ <div onclick="openMatch(${m.id})"
+
+ style="padding:15px;border-top:1px solid #30343a;cursor:pointer">
+
+   <b>${esc(m.teamA)} vs ${esc(m.teamB)}</b>
+
+   <span style="float:right;color:${m.status==="LIVE"?"#b7ff00":"#aaa"}">${m.status}</span>
+
+ </div>`;
+
+}
+
+function matchCard(m){
+
+ const s=m.score||emptyScore();
+
+ return `
+
+ <div class="panel" style="padding:20px">
+
+   <div style="display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap">
+
+     <div>
+
+       <div style="font-size:23px;font-weight:800">
+
+         ${esc(m.teamA)} <span style="color:#888">vs</span> ${esc(m.teamB)}
+
+       </div>
+
+       <div style="color:#a8ad9f;margin-top:5px">
+
+         ${esc(m.format)} • ${esc(m.venue||"Venue not set")}
+
+       </div>
+
+     </div>
+
+     <div>
+
+       <span style="
+
+         padding:7px 12px;border-radius:20px;
+
+         background:${m.status==="LIVE"?"#233400":"#292d33"};
+
+         color:${m.status==="LIVE"?"#b7ff00":"#ddd"}">
+
+         ${m.status}
+
+       </span>
+
+     </div>
+
+   </div>
+
+   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px">
+
+     <div style="background:#101216;padding:18px;border-radius:12px">
+
+       <small>${esc(m.teamA)}</small>
+
+       <div style="font-size:30px;font-weight:900">${s.innings1.runs}/${s.innings1.wickets}</div>
+
+       <small>${s.innings1.overs} overs</small>
+
+     </div>
+
+     <div style="background:#101216;padding:18px;border-radius:12px">
+
+       <small>${esc(m.teamB)}</small>
+
+       <div style="font-size:30px;font-weight:900">${s.innings2.runs}/${s.innings2.wickets}</div>
+
+       <small>${s.innings2.overs} overs</small>
+
+     </div>
+
+   </div>
+
+   <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
+
+     ${
+
+       m.status!=="FINISHED"
+
+       ? `<button class="bg-neon" onclick="openMatch(${m.id})"
+
+          style="border:0;padding:11px 18px;border-radius:10px;font-weight:800">
+
+          ${m.status==="LIVE"?"Open Scoring":"Start Match"}
+
+        </button>`
+
+       : `<button onclick="openMatch(${m.id})"
+
+          style="background:#282c32;color:white;border:0;padding:11px 18px;border-radius:10px">
+
+          View Score
+
+        </button>`
+
+     }
+
+     <button onclick="editMatch(${m.id})"
+
+       style="background:#282c32;color:white;border:0;padding:11px 18px;border-radius:10px">
+
+       Edit
+
+     </button>
+
+     <button onclick="deleteMatch(${m.id})"
+
+       style="background:#351d20;color:#ff9b9b;border:0;padding:11px 18px;border-radius:10px">
+
+       Delete
+
+     </button>
+
+   </div>
+
+ </div>`;
+
+}
 
 /* ================= NEW MATCH ================= */
 
-function openNewMatch() {
+function openNewMatch(){
 
-    document.getElementById("newMatchModal")
-        .classList.add("show");
+ document.getElementById("modalRoot").innerHTML=`
 
-    document.body.style.overflow = "hidden";
+ <div class="modal-bg" onclick="if(event.target===this)closeModal()">
 
-}
+   <div class="modal">
 
-function closeNewMatch() {
+     <div style="display:flex;justify-content:space-between">
 
-    document.getElementById("newMatchModal")
-        .classList.remove("show");
+       <h2 style="margin:0">Create New Match</h2>
 
-    document.body.style.overflow = "";
+       <button onclick="closeModal()" style="background:none;border:0;color:#aaa;font-size:25px">×</button>
 
-}
+     </div>
 
+     <div style="display:grid;gap:14px;margin-top:22px">
 
-/* ================= CREATE MATCH ================= */
+       <label>Team A
 
-function createMatch(event) {
+         <input id="newTeamA" class="field" placeholder="India">
 
-    event.preventDefault();
+       </label>
 
-    const team1 = document.getElementById("team1").value.trim();
-    const team2 = document.getElementById("team2").value.trim();
-    const date = document.getElementById("matchDate").value;
-    const time = document.getElementById("matchTime").value;
-    const type = document.getElementById("matchType").value;
+       <label>Team B
 
-    closeNewMatch();
+         <input id="newTeamB" class="field" placeholder="Australia">
 
-    showMessage(
-        `${team1} vs ${team2} — ${type} match created successfully.`
-    );
+       </label>
 
-}
+       <label>Format
 
+         <select id="newFormat" class="field">
 
-/* ================= SECTIONS ================= */
+           <option>T20</option>
 
-function showSection(section, button) {
+           <option>ODI</option>
 
-    const dashboard = document.getElementById("dashboardSection");
-    const other = document.getElementById("otherSection");
+           <option>Test</option>
 
-    document.querySelectorAll(".nav-item")
-        .forEach(item => item.classList.remove("active"));
+         </select>
 
-    if (button) {
-        button.classList.add("active");
-    }
+       </label>
 
-    if (section === "dashboard") {
+       <label>Venue
 
-        dashboard.classList.remove("hidden");
-        other.classList.add("hidden");
+         <input id="newVenue" class="field" placeholder="Stadium">
 
-        closeSidebar();
+       </label>
 
-        return;
-    }
+       <label>Date
 
+         <input id="newDate" type="datetime-local" class="field">
 
-    dashboard.classList.add("hidden");
-    other.classList.remove("hidden");
+       </label>
 
+       <button class="bg-neon" onclick="createMatch()"
 
-    const data = {
+         style="border:0;padding:15px;border-radius:12px;font-weight:900">
 
-        matches: {
-            title: "Match Management",
-            icon: "sports_cricket",
-            text: "Manage live, upcoming and completed cricket matches."
-        },
+         CREATE MATCH
 
-        series: {
-            title: "Series",
-            icon: "event_note",
-            text: "Create and manage cricket series."
-        },
+       </button>
 
-        teams: {
-            title: "Teams",
-            icon: "groups",
-            text: "Manage teams and team information."
-        },
+     </div>
 
-        players: {
-            title: "Players",
-            icon: "person_search",
-            text: "Manage players and player information."
-        },
+   </div>
 
-        api: {
-            title: "API Settings",
-            icon: "api",
-            text: "Configure cricket data and odds API connections."
-        },
-
-        users: {
-            title: "User Management",
-            icon: "manage_accounts",
-            text: "Manage admin and user accounts."
-        },
-
-        settings: {
-            title: "Settings",
-            icon: "settings",
-            text: "Manage dashboard and application settings."
-        }
-
-    };
-
-
-    const current = data[section];
-
-    document.getElementById("sectionTitle").textContent =
-        current.title;
-
-    document.getElementById("sectionIcon").textContent =
-        current.icon;
-
-    document.getElementById("sectionText").textContent =
-        current.text;
-
-    closeSidebar();
+ </div>`;
 
 }
 
+function createMatch(){
 
-/* ================= MESSAGE ================= */
+ const a=document.getElementById("newTeamA").value.trim();
 
-function showMessage(message) {
+ const b=document.getElementById("newTeamB").value.trim();
 
-    document.getElementById("messageText")
-        .textContent = message;
+ if(!a||!b){
 
-    document.getElementById("messageModal")
-        .classList.add("show");
+   alert("Dono teams ke naam bharna zaroori hai.");
+
+   return;
+
+ }
+
+ const m={
+
+   id:Date.now(),
+
+   teamA:a,
+
+   teamB:b,
+
+   format:document.getElementById("newFormat").value,
+
+   venue:document.getElementById("newVenue").value.trim(),
+
+   date:document.getElementById("newDate").value,
+
+   status:"UPCOMING",
+
+   score:emptyScore(),
+
+   createdAt:new Date().toISOString()
+
+ };
+
+ data.matches.push(m);
+
+ save();
+
+ closeModal();
+
+ currentPage="matches";
+
+ document.getElementById("pageTitle").textContent="Match Management";
+
+ render();
 
 }
 
-function closeMessage() {
+function editMatch(id){
 
-    document.getElementById("messageModal")
-        .classList.remove("show");
+ const m=data.matches.find(x=>x.id===id);
+
+ if(!m)return;
+
+ document.getElementById("modalRoot").innerHTML=`
+
+ <div class="modal-bg">
+
+  <div class="modal">
+
+   <h2>Edit Match</h2>
+
+   <div style="display:grid;gap:14px;margin-top:20px">
+
+    <input id="editA" class="field" value="${esc(m.teamA)}">
+
+    <input id="editB" class="field" value="${esc(m.teamB)}">
+
+    <select id="editStatus" class="field">
+
+      <option ${m.status==="UPCOMING"?"selected":""}>UPCOMING</option>
+
+      <option ${m.status==="LIVE"?"selected":""}>LIVE</option>
+
+      <option ${m.status==="FINISHED"?"selected":""}>FINISHED</option>
+
+    </select>
+
+    <input id="editVenue" class="field" value="${esc(m.venue||"")}" placeholder="Venue">
+
+    <div style="display:flex;gap:10px">
+
+      <button class="bg-neon" onclick="saveMatchEdit(${id})"
+
+       style="border:0;padding:13px 18px;border-radius:10px;font-weight:800">
+
+       SAVE
+
+      </button>
+
+      <button onclick="closeModal()"
+
+       style="background:#333;color:white;border:0;padding:13px 18px;border-radius:10px">
+
+       CANCEL
+
+      </button>
+
+    </div>
+
+   </div>
+
+  </div>
+
+ </div>`;
 
 }
 
+function saveMatchEdit(id){
 
-/* ================= LOGOUT ================= */
+ const m=data.matches.find(x=>x.id===id);
 
-function logout() {
+ if(!m)return;
 
-    showMessage(
-        "Logout action is ready to be connected with your authentication system."
-    );
+ m.teamA=document.getElementById("editA").value.trim();
 
-}
+ m.teamB=document.getElementById("editB").value.trim();
 
+ m.status=document.getElementById("editStatus").value;
 
-/* ================= LAST UPDATED ================= */
+ m.venue=document.getElementById("editVenue").value.trim();
 
-function updateTime() {
+ save();
 
-    const now = new Date();
+ closeModal();
 
-    document.getElementById("lastUpdated")
-        .textContent = now.toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit"
-        });
+ render();
 
 }
 
-updateTime();
+function deleteMatch(id){
 
-setInterval(updateTime, 1000);
+ if(!confirm("Is match ko delete karna hai?"))return;
 
+ data.matches=data.matches.filter(x=>x.id!==id);
 
-/* ================= ESC KEY ================= */
+ save();
 
-document.addEventListener("keydown", (event) => {
+ render();
 
-    if (event.key === "Escape") {
+}
 
-        closeNewMatch();
-        closeMessage();
-        closeSidebar();
+/* ================= SCORING ================= */
 
-    }
+function emptyInnings(){
+
+ return {
+
+   runs:0,
+
+   wickets:0,
+
+   balls:0,
+
+   overs:"0.0",
+
+   batsman1:"Batter 1",
+
+   batsman2:"Batter 2",
+
+   bowler:"Bowler",
+
+   striker:1,
+
+   target:null,
+
+   history:[]
+
+ };
+
+}
+
+function emptyScore(){
+
+ return {
+
+   innings1:emptyInnings(),
+
+   innings2:emptyInnings(),
+
+   activeInnings:1
+
+ };
+
+}
+
+function openMatch(id){
+
+ const m=data.matches.find(x=>x.id===id);
+
+ if(!m)return;
+
+ currentMatch=id;
+
+ if(m.status==="UPCOMING"){
+
+   m.status="LIVE";
+
+   save();
+
+ }
+
+ renderScoring(m);
+
+}
+
+function renderScoring(m){
+
+ const s=m.score||emptyScore();
+
+ const inn=s.activeInnings===1?s.innings1:s.innings2;
+
+ document.getElementById("pageTitle").textContent="Live Scoring";
+
+ document.getElementById("app").innerHTML=`
+
+ <div>
+
+   <button onclick="showPage('matches')"
+
+    style="background:none;color:#aaa;border:0;padding:0 0 20px">
+
+    ← Back to Matches
+
+   </button>
+
+   <div style="display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap">
+
+    <div>
+
+      <h1 style="font-size:38px;margin:0">
+
+        ${esc(m.teamA)} <span style="color:#777">vs</span> ${esc(m.teamB)}
+
+      </h1>
+
+      <p style="color:#aaa">${esc(m.format)} • ${esc(m.venue||"")}</p>
+
+    </div>
+
+    <div style="background:#1e2c05;color:#b7ff00;padding:12px 18px;border-radius:12px;font-weight:800">
+
+      ● LIVE
+
+    </div>
+
+   </div>
+
+   <div class="panel" style="padding:25px;margin-top:22px">
+
+     <div style="text-align:center;color:#aaa">
+
+       INNINGS ${s.activeInnings}
+
+     </div>
+
+     <div style="text-align:center;font-size:60px;font-weight:900;margin-top:5px">
+
+       ${inn.runs}/${inn.wickets}
+
+     </div>
+
+     <div style="text-align:center;font-size:20px;color:#b7ff00">
+
+       Overs ${inn.overs}
+
+     </div>
+
+     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:25px">
+
+       <div style="background:#101216;padding:18px;border-radius:12px">
+
+         <div style="color:#aaa">STRIKER</div>
+
+         <b style="font-size:21px">${esc(inn.batsman1)}</b>
+
+       </div>
+
+       <div style="background:#101216;padding:18px;border-radius:12px">
+
+         <div style="color:#aaa">NON-STRIKER</div>
+
+         <b style="font-size:21px">${esc(inn.batsman2)}</b>
+
+       </div>
+
+     </div>
+
+     <div style="margin-top:15px;background:#101216;padding:18px;border-radius:12px">
+
+       <span style="color:#aaa">BOWLER</span><br>
+
+       <b style="font-size:20px">${esc(inn.bowler)}</b>
+
+     </div>
+
+   </div>
+
+   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px">
+
+     ${scoreButton(0)}
+
+     ${scoreButton(1)}
+
+     ${scoreButton(2)}
+
+     ${scoreButton(3)}
+
+     ${scoreButton(4)}
+
+     ${scoreButton(6)}
+
+   </div>
+
+   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px">
+
+     <button class="score-btn" onclick="addExtra('WD')">WIDE</button>
+
+     <button class="score-btn" onclick="addExtra('NB')">NO BALL</button>
+
+     <button class="score-btn" onclick="addExtra('BYE')">BYE</button>
+
+     <button class="score-btn" onclick="addExtra('LB')">LEG BYE</button>
+
+     <button class="score-btn" onclick="addWicket()">WICKET</button>
+
+     <button class="score-btn" onclick="undoBall()">UNDO</button>
+
+   </div>
+
+   <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
+
+     <button onclick="changePlayers()"
+
+       style="background:#282c32;color:white;border:0;padding:13px 18px;border-radius:10px">
+
+       Change Players
+
+     </button>
+
+     <button onclick="nextInnings()"
+
+       style="background:#282c32;color:white;border:0;padding:13px 18px;border-radius:10px">
+
+       ${s.activeInnings===1?"Start 2nd Innings":"Finish Match"}
+
+     </button>
+
+   </div>
+
+   <div class="panel" style="padding:20px;margin-top:20px">
+
+     <h3>Ball History</h3>
+
+     <div style="display:flex;gap:8px;flex-wrap:wrap">
+
+       ${
+
+         inn.history.length
+
+         ? inn.history.slice().reverse().map((x,i)=>
+
+           `<span style="background:#292d33;padding:7px 11px;border-radius:8px">${esc(x)}</span>`
+
+         ).join("")
+
+         : `<span style="color:#888">No balls recorded.</span>`
+
+       }
+
+     </div>
+
+   </div>
+
+ </div>`;
+
+}
+
+function scoreButton(n){
+
+ return `<button class="score-btn" onclick="addRuns(${n})">${n}</button>`;
+
+}
+
+function getCurrent(){
+
+ const m=data.matches.find(x=>x.id===currentMatch);
+
+ if(!m)return null;
+
+ if(!m.score)m.score=emptyScore();
+
+ return {
+
+   m,
+
+   s:m.score,
+
+   inn:m.score.activeInnings===1?m.score.innings1:m.score.innings2
+
+ };
+
+}
+
+function recordBall(label,runs=0,legal=true){
+
+ const c=getCurrent();
+
+ if(!c)return;
+
+ c.inn.runs+=runs;
+
+ if(legal)c.inn.balls++;
+
+ c.inn.overs=Math.floor(c.inn.balls/6)+"."+(c.inn.balls%6);
+
+ c.inn.history.push(label);
+
+ if(runs%2===1)c.inn.striker=c.inn.striker===1?2:1;
+
+ if(c.inn.balls%6===0){
+
+   const temp=c.inn.batsman1;
+
+   c.inn.batsman1=c.inn.batsman2;
+
+   c.inn.batsman2=temp;
+
+ }
+
+ save();
+
+ renderScoring(c.m);
+
+}
+
+function addRuns(n){
+
+ recordBall(String(n),n,true);
+
+}
+
+function addExtra(type){
+
+ if(type==="WD"){
+
+   recordBall("WD",1,false);
+
+ }else if(type==="NB"){
+
+   recordBall("NB",1,false);
+
+ }else{
+
+   recordBall(type,1,true);
+
+ }
+
+}
+
+function addWicket(){
+
+ const c=getCurrent();
+
+ if(!c)return;
+
+ c.inn.wickets++;
+
+ c.inn.balls++;
+
+ c.inn.overs=Math.floor(c.inn.balls/6)+"."+(c.inn.balls%6);
+
+ c.inn.history.push("W");
+
+ save();
+
+ renderScoring(c.m);
+
+}
+
+function undoBall(){
+
+ const c=getCurrent();
+
+ if(!c||!c.inn.history.length){
+
+   alert("Undo karne ke liye ball nahi hai.");
+
+   return;
+
+ }
+
+ const last=c.inn.history.pop();
+
+ if(last==="W"){
+
+   c.inn.wickets=Math.max(0,c.inn.wickets-1);
+
+   c.inn.balls=Math.max(0,c.inn.balls-1);
+
+ }else if(last==="WD"||last==="NB"){
+
+   c.inn.runs=Math.max(0,c.inn.runs-1);
+
+ }else{
+
+   const n=last==="BYE"||last==="LB"?1:Number(last)||0;
+
+   c.inn.runs=Math.max(0,c.inn.runs-n);
+
+   c.inn.balls=Math.max(0,c.inn.balls-1);
+
+ }
+
+ c.inn.overs=Math.floor(c.inn.balls/6)+"."+(c.inn.balls%6);
+
+ save();
+
+ renderScoring(c.m);
+
+}
+
+function changePlayers(){
+
+ const c=getCurrent();
+
+ if(!c)return;
+
+ document.getElementById("modalRoot").innerHTML=`
+
+ <div class="modal-bg">
+
+  <div class="modal">
+
+   <h2>Players</h2>
+
+   <div style="display:grid;gap:14px;margin-top:20px">
+
+    <input id="p1" class="field" value="${esc(c.inn.batsman1)}" placeholder="Striker">
+
+    <input id="p2" class="field" value="${esc(c.inn.batsman2)}" placeholder="Non-striker">
+
+    <input id="bowler" class="field" value="${esc(c.inn.bowler)}" placeholder="Bowler">
+
+    <button class="bg-neon" onclick="savePlayers()"
+
+      style="border:0;padding:14px;border-radius:10px;font-weight:800">
+
+      SAVE PLAYERS
+
+    </button>
+
+   </div>
+
+  </div>
+
+ </div>`;
+
+}
+
+function savePlayers(){
+
+ const c=getCurrent();
+
+ if(!c)return;
+
+ c.inn.batsman1=document.getElementById("p1").value||"Batter 1";
+
+ c.inn.batsman2=document.getElementById("p2").value||"Batter 2";
+
+ c.inn.bowler=document.getElementById("bowler").value||"Bowler";
+
+ save();
+
+ closeModal();
+
+ renderScoring(c.m);
+
+}
+
+function nextInnings(){
+
+ const c=getCurrent();
+
+ if(!c)return;
+
+ if(c.s.activeInnings===1){
+
+   c.s.activeInnings=2;
+
+   save();
+
+   renderScoring(c.m);
+
+ }else{
+
+   c.m.status="FINISHED";
+
+   save();
+
+   alert("Match finished.");
+
+   showPage("matches");
+
+ }
+
+}
+
+/* ================= SERIES ================= */
+
+function seriesHTML(){
+
+ return `
+
+ <div style="display:flex;justify-content:space-between;align-items:center">
+
+  <div>
+
+   <h1 style="font-size:40px;margin:0">Series</h1>
+
+   <p style="color:#aaa">Manage cricket series.</p>
+
+  </div>
+
+  <button class="bg-neon" onclick="addSeries()"
+
+   style="border:0;padding:13px 18px;border-radius:10px;font-weight:800">
+
+   ＋ Add Series
+
+  </button>
+
+ </div>
+
+ <div style="display:grid;gap:15px;margin-top:25px">
+
+ ${
+
+  data.series.length
+
+  ? data.series.map((s,i)=>`
+
+    <div class="panel" style="padding:20px">
+
+      <b style="font-size:22px">${esc(s.name)}</b>
+
+      <p style="color:#aaa">${esc(s.description||"")}</p>
+
+      <button onclick="deleteSeries(${i})"
+
+       style="background:#351d20;color:#ff9999;border:0;padding:9px 13px;border-radius:8px">
+
+       Delete
+
+      </button>
+
+    </div>`).join("")
+
+  : `<div class="panel" style="padding:30px;color:#888">No series created.</div>`
+
+ }
+
+ </div>`;
+
+}
+
+function addSeries(){
+
+ const name=prompt("Series name:");
+
+ if(!name)return;
+
+ data.series.push({
+
+   id:Date.now(),
+
+   name,
+
+   description:""
+
+ });
+
+ save();
+
+ render();
+
+}
+
+function deleteSeries(i){
+
+ if(!confirm("Delete series?"))return;
+
+ data.series.splice(i,1);
+
+ save();
+
+ render();
+
+}
+
+/* ================= TEAMS ================= */
+
+function teamsHTML(){
+
+ return `
+
+ <div style="display:flex;justify-content:space-between;align-items:center">
+
+  <h1 style="font-size:40px;margin:0">Teams</h1>
+
+  <button class="bg-neon" onclick="addTeam()"
+
+   style="border:0;padding:13px 18px;border-radius:10px;font-weight:800">
+
+   ＋ Add Team
+
+  </button>
+
+ </div>
+
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;margin-top:25px">
+
+ ${
+
+ data.teams.length
+
+ ? data.teams.map((t,i)=>`
+
+   <div class="panel" style="padding:22px">
+
+    <div style="font-size:25px;font-weight:800">${esc(t.name)}</div>
+
+    <p style="color:#aaa">${esc(t.short||"")}</p>
+
+    <button onclick="deleteTeam(${i})"
+
+     style="background:#351d20;color:#ff9999;border:0;padding:9px 13px;border-radius:8px">
+
+     Delete
+
+    </button>
+
+   </div>`).join("")
+
+ : `<div class="panel" style="padding:30px;color:#888">No teams yet.</div>`
+
+ }
+
+ </div>`;
+
+}
+
+function addTeam(){
+
+ const name=prompt("Team name:");
+
+ if(!name)return;
+
+ const short=prompt("Short name:",name.substring(0,3).toUpperCase());
+
+ data.teams.push({id:Date.now(),name,short});
+
+ save();
+
+ render();
+
+}
+
+function deleteTeam(i){
+
+ if(!confirm("Delete team?"))return;
+
+ data.teams.splice(i,1);
+
+ save();
+
+ render();
+
+}
+
+/* ================= PLAYERS ================= */
+
+function playersHTML(){
+
+ return `
+
+ <div style="display:flex;justify-content:space-between;align-items:center">
+
+  <h1 style="font-size:40px;margin:0">Players</h1>
+
+  <button class="bg-neon" onclick="addPlayer()"
+
+   style="border:0;padding:13px 18px;border-radius:10px;font-weight:800">
+
+   ＋ Add Player
+
+  </button>
+
+ </div>
+
+ <div class="panel" style="margin-top:25px;overflow:auto">
+
+  <table style="width:100%;border-collapse:collapse">
+
+   <tr style="color:#aaa;text-align:left">
+
+    <th style="padding:16px">Name</th>
+
+    <th>Team</th>
+
+    <th>Role</th>
+
+    <th>Action</th>
+
+   </tr>
+
+   ${
+
+    data.players.map((p,i)=>`
+
+    <tr style="border-top:1px solid #30343a">
+
+     <td style="padding:16px">${esc(p.name)}</td>
+
+     <td>${esc(p.team)}</td>
+
+     <td>${esc(p.role)}</td>
+
+     <td>
+
+      <button onclick="deletePlayer(${i})"
+
+       style="background:#351d20;color:#ff9999;border:0;padding:7px 10px;border-radius:7px">
+
+       Delete
+
+      </button>
+
+     </td>
+
+    </tr>`).join("")
+
+   ||`<tr><td colspan="4" style="padding:25px;color:#888">No players yet.</td></tr>`
+
+   }
+
+  </table>
+
+ </div>`;
+
+}
+
+function addPlayer(){
+
+ const name=prompt("Player name:");
+
+ if(!name)return;
+
+ const team=prompt("Team:");
+
+ const role=prompt("Role:","Batter");
+
+ data.players.push({
+
+  id:Date.now(),name,team:team||"",role:role||"Batter"
+
+ });
+
+ save();
+
+ render();
+
+}
+
+function deletePlayer(i){
+
+ if(!confirm("Delete player?"))return;
+
+ data.players.splice(i,1);
+
+ save();
+
+ render();
+
+}
+
+/* ================= API ================= */
+
+function apiHTML(){
+
+ return `
+
+ <h1 style="font-size:40px;margin:0">API Settings</h1>
+
+ <p style="color:#aaa">API configuration.</p>
+
+ <div class="panel" style="padding:25px;margin-top:25px;max-width:700px">
+
+  <label>API URL
+
+   <input id="apiUrl" class="field" style="margin-top:7px"
+
+    value="${esc(data.settings.apiUrl)}"
+
+    placeholder="https://api.example.com">
+
+  </label>
+
+  <label style="display:block;margin-top:18px">API Key
+
+   <input id="apiKey" class="field" style="margin-top:7px"
+
+    value="${esc(data.settings.apiKey)}"
+
+    placeholder="API KEY">
+
+  </label>
+
+  <button class="bg-neon" onclick="saveAPI()"
+
+   style="margin-top:20px;border:0;padding:13px 20px;border-radius:10px;font-weight:800">
+
+   SAVE API SETTINGS
+
+  </button>
+
+ </div>`;
+
+}
+
+function saveAPI(){
+
+ data.settings.apiUrl=document.getElementById("apiUrl").value.trim();
+
+ data.settings.apiKey=document.getElementById("apiKey").value.trim();
+
+ save();
+
+ alert("API settings saved.");
+
+}
+
+/* ================= USERS ================= */
+
+function usersHTML(){
+
+ return `
+
+ <div style="display:flex;justify-content:space-between;align-items:center">
+
+  <h1 style="font-size:40px;margin:0">User Management</h1>
+
+  <button class="bg-neon" onclick="addUser()"
+
+   style="border:0;padding:13px 18px;border-radius:10px;font-weight:800">
+
+   ＋ Add User
+
+  </button>
+
+ </div>
+
+ <div style="display:grid;gap:15px;margin-top:25px">
+
+ ${
+
+ data.users.map((u,i)=>`
+
+  <div class="panel" style="padding:20px">
+
+   <b style="font-size:20px">${esc(u.name)}</b>
+
+   <div style="color:#aaa">${esc(u.email)} • ${esc(u.role)}</div>
+
+   ${
+
+    i>0
+
+    ? `<button onclick="deleteUser(${i})"
+
+       style="margin-top:12px;background:#351d20;color:#ff9999;border:0;padding:8px 12px;border-radius:8px">
+
+       Delete
+
+      </button>`
+
+    :""
+
+   }
+
+  </div>`).join("")
+
+ }
+
+ </div>`;
+
+}
+
+function addUser(){
+
+ const name=prompt("Name:");
+
+ if(!name)return;
+
+ const email=prompt("Email:","user@example.com");
+
+ const role=prompt("Role:","Viewer");
+
+ data.users.push({id:Date.now(),name,email,role});
+
+ save();
+
+ render();
+
+}
+
+function deleteUser(i){
+
+ if(!confirm("Delete user?"))return;
+
+ data.users.splice(i,1);
+
+ save();
+
+ render();
+
+}
+
+/* ================= SETTINGS ================= */
+
+function settingsHTML(){
+
+ return `
+
+ <h1 style="font-size:40px;margin:0">Settings</h1>
+
+ <div class="panel" style="padding:25px;margin-top:25px;max-width:700px">
+
+  <label>Site Name
+
+   <input id="siteName" class="field" style="margin-top:7px"
+
+    value="${esc(data.settings.siteName)}">
+
+  </label>
+
+  <button onclick="saveSettings()" class="bg-neon"
+
+   style="margin-top:20px;border:0;padding:13px 20px;border-radius:10px;font-weight:800">
+
+   SAVE SETTINGS
+
+  </button>
+
+  <hr style="border-color:#333;margin:25px 0">
+
+  <button onclick="resetData()"
+
+   style="background:#351d20;color:#ff9999;border:0;padding:13px 20px;border-radius:10px">
+
+   RESET ALL LOCAL DATA
+
+  </button>
+
+ </div>`;
+
+}
+
+function saveSettings(){
+
+ data.settings.siteName=document.getElementById("siteName").value;
+
+ save();
+
+ alert("Settings saved.");
+
+}
+
+function resetData(){
+
+ if(!confirm("WARNING: Saara local data delete ho jayega. Continue?"))return;
+
+ localStorage.removeItem(KEY);
+
+ location.reload();
+
+}
+
+function logout(){
+
+ alert("Logout system ready hai. Real authentication connect karne ke baad yahan actual logout hoga.");
+
+}
+
+/* ================= UI ================= */
+
+function closeModal(){
+
+ document.getElementById("modalRoot").innerHTML="";
+
+}
+
+function openSidebar(){
+
+ document.getElementById("sidebar").classList.add("open");
+
+ document.getElementById("overlay").classList.add("show");
+
+ document.getElementById("overlay").style.display="block";
+
+}
+
+function closeSidebar(){
+
+ document.getElementById("sidebar").classList.remove("open");
+
+ document.getElementById("overlay").classList.remove("show");
+
+ document.getElementById("overlay").style.display="none";
+
+}
+
+window.addEventListener("resize",()=>{
+
+ document.getElementById("menuBtn").style.display=innerWidth<=800?"block":"none";
 
 });
+
+document.getElementById("menuBtn").style.display=innerWidth<=800?"block":"none";
+
+render();
 
 </script>
 
 </body>
+
 </html>
