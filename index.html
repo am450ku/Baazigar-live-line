@@ -5,7 +5,10 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Match Management - BAAZIGAR LIVE</title>
 
-<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
 
 <script>
 tailwind.config = {
@@ -13,106 +16,162 @@ tailwind.config = {
     theme: {
         extend: {
             colors: {
-                primary: "#b8f600",
-                "primary-container": "#b8f600",
-                "primary-fixed": "#b8f600",
-                "primary-fixed-dim": "#a0d500",
-                background: "#121317",
-                "on-background": "#e3e2e7",
-                surface: "#121317",
-                "surface-dim": "#121317",
-                "surface-container-lowest": "#0d0e12",
-                "surface-container-low": "#1a1b20",
-                "surface-container": "#1e1f24",
-                "surface-container-high": "#292a2e",
-                "surface-container-highest": "#343539",
-                "on-surface": "#e3e2e7",
-                "on-surface-variant": "#c3c7b5",
-                "on-primary-container": "#263500",
-                "border-subtle": "#343539",
-                "outline-variant": "#43483a"
+                "on-error-container":"#ffdad6",
+                "on-primary-fixed":"#141f00",
+                "primary-fixed-dim":"#a1d800",
+                "on-tertiary":"#51221d",
+                "table-row-hover":"#1a1b1f",
+                "on-secondary-fixed-variant":"#46464b",
+                "on-primary-fixed-variant":"#384e00",
+                "surface-container-highest":"#343439",
+                "primary":"#ffffff",
+                "error-container":"#93000a",
+                "surface-bright":"#38393d",
+                "on-surface-variant":"#c3caac",
+                "primary-fixed":"#b8f600",
+                "on-primary-container":"#506e00",
+                "on-secondary-container":"#b5b4ba",
+                "error":"#ffb4ab",
+                "inverse-primary":"#4b6700",
+                "surface-container-lowest":"#0d0e12",
+                "on-tertiary-fixed-variant":"#6c3832",
+                "inverse-surface":"#e3e2e7",
+                "border-subtle":"#343539",
+                "surface-container":"#1e1f24",
+                "secondary-container":"#46464b",
+                "tertiary-container":"#ffdad5",
+                "on-secondary":"#2f3034",
+                "on-background":"#e3e2e7",
+                "outline":"#8d9479",
+                "on-error":"#690005",
+                "on-surface":"#e3e2e7",
+                "on-secondary-fixed":"#1a1b1f",
+                "secondary":"#c7c6cb",
+                "on-tertiary-container":"#8f544e",
+                "background":"#121317",
+                "outline-variant":"#434933",
+                "surface-dim":"#121317",
+                "tertiary":"#ffffff",
+                "secondary-fixed":"#e3e2e7",
+                "inverse-on-surface":"#2f3035",
+                "critical-red":"#ffb4ab",
+                "primary-container":"#b8f600",
+                "surface-variant":"#343439",
+                "surface-container-high":"#292a2e",
+                "success-neon":"#bfff00",
+                "on-primary":"#263500",
+                "tertiary-fixed-dim":"#ffb4ab",
+                "surface":"#121317",
+                "tertiary-fixed":"#ffdad5",
+                "surface-tint":"#a1d800",
+                "surface-container-low":"#1a1b20",
+                "on-tertiary-fixed":"#360e0a",
+                "secondary-fixed-dim":"#c7c6cb",
+                "sidebar-bg":"#0d0e12"
+            },
+            spacing: {
+                "stack-sm":"0.5rem",
+                "edge-margin":"2rem",
+                "stack-md":"1rem",
+                "gutter":"1.5rem",
+                "sidebar-width":"260px"
             },
             fontFamily: {
-                headline: ["Space Grotesk", "sans-serif"],
-                body: ["Inter", "sans-serif"],
-                label: ["Inter", "sans-serif"]
+                "headline-md":["Inter"],
+                "body-md":["Inter"],
+                "body-sm":["Inter"],
+                "label-caps":["Inter"],
+                "headline-xl":["Inter"],
+                "mono-data":["Inter"]
+            },
+            fontSize: {
+                "headline-md":["20px",{"lineHeight":"28px","fontWeight":"600"}],
+                "body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],
+                "body-sm":["13px",{"lineHeight":"18px","fontWeight":"400"}],
+                "label-caps":["11px",{"lineHeight":"16px","letterSpacing":"0.06em","fontWeight":"700"}],
+                "headline-xl":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],
+                "mono-data":["14px",{"lineHeight":"20px","fontWeight":"500"}]
             }
         }
     }
 };
 </script>
 
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1&display=swap" rel="stylesheet"/>
-
 <style>
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: #121317;
-    color: #e3e2e7;
+    font-family:'Inter',sans-serif;
+    background-color:#121317;
+    color:#e3e2e7;
 }
 
 .material-symbols-outlined {
-    font-variation-settings: 'FILL' 1;
+    font-variation-settings:'FILL' 1;
 }
 
 .glass-panel {
-    background: rgba(30, 31, 36, 0.6);
-    backdrop-filter: blur(12px);
-    border: 1px solid #343539;
+    background:rgba(30,31,36,.6);
+    backdrop-filter:blur(12px);
+    border:1px solid #343539;
 }
 
 [x-cloak] {
-    display: none !important;
+    display:none !important;
 }
 
-/* =========================================================
-   TEAM INPUT FIX
-   These inputs are completely independent from Alpine.
-   ========================================================= */
-
-.team-name-input {
-    -webkit-appearance: none;
-    appearance: none;
-    display: block;
-    width: 100%;
-    min-width: 0;
-    height: 42px;
-    padding: 8px 12px;
-
-    background-color: #1a1b20;
-    border: 1px solid #343539;
-    border-radius: 6px;
-
-    color: #b8f600;
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-
-    outline: none;
-
-    -webkit-user-select: text;
-    user-select: text;
-
-    -webkit-touch-callout: default;
-    touch-action: manipulation;
+/* TEAM INPUT - MOBILE SAFE */
+#team1Input,
+#team2Input {
+    -webkit-appearance:none;
+    appearance:none;
+    -webkit-user-select:text !important;
+    user-select:text !important;
+    -webkit-touch-callout:default;
+    touch-action:manipulation;
+    outline:none;
 }
 
-.team-name-input:focus {
-    border-color: #b8f600;
-    box-shadow: 0 0 0 1px #b8f600;
+#team1Input:focus,
+#team2Input:focus {
+    border-color:#b8f600 !important;
+    box-shadow:0 0 0 1px #b8f600;
 }
 
-.team-name-input:active {
-    border-color: #b8f600;
-}
+/* MOBILE */
+@media (max-width:767px) {
 
-/* Keep mobile page from changing the original desktop layout */
-@media (max-width: 767px) {
-    body {
-        min-width: 1100px;
+    .mobile-main {
+        padding-left:16px !important;
+        padding-right:16px !important;
+    }
+
+    .mobile-filters {
+        flex-wrap:wrap;
+    }
+
+    .mobile-filter {
+        width:100% !important;
+    }
+
+    .mobile-actions {
+        flex-wrap:wrap;
+    }
+
+    .mobile-actions button {
+        width:100%;
+    }
+
+    .mobile-modal {
+        width:calc(100vw - 24px) !important;
+        max-width:none !important;
+        max-height:calc(100vh - 24px);
+    }
+
+    .mobile-team-row {
+        flex-direction:column !important;
+    }
+
+    .mobile-team-row > div {
+        width:100% !important;
     }
 }
 </style>
@@ -121,17 +180,30 @@ body {
 </head>
 
 <body
-    class="bg-background text-on-background min-h-screen flex"
+    class="bg-background text-on-background min-h-screen"
     x-data="matchManagement()"
 >
 
+<!-- MOBILE OVERLAY -->
+<div
+    x-cloak
+    x-show="sidebarOpen"
+    @click="sidebarOpen=false"
+    class="fixed inset-0 z-[90] bg-black/70 md:hidden"
+></div>
+
 <!-- =========================================================
-     SIDE NAVIGATION
+     SIDEBAR
 ========================================================= -->
 
-<nav class="fixed inset-y-0 left-0 z-50 flex flex-col w-64 bg-surface-container-lowest border-r border-outline-variant">
+<nav
+    class="fixed inset-y-0 left-0 z-[100] flex flex-col w-64 bg-surface-container-lowest border-r border-outline-variant transform transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0"
+    :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
+>
 
-    <div class="p-edge-margin border-b border-border-subtle">
+    <!-- SIDEBAR HEADER -->
+    <div class="p-edge-margin border-b border-border-subtle relative">
+
         <h1 class="font-headline-xl text-headline-xl font-black text-primary tracking-tighter">
             BAAZIGAR LIVE
         </h1>
@@ -139,84 +211,122 @@ body {
         <p class="font-label-caps text-label-caps text-on-surface-variant mt-1">
             Admin Control Panel
         </p>
+
+        <!-- MOBILE CLOSE -->
+        <button
+            type="button"
+            @click="sidebarOpen=false"
+            class="absolute top-4 right-4 md:hidden text-on-surface-variant hover:text-primary"
+            aria-label="Close menu"
+        >
+            <span class="material-symbols-outlined">close</span>
+        </button>
+
     </div>
 
+
+    <!-- NEW MATCH -->
     <div class="p-gutter pb-0">
+
         <button
-            @click="openModal('add')"
+            type="button"
+            @click="openModal('add'); sidebarOpen=false"
             class="w-full bg-primary-container text-on-primary-container hover:bg-primary-fixed-dim font-headline-md text-headline-md py-3 px-4 rounded flex items-center justify-center gap-2 transition-colors duration-200 ease-in-out"
         >
             <span class="material-symbols-outlined">add</span>
             New Match
         </button>
+
     </div>
 
+
+    <!-- SIDEBAR MENU -->
     <ul class="flex-1 overflow-y-auto py-gutter flex flex-col gap-1">
 
+        <!-- DASHBOARD -->
         <li>
             <a
-                href="#"
-                class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors"
+                href="admin_dashboard_baazigar_live_line_functional.html"
+                @click="sidebarOpen=false"
+                class="flex items-center gap-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high px-6 py-3 transition-all duration-200 ease-in-out font-body-md text-body-md"
             >
                 <span class="material-symbols-outlined">dashboard</span>
                 Dashboard
             </a>
         </li>
 
+
+        <!-- MATCH MANAGEMENT -->
         <li>
             <a
-                href="#"
-                class="flex items-center gap-3 px-6 py-3 text-primary bg-surface-container border-l-4 border-primary transition-colors"
+                href="match_management_baazigar_live_line_functional.html"
+                @click="sidebarOpen=false"
+                class="flex items-center gap-3 text-primary-fixed bg-primary-container/10 border-l-4 border-primary-fixed px-6 py-3 font-bold font-body-md text-body-md transition-colors duration-200 ease-in-out"
             >
                 <span class="material-symbols-outlined">sports_cricket</span>
                 Match Management
             </a>
         </li>
 
+
+        <!-- SERIES -->
         <li>
             <a
-                href="#"
-                class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors"
+                href="series_management_baazigar_live_line.html"
+                @click="sidebarOpen=false"
+                class="flex items-center gap-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high px-6 py-3 transition-all duration-200 ease-in-out font-body-md text-body-md"
             >
                 <span class="material-symbols-outlined">event_note</span>
                 Series
             </a>
         </li>
 
+
+        <!-- TEAMS -->
         <li>
             <a
-                href="#"
-                class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors"
+                href="teams_management_baazigar_live.html"
+                @click="sidebarOpen=false"
+                class="flex items-center gap-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high px-6 py-3 transition-all duration-200 ease-in-out font-body-md text-body-md"
             >
                 <span class="material-symbols-outlined">groups</span>
                 Teams
             </a>
         </li>
 
+
+        <!-- PLAYERS -->
         <li>
             <a
                 href="#"
-                class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors"
+                @click.prevent="sidebarOpen=false"
+                class="flex items-center gap-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high px-6 py-3 transition-all duration-200 ease-in-out font-body-md text-body-md"
             >
                 <span class="material-symbols-outlined">person_search</span>
                 Players
             </a>
         </li>
 
+
+        <!-- API SETTINGS -->
         <li>
             <a
                 href="#"
-                class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors"
+                @click.prevent="sidebarOpen=false"
+                class="flex items-center gap-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high px-6 py-3 transition-all duration-200 ease-in-out font-body-md text-body-md"
             >
                 <span class="material-symbols-outlined">api</span>
                 API Settings
             </a>
         </li>
 
+
+        <!-- USER MANAGEMENT -->
         <li>
             <a
-                href="#"
-                class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors"
+                href="users_management_baazigar_live.html"
+                @click="sidebarOpen=false"
+                class="flex items-center gap-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high px-6 py-3 transition-all duration-200 ease-in-out font-body-md text-body-md"
             >
                 <span class="material-symbols-outlined">manage_accounts</span>
                 User Management
@@ -225,23 +335,35 @@ body {
 
     </ul>
 
-    <div class="border-t border-border-subtle p-4">
 
-        <a
-            href="#"
-            class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:text-primary transition-colors"
-        >
-            <span class="material-symbols-outlined">settings</span>
-            Settings
-        </a>
+    <!-- BOTTOM MENU -->
+    <div class="mt-auto border-t border-border-subtle p-stack-md">
 
-        <a
-            href="#"
-            class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:text-primary transition-colors"
-        >
-            <span class="material-symbols-outlined">logout</span>
-            Logout
-        </a>
+        <ul class="flex flex-col gap-1">
+
+            <li>
+                <a
+                    href="admin_settings_baazigar_live_line.html"
+                    @click="sidebarOpen=false"
+                    class="flex items-center gap-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high px-6 py-3 transition-all duration-200 ease-in-out font-body-md text-body-md"
+                >
+                    <span class="material-symbols-outlined">settings</span>
+                    Settings
+                </a>
+            </li>
+
+            <li>
+                <a
+                    href="#"
+                    @click.prevent="sidebarOpen=false"
+                    class="flex items-center gap-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high px-6 py-3 transition-all duration-200 ease-in-out font-body-md text-body-md"
+                >
+                    <span class="material-symbols-outlined">logout</span>
+                    Logout
+                </a>
+            </li>
+
+        </ul>
 
     </div>
 
@@ -249,48 +371,94 @@ body {
 
 
 <!-- =========================================================
-     MAIN CONTENT
+     MAIN LAYOUT
 ========================================================= -->
 
-<main class="ml-64 flex-1 min-h-screen">
+<div class="flex-1 flex flex-col min-h-screen relative bg-background md:ml-[260px]">
 
-    <!-- TOP HEADER -->
 
-    <header class="sticky top-0 z-40 bg-surface/95 backdrop-blur border-b border-border-subtle">
+    <!-- TOP NAV -->
+    <header
+        class="fixed top-0 right-0 left-0 md:left-64 h-16 z-40 flex items-center justify-between px-edge-margin bg-surface-dim border-b border-outline-variant"
+    >
 
-        <div class="px-8 py-5 flex items-center justify-between">
+        <div class="flex items-center gap-4">
 
-            <div>
-                <h2 class="font-headline-xl text-2xl font-bold text-on-surface">
-                    Match Management
-                </h2>
+            <!-- MOBILE MENU -->
+            <button
+                type="button"
+                @click="sidebarOpen=true"
+                class="md:hidden text-on-surface-variant hover:text-primary"
+                aria-label="Open menu"
+            >
+                <span class="material-symbols-outlined">menu</span>
+            </button>
 
-                <p class="text-sm text-on-surface-variant mt-1">
-                    Configure and monitor live and upcoming fixtures.
-                </p>
+            <span class="font-headline-md text-headline-md font-bold text-primary">
+                BAAZIGAR LIVE LINE
+            </span>
+
+        </div>
+
+
+        <div class="flex items-center gap-6">
+
+            <!-- SEARCH -->
+            <div class="relative hidden sm:block">
+
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">
+                    search
+                </span>
+
+                <input
+                    class="bg-surface-container-low border border-border-subtle rounded text-primary placeholder:text-on-surface-variant pl-10 pr-4 py-2 text-sm focus:border-primary-fixed focus:ring-0 focus:outline-none transition-colors w-64 h-9"
+                    placeholder="Search matches..."
+                    type="text"
+                    x-model="searchQuery"
+                />
+
             </div>
 
-            <div class="flex items-center gap-4">
 
-                <div class="relative">
+            <div class="hidden md:flex items-center gap-4">
 
-                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">
-                        search
-                    </span>
+                <button class="text-on-surface-variant hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined">sensors</span>
+                </button>
 
-                    <input
-                        type="text"
-                        placeholder="Search matches..."
-                        class="bg-surface-container-low border border-border-subtle rounded text-on-surface text-sm pl-10 pr-3 py-2 focus:border-primary-fixed focus:ring-0"
-                        x-model="searchQuery"
-                    />
+                <button class="text-on-surface-variant hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined">signal_cellular_alt</span>
+                </button>
 
-                </div>
+                <button class="text-on-surface-variant hover:text-primary transition-colors relative">
 
-                <div class="flex items-center gap-2 text-xs text-primary font-semibold">
-                    <span class="w-2 h-2 rounded-full bg-primary"></span>
-                    LIVE SYSTEM
-                </div>
+                    <span class="material-symbols-outlined">notifications</span>
+
+                    <span class="absolute -top-1 -right-1 w-2 h-2 bg-primary-container rounded-full"></span>
+
+                </button>
+
+            </div>
+
+
+            <div class="hidden md:block h-8 w-px bg-border-subtle mx-2"></div>
+
+
+            <div class="hidden md:flex items-center gap-3">
+
+                <span class="font-label-caps text-label-caps text-success-neon flex items-center gap-2">
+
+                    <span class="w-2 h-2 bg-success-neon rounded-full animate-pulse"></span>
+
+                    API STATUS: ACTIVE
+
+                </span>
+
+                <img
+                    alt="Admin Avatar"
+                    class="w-8 h-8 rounded-full border border-border-subtle object-cover"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3eYE4C-WkgzFAx2PfU0oxnFYkUMOb36ZQICYGqPKKj_RArG_FXmortwaJQWyprjvpPD6twGMcVoD1j91zBpeM4j7CkJaFVz-CWwHGYa2VzyhXEsU21UFdb-ytLxTMi29h-SrNAoB82ibimfSsP_JRwYNvjvdICbPgpO9MDyKIgYKcbiyVx34roa0kpaqTsueRJbU-9cL0MzwiTGgRsRSSOaX4tX1SrHXDD-tGalIX8yM9r2XEMrqLog"
+                />
 
             </div>
 
@@ -299,111 +467,111 @@ body {
     </header>
 
 
-    <!-- PAGE CONTENT -->
+    <!-- =====================================================
+         MAIN CANVAS
+    ====================================================== -->
 
-    <section class="p-8">
+    <main class="flex-1 mt-16 p-edge-margin mobile-main">
 
-        <!-- PAGE TITLE / BUTTON -->
 
-        <div class="flex items-center justify-between mb-6">
+        <!-- HEADER & ACTIONS -->
+        <div class="flex justify-between items-end mb-gutter mobile-actions">
 
             <div>
-                <div class="font-label-caps text-label-caps text-primary text-xs mb-2">
-                    MATCH CENTER
-                </div>
 
-                <h3 class="font-headline-md text-2xl font-semibold text-on-surface">
-                    All Matches
-                </h3>
+                <h2 class="font-headline-xl text-headline-xl text-primary">
+                    Match Management
+                </h2>
+
+                <p class="font-body-md text-body-md text-on-surface-variant mt-1">
+                    Configure and monitor live and upcoming fixtures.
+                </p>
+
             </div>
 
-            <button
-                @click="openModal('add')"
-                class="bg-primary-container text-on-primary-container hover:bg-primary-fixed-dim font-headline-md py-3 px-5 rounded flex items-center justify-center gap-2 transition-colors duration-200 ease-in-out"
-            >
-                <span class="material-symbols-outlined">add</span>
-                Add New Match
-            </button>
+
+            <div class="flex gap-4">
+
+                <button
+                    type="button"
+                    class="glass-panel text-primary font-body-md text-body-md px-4 py-2 rounded flex items-center gap-2 hover:bg-surface-container transition-colors"
+                >
+                    <span class="material-symbols-outlined text-sm">
+                        filter_list
+                    </span>
+                    Filters
+                </button>
+
+
+                <button
+                    type="button"
+                    @click="openModal('add')"
+                    class="bg-primary-container text-on-primary-container font-headline-md text-body-md font-semibold px-5 py-2 rounded hover:bg-primary-fixed-dim transition-colors shadow-[0_0_15px_rgba(184,246,0,0.2)]"
+                >
+                    Add New Match
+                </button>
+
+            </div>
 
         </div>
 
 
         <!-- FILTERS -->
+        <div class="flex gap-stack-md mb-gutter mobile-filters">
 
-        <div class="grid grid-cols-4 gap-4 mb-6">
+            <div class="flex flex-col gap-stack-sm w-48 mobile-filter">
 
-            <div class="col-span-1">
-
-                <label class="block font-label-caps text-label-caps text-on-surface-variant text-xs mb-2">
-                    Search
-                </label>
-
-                <div class="relative">
-
-                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">
-                        search
-                    </span>
-
-                    <input
-                        type="text"
-                        placeholder="Search..."
-                        class="w-full bg-surface-container-low border border-border-subtle rounded text-on-surface text-sm pl-10 pr-3 py-3 focus:border-primary-fixed focus:ring-0"
-                        x-model="searchQuery"
-                    />
-
-                </div>
-
-            </div>
-
-
-            <div class="col-span-1">
-
-                <label class="block font-label-caps text-label-caps text-on-surface-variant text-xs mb-2">
+                <label class="font-label-caps text-label-caps text-on-surface-variant">
                     Status
                 </label>
 
                 <select
-                    class="w-full bg-surface-container-low border border-border-subtle rounded text-on-surface text-sm px-3 py-3 focus:border-primary-fixed focus:ring-0"
+                    class="bg-surface-container-low border border-border-subtle rounded text-primary text-sm h-9 px-3 focus:border-primary-fixed focus:ring-0"
                     x-model="filters.status"
                 >
+
                     <option value="">All Statuses</option>
                     <option value="LIVE">Live</option>
                     <option value="UPCOMING">Upcoming</option>
-                    <option value="DELAYED">Delayed</option>
                     <option value="COMPLETED">Completed</option>
+                    <option value="DELAYED">Delayed</option>
                     <option value="ABANDONED">Abandoned</option>
+
                 </select>
 
             </div>
 
 
-            <div class="col-span-1">
+            <div class="flex flex-col gap-stack-sm w-64 mobile-filter">
 
-                <label class="block font-label-caps text-label-caps text-on-surface-variant text-xs mb-2">
+                <label class="font-label-caps text-label-caps text-on-surface-variant">
                     Tournament
                 </label>
 
                 <select
-                    class="w-full bg-surface-container-low border border-border-subtle rounded text-on-surface text-sm px-3 py-3 focus:border-primary-fixed focus:ring-0"
+                    class="bg-surface-container-low border border-border-subtle rounded text-primary text-sm h-9 px-3 focus:border-primary-fixed focus:ring-0"
                     x-model="filters.tournament"
                 >
+
                     <option value="">All Tournaments</option>
                     <option value="T20 World Cup">T20 World Cup</option>
                     <option value="Indian Premier League">Indian Premier League</option>
+                    <option value="Ashes Series">Ashes Series</option>
+
                 </select>
 
             </div>
 
 
-            <div class="col-span-1">
+            <div class="flex flex-col gap-stack-sm w-48 mobile-filter">
 
-                <label class="block font-label-caps text-label-caps text-on-surface-variant text-xs mb-2">
-                    Date
+                <label class="font-label-caps text-label-caps text-on-surface-variant">
+                    Date Range
                 </label>
 
                 <input
+                    class="bg-surface-container-low border border-border-subtle rounded text-primary text-sm h-9 px-3 focus:border-primary-fixed focus:ring-0 [color-scheme:dark]"
                     type="date"
-                    class="w-full bg-surface-container-low border border-border-subtle rounded text-on-surface text-sm px-3 py-3 focus:border-primary-fixed focus:ring-0"
                     x-model="filters.date"
                 />
 
@@ -412,39 +580,41 @@ body {
         </div>
 
 
-        <!-- MATCH TABLE -->
+        <!-- =====================================================
+             DATA TABLE
+        ====================================================== -->
 
-        <div class="glass-panel rounded-lg overflow-hidden">
+        <div class="glass-panel rounded-lg overflow-hidden flex flex-col shadow-2xl">
 
             <div class="overflow-x-auto">
 
-                <table class="w-full">
+                <table class="w-full text-left border-collapse">
 
-                    <thead class="bg-surface-container">
+                    <thead>
 
-                        <tr>
+                        <tr class="bg-surface-container border-b border-border-subtle">
 
-                            <th class="px-5 py-4 text-left font-label-caps text-label-caps text-on-surface-variant text-xs">
+                            <th class="font-label-caps text-label-caps text-on-surface-variant py-3 px-4 font-semibold uppercase tracking-wider">
                                 Teams
                             </th>
 
-                            <th class="px-5 py-4 text-left font-label-caps text-label-caps text-on-surface-variant text-xs">
+                            <th class="font-label-caps text-label-caps text-on-surface-variant py-3 px-4 font-semibold uppercase tracking-wider">
                                 Tournament
                             </th>
 
-                            <th class="px-5 py-4 text-left font-label-caps text-label-caps text-on-surface-variant text-xs">
+                            <th class="font-label-caps text-label-caps text-on-surface-variant py-3 px-4 font-semibold uppercase tracking-wider">
                                 Venue
                             </th>
 
-                            <th class="px-5 py-4 text-left font-label-caps text-label-caps text-on-surface-variant text-xs">
-                                Date & Time
+                            <th class="font-label-caps text-label-caps text-on-surface-variant py-3 px-4 font-semibold uppercase tracking-wider">
+                                Date &amp; Time
                             </th>
 
-                            <th class="px-5 py-4 text-left font-label-caps text-label-caps text-on-surface-variant text-xs">
+                            <th class="font-label-caps text-label-caps text-on-surface-variant py-3 px-4 font-semibold uppercase tracking-wider">
                                 Status
                             </th>
 
-                            <th class="px-5 py-4 text-right font-label-caps text-label-caps text-on-surface-variant text-xs">
+                            <th class="font-label-caps text-label-caps text-on-surface-variant py-3 px-4 font-semibold uppercase tracking-wider text-right">
                                 Actions
                             </th>
 
@@ -453,49 +623,39 @@ body {
                     </thead>
 
 
-                    <tbody>
+                    <tbody class="divide-y divide-border-subtle">
 
                         <template x-for="match in paginatedMatches" :key="match.id">
 
-                            <tr class="border-t border-border-subtle hover:bg-surface-container transition-colors">
+                            <tr
+                                :class="{'bg-surface-container/20':match.status==='UPCOMING'||match.status==='COMPLETED'}"
+                                class="hover:bg-table-row-hover transition-colors group border-l-2 border-transparent hover:border-primary-fixed cursor-pointer"
+                            >
 
-                                <td class="px-5 py-5">
+                                <td class="py-3 px-4">
 
                                     <div class="flex items-center gap-3">
 
-                                        <div class="flex items-center gap-2">
+                                        <div class="flex -space-x-2">
 
                                             <img
+                                                :alt="match.team1"
                                                 :src="match.team1Img"
-                                                class="w-8 h-8 rounded-full object-cover"
-                                                alt=""
+                                                class="w-6 h-6 rounded-full border border-surface-container z-10 object-cover"
                                             />
-
-                                            <span
-                                                class="font-semibold text-on-surface"
-                                                x-text="match.team1"
-                                            ></span>
-
-                                        </div>
-
-                                        <span class="text-xs text-on-surface-variant">
-                                            VS
-                                        </span>
-
-                                        <div class="flex items-center gap-2">
 
                                             <img
+                                                :alt="match.team2"
                                                 :src="match.team2Img"
-                                                class="w-8 h-8 rounded-full object-cover"
-                                                alt=""
+                                                class="w-6 h-6 rounded-full border border-surface-container z-0 object-cover"
                                             />
 
-                                            <span
-                                                class="font-semibold text-on-surface"
-                                                x-text="match.team2"
-                                            ></span>
-
                                         </div>
+
+                                        <span
+                                            class="font-headline-md text-body-md font-semibold text-primary"
+                                            x-text="`${match.team1} vs ${match.team2}`"
+                                        ></span>
 
                                     </div>
 
@@ -503,61 +663,72 @@ body {
 
 
                                 <td
-                                    class="px-5 py-5 text-sm text-on-surface-variant"
+                                    class="py-3 px-4 font-body-md text-body-md text-secondary"
                                     x-text="match.tournament"
                                 ></td>
 
 
                                 <td
-                                    class="px-5 py-5 text-sm text-on-surface-variant"
+                                    class="py-3 px-4 font-body-md text-body-md text-secondary"
                                     x-text="match.venue"
                                 ></td>
 
 
                                 <td
-                                    class="px-5 py-5 text-sm text-on-surface-variant"
+                                    class="py-3 px-4 font-mono-data text-mono-data text-on-surface-variant"
                                     x-text="match.dateTime"
                                 ></td>
 
 
-                                <td class="px-5 py-5">
+                                <td class="py-3 px-4">
 
-                                    <span
-                                        class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold"
+                                    <select
                                         :class="{
-                                            'bg-primary-container text-on-primary-container': match.status === 'LIVE',
-                                            'bg-surface-container-high text-on-surface': match.status === 'UPCOMING',
-                                            'bg-yellow-500/10 text-yellow-400': match.status === 'DELAYED',
-                                            'bg-surface-container-highest text-on-surface-variant': match.status === 'COMPLETED',
-                                            'bg-red-500/10 text-red-400': match.status === 'ABANDONED'
+                                            'text-success-neon bg-success-neon/10 border-success-neon/30':match.status==='LIVE',
+                                            'text-on-surface-variant bg-surface-bright border-border-subtle':match.status==='UPCOMING',
+                                            'text-[#ffb066] bg-[#b35a00]/10 border-[#b35a00]/30':match.status==='DELAYED',
+                                            'text-on-surface-variant bg-surface-variant border-border-subtle opacity-70':match.status==='COMPLETED',
+                                            'text-critical-red bg-error-container/30 border-critical-red/30':match.status==='ABANDONED'
                                         }"
-                                        x-text="match.status"
-                                    ></span>
+                                        @click.stop=""
+                                        class="bg-transparent border-0 rounded text-[10px] font-label-caps font-bold px-2 py-1 focus:ring-0 focus:border-border-subtle appearance-none cursor-pointer"
+                                        x-model="match.status"
+                                    >
+
+                                        <option value="LIVE">LIVE</option>
+                                        <option value="UPCOMING">UPCOMING</option>
+                                        <option value="DELAYED">DELAYED</option>
+                                        <option value="COMPLETED">COMPLETED</option>
+                                        <option value="ABANDONED">ABANDONED</option>
+
+                                    </select>
 
                                 </td>
 
 
-                                <td class="px-5 py-5">
+                                <td class="py-3 px-4 text-right">
 
-                                    <div class="flex items-center justify-end gap-2">
+                                    <div class="flex items-center justify-end gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
 
                                         <button
-                                            @click="openModal('edit', match)"
                                             type="button"
-                                            class="p-2 rounded hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition"
+                                            @click.stop="openModal('edit',match)"
+                                            class="p-1 hover:text-primary-fixed transition-colors"
+                                            title="Edit"
                                         >
-                                            <span class="material-symbols-outlined text-[20px]">
+                                            <span class="material-symbols-outlined text-[18px]">
                                                 edit
                                             </span>
                                         </button>
 
 
                                         <button
-                                            @click="deleteMatch(match.id)"
                                             type="button"
-                                            class="p-2 rounded hover:bg-red-500/10 text-on-surface-variant hover:text-red-400 transition"
+                                            @click.stop="deleteMatch(match.id)"
+                                            class="p-1 hover:text-critical-red transition-colors"
+                                            title="Remove"
                                         >
-                                            <span class="material-symbols-outlined text-[20px]">
+                                            <span class="material-symbols-outlined text-[18px]">
                                                 delete
                                             </span>
                                         </button>
@@ -571,11 +742,11 @@ body {
                         </template>
 
 
-                        <tr x-show="paginatedMatches.length === 0">
+                        <tr x-show="filteredMatches.length===0">
 
                             <td
+                                class="py-8 text-center text-on-surface-variant"
                                 colspan="6"
-                                class="px-5 py-12 text-center text-on-surface-variant"
                             >
                                 No matches found.
                             </td>
@@ -590,45 +761,23 @@ body {
 
 
             <!-- PAGINATION -->
+            <div class="p-4 border-t border-border-subtle bg-surface-container-lowest flex items-center justify-between">
 
-            <div class="border-t border-border-subtle px-5 py-4 flex items-center justify-between">
-
-                <div class="text-sm text-on-surface-variant">
-
-                    Showing
-                    <span
-                        class="text-on-surface font-semibold"
-                        x-text="paginationStart"
-                    ></span>
-
-                    -
-
-                    <span
-                        class="text-on-surface font-semibold"
-                        x-text="paginationEnd"
-                    ></span>
-
-                    of
-
-                    <span
-                        class="text-on-surface font-semibold"
-                        x-text="filteredMatches.length"
-                    ></span>
-
-                    matches
-
-                </div>
+                <span
+                    class="font-body-sm text-body-sm text-on-surface-variant"
+                    x-text="`Showing ${paginationStart}-${paginationEnd} of ${filteredMatches.length} matches`"
+                ></span>
 
 
-                <div class="flex items-center gap-2">
+                <div class="flex gap-2">
 
                     <button
-                        @click="currentPage = Math.max(1, currentPage - 1)"
-                        :disabled="currentPage === 1"
                         type="button"
-                        class="w-9 h-9 flex items-center justify-center rounded border border-border-subtle hover:bg-surface-container-high disabled:opacity-40 disabled:cursor-not-allowed"
+                        :disabled="currentPage===1"
+                        @click="currentPage--"
+                        class="w-8 h-8 rounded border border-border-subtle flex items-center justify-center text-on-surface-variant hover:text-primary hover:border-primary-fixed transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        <span class="material-symbols-outlined text-[18px]">
+                        <span class="material-symbols-outlined text-sm">
                             chevron_left
                         </span>
                     </button>
@@ -637,12 +786,13 @@ body {
                     <template x-for="page in totalPages" :key="page">
 
                         <button
-                            @click="currentPage = page"
                             type="button"
-                            class="min-w-9 h-9 px-2 rounded text-sm font-semibold"
-                            :class="currentPage === page
-                                ? 'bg-primary-container text-on-primary-container'
-                                : 'border border-border-subtle hover:bg-surface-container-high'"
+                            :class="{
+                                'bg-primary-container text-on-primary-container font-bold':currentPage===page,
+                                'border border-border-subtle text-on-surface-variant hover:text-primary hover:border-primary-fixed':currentPage!==page
+                            }"
+                            @click="currentPage=page"
+                            class="w-8 h-8 rounded flex items-center justify-center font-mono-data text-sm transition-colors"
                             x-text="page"
                         ></button>
 
@@ -650,12 +800,12 @@ body {
 
 
                     <button
-                        @click="currentPage = Math.min(totalPages, currentPage + 1)"
-                        :disabled="currentPage === totalPages || totalPages === 0"
                         type="button"
-                        class="w-9 h-9 flex items-center justify-center rounded border border-border-subtle hover:bg-surface-container-high disabled:opacity-40 disabled:cursor-not-allowed"
+                        :disabled="currentPage===totalPages || totalPages===0"
+                        @click="currentPage++"
+                        class="w-8 h-8 rounded border border-border-subtle flex items-center justify-center text-on-surface-variant hover:text-primary hover:border-primary-fixed transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        <span class="material-symbols-outlined text-[18px]">
+                        <span class="material-symbols-outlined text-sm">
                             chevron_right
                         </span>
                     </button>
@@ -666,9 +816,9 @@ body {
 
         </div>
 
-    </section>
+    </main>
 
-</main>
+</div>
 
 
 <!-- =========================================================
@@ -676,14 +826,14 @@ body {
 ========================================================= -->
 
 <div
-    class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm"
+    class="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm p-3"
     x-cloak
     x-show="isModalOpen"
 >
 
     <div
         @click.away="closeModal()"
-        class="bg-surface-dim border border-border-subtle rounded-lg shadow-2xl w-full max-w-lg overflow-hidden flex flex-col"
+        class="mobile-modal bg-surface-dim border border-border-subtle rounded-lg shadow-2xl w-full max-w-lg overflow-hidden flex flex-col"
     >
 
         <!-- MODAL HEADER -->
@@ -692,12 +842,13 @@ body {
 
             <h3
                 class="font-headline-md text-headline-md text-primary"
-                x-text="modalMode === 'add' ? 'Add New Match' : 'Edit Match'"
+                x-text="modalMode==='add'?'Add New Match':'Edit Match'"
             ></h3>
 
+
             <button
-                @click="closeModal()"
                 type="button"
+                @click="closeModal()"
                 class="text-on-surface-variant hover:text-primary"
             >
                 <span class="material-symbols-outlined">
@@ -708,7 +859,7 @@ body {
         </div>
 
 
-        <!-- MODAL BODY -->
+        <!-- MODAL CONTENT -->
 
         <div class="p-6 overflow-y-auto">
 
@@ -718,12 +869,9 @@ body {
                 class="flex flex-col gap-4"
             >
 
-                <!-- =================================================
-                     TEAM 1 + TEAM 2
-                     NO x-model HERE
-                     ================================================= -->
+                <!-- TEAM 1 + TEAM 2 -->
 
-                <div class="flex gap-4">
+                <div class="flex gap-4 mobile-team-row">
 
                     <div class="flex-1 flex flex-col gap-1">
 
@@ -734,10 +882,17 @@ body {
                             Team 1
                         </label>
 
+                        <!--
+                            IMPORTANT:
+                            NO x-model HERE.
+                            This prevents Alpine from interfering
+                            while typing on iPhone.
+                        -->
+
                         <input
                             id="team1Input"
                             name="team1"
-                            class="team-name-input"
+                            class="bg-surface-container-low border border-border-subtle rounded text-primary text-sm px-3 py-2 focus:border-primary-fixed focus:ring-0"
                             required
                             type="text"
                             autocomplete="off"
@@ -745,7 +900,6 @@ body {
                             autocapitalize="words"
                             spellcheck="false"
                             inputmode="text"
-                            enterkeyhint="next"
                         />
 
                     </div>
@@ -760,10 +914,12 @@ body {
                             Team 2
                         </label>
 
+                        <!-- NO x-model HERE -->
+
                         <input
                             id="team2Input"
                             name="team2"
-                            class="team-name-input"
+                            class="bg-surface-container-low border border-border-subtle rounded text-primary text-sm px-3 py-2 focus:border-primary-fixed focus:ring-0"
                             required
                             type="text"
                             autocomplete="off"
@@ -771,7 +927,6 @@ body {
                             autocapitalize="words"
                             spellcheck="false"
                             inputmode="text"
-                            enterkeyhint="done"
                         />
 
                     </div>
@@ -815,7 +970,7 @@ body {
                 </div>
 
 
-                <!-- DATE TIME + STATUS -->
+                <!-- DATE / TIME -->
 
                 <div class="flex gap-4">
 
@@ -865,16 +1020,17 @@ body {
                 <div class="mt-4 flex justify-end gap-3">
 
                     <button
+                        type="button"
                         @click="closeModal()"
                         class="px-4 py-2 rounded border border-border-subtle text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors font-body-md"
-                        type="button"
                     >
                         Cancel
                     </button>
 
+
                     <button
-                        class="px-4 py-2 rounded bg-primary-container text-on-primary-container font-body-md font-semibold hover:bg-primary-fixed-dim transition-colors"
                         type="submit"
+                        class="px-4 py-2 rounded bg-primary-container text-on-primary-container font-body-md font-semibold hover:bg-primary-fixed-dim transition-colors"
                     >
                         Save Match
                     </button>
@@ -891,124 +1047,121 @@ body {
 
 
 <!-- =========================================================
-     ALPINE DATA
+     ALPINE / JAVASCRIPT
 ========================================================= -->
 
 <script>
-
 document.addEventListener('alpine:init', () => {
 
     Alpine.data('matchManagement', () => ({
 
-        matches: [
+        sidebarOpen:false,
+
+        matches:[
 
             {
-                id: 1,
-                team1: 'IND',
-                team2: 'AUS',
-                team1Img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCpgOi6_Hnpno3_9vor0naDTMKGZs7jrUrcZ-4I03lqz1_trXT6x8Dbhnpcw_d3xiNpOWW9-C32qLKM4MaKoQMCOPO8VRLAPvgg1E-9QDLMNp3jOMHj9MMhBxAK92h4t7ENriO23nqbQC0Dz77xkHopAw_RPfMibU0e-9VDoom3TF8OqoXNgazxEDa_Ot6DKUS3thg_ECVF7VQwaKvGsJLCMRFVawz_W5Tnicd-f1LaN_YgKN4_dfVQCw',
-                team2Img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB4oF7tnnbh2LIYiRMFBste_2hggiApa3rVbw17RvyjhV2pgrGi2ZqsF4mlMH7EovMlYgHNoa-909WGpAdTdo0AO3ISXhSXspFVXwp2WcLLAoBZi1xLTmBBJ9OCvEcp_-TjyNV8LeD30HfrXTzgPW4mbjv1i9InpODpBNAOF7VP2gt9hcvxz3sws65dpJiYCCjU49f6CqD_xD8glGiEPLVOyRQNEm7-uxpUwRy5Ujh_EOiYnmPTNV67g',
-                tournament: 'T20 World Cup',
-                venue: 'Melbourne Cricket Ground',
-                dateTime: 'Oct 24, 14:00 UTC',
-                status: 'LIVE',
-                rawDate: '2023-10-24'
+                id:1,
+                team1:'IND',
+                team2:'AUS',
+                team1Img:'https://lh3.googleusercontent.com/aida-public/AB6AXuCpgOi6_Hnpno3_9vor0naDTMKGZs7jrUrcZ-4I03lqz1_trXT6x8Dbhnpcw_d3xiNpOWW9-C32qLKM4MaKoQMCOPO8VRLAPvgg1E-9QDLMNp3jOMHj9MMhBxAK92h4t7ENriO23nqbQC0Dz77xkHopAw_RPfMibU0e-9VDoom3TF8OqoXNgazxEDa_Ot6DKUS3thg_ECVF7VQwaKvGsJLCMRFVawz_W5Tnicd-f1LaN_YgKN4_dfVQCw',
+                team2Img:'https://lh3.googleusercontent.com/aida-public/AB6AXuB4oF7tnnbh2LIYiRMFBste_2hggiApa3rVbw17RvyjhV2pgrGi2ZqsF4mlMH7EovMlYgHNoa-909WGpAdTdo0AO3ISXhSXspFVXwp2WcLLAoBZi1xLTmBBJ9OCvEcp_-TjyNV8LeD30HfrXTzgPW4mbjv1i9InpODpBNAOF7VP2gt9hcvxz3sws65dpJiYCCjU49f6CqD_xD8glGiEPLVOyRQNEm7-uxpUwRy5Ujh_EOiYnmPTNV67g',
+                tournament:'T20 World Cup',
+                venue:'Melbourne Cricket Ground',
+                dateTime:'Oct 24, 14:00 UTC',
+                status:'LIVE',
+                rawDate:'2023-10-24'
             },
 
             {
-                id: 2,
-                team1: 'ENG',
-                team2: 'RSA',
-                team1Img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAaj1lpofTfIE7mGLpWLbkYM5HbTuUXTlXpKlW3AlfjVN3OiajqaKDOgkh6elqdmO_urlIHmy3-AmbJcpWPJjHbjmm0llmKIL2ythhozWc2haniKIYHve-ttDw6Dbzq1BRyUppwCsu5rFAJob-g5oU_r6ZlHpfbiuriLeCJaUdy3HoWiC7JKDEa20n9h9xv1bKFnbDvmvbyM3Qo-sC4iv840Mtcn_scC_UCk3RokSj_IgnLY6RRe13cqA',
-                team2Img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAsUL82mufVwMOyOQnoFu3ihuaOgarLjK2YgEKG-LpUWkf_eh5m1RjOCeY6a-QLx96jAk3PnTQ82taxJSbq_wv-QAVNpy5bh9Ui5u5odONNl9HeledWPBk_dVZ8yAeT2mkyt9csC2uXHo-9iwwawpEOfXq5xQSGsppU4uBiO6B3uE1m-jTq_oQe2fwDVCGoD8o8xgZtzg2wZkDhGHGcl_x0OxTDfBu5XvLr7Iv_xk2fpKAuKZRLFxyFUA',
-                tournament: 'T20 World Cup',
-                venue: 'Sydney Cricket Ground',
-                dateTime: 'Oct 25, 09:30 UTC',
-                status: 'UPCOMING',
-                rawDate: '2023-10-25'
+                id:2,
+                team1:'ENG',
+                team2:'RSA',
+                team1Img:'https://lh3.googleusercontent.com/aida-public/AB6AXuAaj1lpofTfIE7mGLpWLbkYM5HbTuUXTlXpKlW3AlfjVN3OiajqaKDOgkh6elqdmO_urlIHmy3-AmbJcpWPJjHbjmm0llmKIL2ythhozWc2haniKIYHve-ttDw6Dbzq1BRyUppwCsu5rFAJob-g5oU_r6ZlHpfbiuriLeCJaUdy3HoWiC7JKDEa20n9h9xv1bKFnbDvmvbyM3Qo-sC4iv840Mtcn_scC_Uk3RokSj_IgnLY6RRe13cqA',
+                team2Img:'https://lh3.googleusercontent.com/aida-public/AB6AXuAsUL82mufVwMOyOQnoFu3ihuaOgarLjK2YgEKG-LpUWkf_eh5m1RjOCeY6a-QLx96jAk3PnTQ82taxJSbq_wv-QAVNpy5bh9Ui5u5odONNl9HeledWPBk_dVZ8yAeT2mkyt9csC2uXHo-9iwwawpEOfXq5xQSGsppU4uBiO6B3uE1m-jTq_oQe2fwDVCGoD8o8xgZtzg2wZkDhGHGcl_x0OxTDfBu5XvLr7Iv_xk2fpKAuKZRLFxyFUA',
+                tournament:'T20 World Cup',
+                venue:'Sydney Cricket Ground',
+                dateTime:'Oct 25, 09:30 UTC',
+                status:'UPCOMING',
+                rawDate:'2023-10-25'
             },
 
             {
-                id: 3,
-                team1: 'MI',
-                team2: 'CSK',
-                team1Img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuACK2m4eLvOUmVf1nOXY9QN0A05TT6iQLhyAC_0kpfNPsvapUJxE5VISRYYiT0FAl2p4QWlh77qqfXNddWhr4GY5sRY6fDXlVrRNUvOP9zdzC_YyJwwgj48F7Najl8gfMSorp1gxDNtwC8MkTGQ12Gi13vBemoYJ74ww6N7MzqgXAJSKBMu0COeapbBCFyfElV5ec4yuHsH4hxjWO-3s9HogtwSXKmDysfjjm3F2GpjY4N3m2mrWdEFCA',
-                team2Img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD6BOJ2-ZsbIVp-wCwYD8Lts0HfrJige-5AYrXlxmGcf-gF3xezJYptWVwuPoAlrpwxBGw4jV35gUbDRLlTUyXKwvB2ZeVQ0sYva5YkQbnr2KPMZuUWydHyDuEKELMVbTN1IY2GqtEEKoLBhmzVSVy11Bk85qoPFxN2ORHIul0zRCO0NY0LUoHVRLCQOL_J7Glmlg9Xa8WQrV_xpmkJ5BUHggtlL1-VnyqRzyBJdfwgl9UKmWs5I7AMA',
-                tournament: 'Indian Premier League',
-                venue: 'Wankhede Stadium',
-                dateTime: 'Oct 25, 14:00 UTC',
-                status: 'DELAYED',
-                rawDate: '2023-10-25'
+                id:3,
+                team1:'MI',
+                team2:'CSK',
+                team1Img:'https://lh3.googleusercontent.com/aida-public/AB6AXuACK2m4eLvOUmVf1nOXY9QN0A05TT6iQLhyAC_0kpfNPsvapUJxE5VISRYYiT0FAl2p4QWlh77qqfXNddWhr4GY5sRY6fDXlVrRNUvOP9zdzC_YyJwwgj48F7Najl8gfMSorp1gxDNtwC8MkTGQ12Gi13vBemoYJ74ww6N7MzqgXAJSKBMu0COeapbBCFyfElV5ec4yuHsH4hxjWO-3s9HogtwSXKmDysfjjm3F2GpjY4N3m2mrWdEFCA',
+                team2Img:'https://lh3.googleusercontent.com/aida-public/AB6AXuD6BOJ2-ZsbIVp-wCwYD8Lts0HfrJige-5AYrXlxmGcf-gF3xezJYptWVwuPoAlrpwxBGw4jV35gUbDRLlTUyXKwvB2ZeVQ0sYva5YkQbnr2KPMZuUWydHyDuEKELMVbTN1IY2GqtEEKoLBhmzVSVy11Bk85qoPFxN2ORHIul0zRCO0NY0LUoHVRLCQOL_J7Glmlg9Xa8WQrV_xpmkJ5BUHggtlL1-VnyqRzyBJdfwgl9UKmWs5I7AMA',
+                tournament:'Indian Premier League',
+                venue:'Wankhede Stadium',
+                dateTime:'Oct 25, 14:00 UTC',
+                status:'DELAYED',
+                rawDate:'2023-10-25'
             },
 
             {
-                id: 4,
-                team1: 'NZ',
-                team2: 'PAK',
-                team1Img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD02zH7MFG_guF6NBRbrG3WX81otRh_rh_zU_5nf4ZZuM-gngSYTXcXUGSxTghTpFx3vwe5eu9VE2av-qfjfJ7eIjetX56YSaUBJoi3CZgean6VZQ_YHQEVzCuI6bqIk3XrUoy1taEx9oNj2Jff1ciMsTlJdk6M2aryJRoggPUChaQPgSyQip8I7jszvKmEG0xGF5b-zdV-mT2f3cChblaIqo6jItSJwhjVZhNbLXXj1hPuuLv3Z1UHBQ',
-                team2Img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA7O8I6mlHVm41mPVOMSQopLt3B4W6CEoTBQf-rBhXFYroSIfyrZTkuhA9ErRYgQEHQ45pg5a4YXRdF-4mSZ62Zog4cObsKF4UfBSH1i9luRjHJcngVzn7eAf5zRbMeyPEqKOieYGI6KbKNOqctVujgTz55VhO6_eaGqtBlvEnhTYDUKq7n210N-gTVxvRNTnakiThqUwdZPvm1SuycAipa4fOw_SrQscAwVmXuvOUJocr6n8LWA6Tv7w',
-                tournament: 'T20 World Cup',
-                venue: 'Brisbane Cricket Ground',
-                dateTime: 'Oct 23, 10:00 UTC',
-                status: 'COMPLETED',
-                rawDate: '2023-10-23'
+                id:4,
+                team1:'NZ',
+                team2:'PAK',
+                team1Img:'https://lh3.googleusercontent.com/aida-public/AB6AXuD02zH7MFG_guF6NBRbrG3WX81otRh_rh_zU_5nf4ZZuM-gngSYTXcXUGSxTghTpFx3vwe5eu9VE2av-qfjfJ7eIjetX56YSaUBJoi3CZgean6VZQ_YHQEVzCuI6bqIk3XrUoy1taEx9oNj2Jff1ciMsTlJdk6M2aryJRoggPUChaQPgSyQip8I7jszvKmEG0xGF5b-zdV-mT2f3cChblaIqo6jItSJwhjVZhNbLXXj1hPuuLv3Z1UHBQ',
+                team2Img:'https://lh3.googleusercontent.com/aida-public/AB6AXuA7O8I6mlHVm41mPVOMSQopLt3B4W6CEoTBQf-rBhXFYroSIfyrZTkuhA9ErRYgQEHQ45pg5a4YXRdF-4mSZ62Zog4cObsKF4UfBSH1i9luRjHJcngVzn7eAf5zRbMeyPEqKOieYGI6KbKNOqctVujgTz55VhO6_eaGqtBlvEnhTYDUKq7n210N-gTVxvRNTnakiThqUwdZPvm1SuycAipa4fOw_SrQscAwVmXuvOUJocr6n8LWA6Tv7w',
+                tournament:'T20 World Cup',
+                venue:'Brisbane Cricket Ground',
+                dateTime:'Oct 23, 10:00 UTC',
+                status:'COMPLETED',
+                rawDate:'2023-10-23'
             },
 
             {
-                id: 5,
-                team1: 'BAN',
-                team2: 'AFG',
-                team1Img: 'https://via.placeholder.com/24',
-                team2Img: 'https://via.placeholder.com/24',
-                tournament: 'T20 World Cup',
-                venue: 'Adelaide Oval',
-                dateTime: 'Oct 26, 05:00 UTC',
-                status: 'UPCOMING',
-                rawDate: '2023-10-26'
+                id:5,
+                team1:'BAN',
+                team2:'AFG',
+                team1Img:'https://via.placeholder.com/24',
+                team2Img:'https://via.placeholder.com/24',
+                tournament:'T20 World Cup',
+                venue:'Adelaide Oval',
+                dateTime:'Oct 26, 05:00 UTC',
+                status:'UPCOMING',
+                rawDate:'2023-10-26'
             }
 
         ],
 
-        searchQuery: '',
+        searchQuery:'',
 
-        filters: {
-            status: '',
-            tournament: '',
-            date: ''
+        filters:{
+            status:'',
+            tournament:'',
+            date:''
         },
 
-        currentPage: 1,
+        currentPage:1,
 
-        itemsPerPage: 4,
+        itemsPerPage:4,
 
-        isModalOpen: false,
+        isModalOpen:false,
 
-        modalMode: 'add',
+        modalMode:'add',
 
-        editingMatch: {
-            id: null,
-            team1: '',
-            team2: '',
-            tournament: '',
-            venue: '',
-            dateTime: '',
-            status: 'UPCOMING'
+        editingMatch:{
+            id:null,
+            team1:'',
+            team2:'',
+            tournament:'',
+            venue:'',
+            dateTime:'',
+            status:'UPCOMING'
         },
 
 
-        /* =====================================================
-           FILTERED MATCHES
-        ===================================================== */
+        get filteredMatches(){
 
-        get filteredMatches() {
-
-            return this.matches.filter(match => {
+            return this.matches.filter(match=>{
 
                 const matchesSearch =
                     this.searchQuery === '' ||
                     `${match.team1} ${match.team2} ${match.tournament}`
-                        .toLowerCase()
-                        .includes(this.searchQuery.toLowerCase());
+                    .toLowerCase()
+                    .includes(this.searchQuery.toLowerCase());
 
                 const matchesStatus =
                     this.filters.status === '' ||
@@ -1028,15 +1181,13 @@ document.addEventListener('alpine:init', () => {
                     matchesTournament &&
                     matchesDate
                 );
+
             });
+
         },
 
 
-        /* =====================================================
-           TOTAL PAGES
-        ===================================================== */
-
-        get totalPages() {
+        get totalPages(){
 
             return Math.max(
                 1,
@@ -1045,14 +1196,11 @@ document.addEventListener('alpine:init', () => {
                     this.itemsPerPage
                 )
             );
+
         },
 
 
-        /* =====================================================
-           PAGINATED MATCHES
-        ===================================================== */
-
-        get paginatedMatches() {
+        get paginatedMatches(){
 
             const start =
                 (this.currentPage - 1) *
@@ -1062,147 +1210,120 @@ document.addEventListener('alpine:init', () => {
                 start +
                 this.itemsPerPage;
 
-            return this.filteredMatches.slice(
-                start,
-                end
-            );
+            return this.filteredMatches.slice(start,end);
+
         },
 
 
-        /* =====================================================
-           PAGINATION START
-        ===================================================== */
+        get paginationStart(){
 
-        get paginationStart() {
+            return this.filteredMatches.length === 0
+                ? 0
+                : ((this.currentPage - 1) * this.itemsPerPage) + 1;
 
-            if (this.filteredMatches.length === 0) {
-                return 0;
-            }
-
-            return (
-                (this.currentPage - 1) *
-                this.itemsPerPage
-            ) + 1;
         },
 
 
-        /* =====================================================
-           PAGINATION END
-        ===================================================== */
-
-        get paginationEnd() {
+        get paginationEnd(){
 
             return Math.min(
-                this.currentPage *
-                this.itemsPerPage,
+                this.currentPage * this.itemsPerPage,
                 this.filteredMatches.length
             );
+
         },
 
 
-        /* =====================================================
-           DELETE
-        ===================================================== */
+        deleteMatch(id){
 
-        deleteMatch(id) {
-
-            if (
-                confirm(
-                    'Are you sure you want to delete this match?'
-                )
-            ) {
+            if(confirm('Are you sure you want to delete this match?')){
 
                 this.matches =
                     this.matches.filter(
-                        match => match.id !== id
+                        m => m.id !== id
                     );
 
-                if (
-                    this.currentPage >
-                    this.totalPages
-                ) {
-
-                    this.currentPage =
-                        this.totalPages;
+                if(
+                    this.currentPage > this.totalPages &&
+                    this.totalPages > 0
+                ){
+                    this.currentPage = this.totalPages;
                 }
+
             }
+
         },
 
 
         /* =====================================================
            OPEN MODAL
-        ===================================================== */
+        ====================================================== */
 
-        openModal(mode, match = null) {
+        openModal(mode,match=null){
 
             this.modalMode = mode;
 
-            if (
-                mode === 'edit' &&
-                match
-            ) {
+            if(mode === 'edit' && match){
 
                 this.editingMatch = {
                     ...match
                 };
 
-            } else {
+            }else{
 
                 this.editingMatch = {
 
-                    id: Date.now(),
+                    id:Date.now(),
 
-                    team1: '',
+                    team1:'',
 
-                    team2: '',
+                    team2:'',
 
-                    tournament: '',
+                    tournament:'',
 
-                    venue: '',
+                    venue:'',
 
-                    dateTime: '',
+                    dateTime:'',
 
-                    status: 'UPCOMING',
+                    status:'UPCOMING',
 
-                    team1Img:
-                        'https://via.placeholder.com/24',
+                    team1Img:'https://via.placeholder.com/24',
 
-                    team2Img:
-                        'https://via.placeholder.com/24'
+                    team2Img:'https://via.placeholder.com/24'
+
                 };
-            }
 
+            }
 
             this.isModalOpen = true;
 
 
             /*
-             * VERY IMPORTANT:
-             * Team inputs are native inputs.
-             * We only set their initial value here.
-             * We NEVER modify them while the user is typing.
+             * Team fields are native inputs.
+             * Values are assigned ONLY when the modal opens.
+             * They are NOT connected to Alpine while typing.
              */
 
-            this.$nextTick(() => {
+            this.$nextTick(()=>{
 
-                const team1 =
-                    document.getElementById(
-                        'team1Input'
-                    );
+                const team1Input =
+                    document.getElementById('team1Input');
 
-                const team2 =
-                    document.getElementById(
-                        'team2Input'
-                    );
+                const team2Input =
+                    document.getElementById('team2Input');
 
-                if (team1) {
-                    team1.value =
+                if(team1Input){
+
+                    team1Input.value =
                         this.editingMatch.team1 || '';
+
                 }
 
-                if (team2) {
-                    team2.value =
+                if(team2Input){
+
+                    team2Input.value =
                         this.editingMatch.team2 || '';
+
                 }
 
             });
@@ -1212,136 +1333,127 @@ document.addEventListener('alpine:init', () => {
 
         /* =====================================================
            CLOSE MODAL
-        ===================================================== */
+        ====================================================== */
 
-        closeModal() {
+        closeModal(){
 
             this.isModalOpen = false;
+
         },
 
 
         /* =====================================================
            SAVE MATCH
-        ===================================================== */
+        ====================================================== */
 
-        saveMatch() {
+        saveMatch(){
 
             /*
-             * READ DIRECTLY FROM THE REAL INPUT ELEMENT.
-             * Alpine does NOT control Team 1 / Team 2.
+             * READ DIRECTLY FROM INPUT.
              */
 
-            const team1Element =
-                document.getElementById(
-                    'team1Input'
-                );
+            const team1Input =
+                document.getElementById('team1Input');
 
-            const team2Element =
-                document.getElementById(
-                    'team2Input'
-                );
+            const team2Input =
+                document.getElementById('team2Input');
 
 
             const team1 =
-                team1Element
-                    ? team1Element.value.trim()
+                team1Input
+                    ? team1Input.value.trim()
                     : '';
 
             const team2 =
-                team2Element
-                    ? team2Element.value.trim()
+                team2Input
+                    ? team2Input.value.trim()
                     : '';
 
 
-            if (!team1) {
+            if(!team1){
 
-                alert(
-                    'Please enter Team 1.'
-                );
+                alert('Please enter Team 1.');
 
-                if (team1Element) {
-                    team1Element.focus();
+                if(team1Input){
+                    team1Input.focus();
                 }
 
                 return;
+
             }
 
 
-            if (!team2) {
+            if(!team2){
 
-                alert(
-                    'Please enter Team 2.'
-                );
+                alert('Please enter Team 2.');
 
-                if (team2Element) {
-                    team2Element.focus();
+                if(team2Input){
+                    team2Input.focus();
                 }
 
                 return;
+
             }
 
 
             /*
-             * Put the values into Alpine ONLY WHEN SAVE IS CLICKED.
+             * ONLY NOW update Alpine.
              */
 
-            this.editingMatch.team1 =
-                team1;
+            this.editingMatch.team1 = team1;
 
-            this.editingMatch.team2 =
-                team2;
+            this.editingMatch.team2 = team2;
 
 
-            if (
-                this.modalMode === 'add'
-            ) {
+            if(this.modalMode === 'add'){
 
                 this.matches.unshift({
                     ...this.editingMatch
                 });
 
-            } else {
+            }else{
 
                 const index =
                     this.matches.findIndex(
-                        match =>
-                            match.id ===
-                            this.editingMatch.id
+                        m => m.id === this.editingMatch.id
                     );
 
-                if (index !== -1) {
+                if(index !== -1){
 
                     this.matches[index] = {
                         ...this.editingMatch
                     };
+
                 }
+
             }
 
 
             this.closeModal();
+
         },
 
 
         /* =====================================================
-           INITIALIZE
-        ===================================================== */
+           INIT
+        ====================================================== */
 
-        init() {
+        init(){
 
             this.$watch(
                 'filters',
-                () => {
+                ()=>{
                     this.currentPage = 1;
                 },
                 {
-                    deep: true
+                    deep:true
                 }
             );
 
 
             this.$watch(
                 'searchQuery',
-                () => {
+                ()=>{
                     this.currentPage = 1;
                 }
             );
@@ -1351,7 +1463,6 @@ document.addEventListener('alpine:init', () => {
     }));
 
 });
-
 </script>
 
 </body>
