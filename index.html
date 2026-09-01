@@ -1,305 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BAAZIGAR LIVE LINE</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#0d0f11;
+  color:#f4f4f4;
+  min-height:100vh;
+}
+
+button,input,select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+:root{
+  --green:#b6ff00;
+  --bg:#0d0f11;
+  --card:#17191d;
+  --border:#30343b;
+  --muted:#9da1a8;
+}
+
+.header{
+  height:88px;
+  border-bottom:1px solid #292c31;
+  display:flex;
+  align-items:center;
+  padding:0 25px;
+  gap:20px;
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:#0d0f11;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:800;
+}
+
+.logo span{
+  color:var(--green);
+}
+
+.menu-btn{
+  width:50px;
+  height:50px;
+  border:1px solid #353a42;
+  border-radius:14px;
+  background:#171a1e;
+  color:white;
+  font-size:27px;
+}
+
+.status{
+  margin-left:auto;
+  border:1px solid #6b9400;
+  color:var(--green);
+  border-radius:12px;
+  padding:13px 18px;
+  font-weight:800;
+}
+
+.layout{
+  display:flex;
+}
+
+.sidebar{
+  position:fixed;
+  top:88px;
+  left:-290px;
+  width:270px;
+  height:calc(100vh - 88px);
+  background:#15171a;
+  border-right:1px solid #30343a;
+  z-index:30;
+  padding:25px 15px;
+  transition:.25s;
+}
+
+.sidebar.open{
+  left:0;
+}
+
+.overlay{
+  position:fixed;
+  inset:88px 0 0 0;
+  background:rgba(0,0,0,.65);
+  display:none;
+  z-index:25;
+}
+
+.overlay.show{
+  display:block;
+}
+
+.nav-item{
+  width:100%;
+  padding:15px;
+  border-radius:10px;
+  color:#aeb2b8;
+  margin-bottom:8px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.nav-item:hover,
+.nav-item.active{
+  background:#22251d;
+  color:var(--green);
+}
+
+.logout{
+  color:#ff7070;
+}
+
+main{
+  width:100%;
+  max-width:1200px;
+  margin:auto;
+  padding:38px 25px 100px;
+}
+
+.page-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:20px;
+  margin-bottom:30px;
+}
+
+.title{
+  font-size:44px;
+  font-weight:900;
+}
+
+.desc{
+  color:#a5a9af;
+  font-size:18px;
+  margin-top:8px;
+}
+
+.updated{
+  color:#92969d;
+  font-size:12px;
+  text-align:right;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  margin-bottom:28px;
+}
+
+.stat,
+.section,
+.card,
+.match{
+  background:#17191d;
+  border:1px solid var(--border);
+  border-radius:18px;
+}
+
+.stat{
+  padding:22px;
+}
+
+.stat-top{
+  color:#a7abb0;
+  font-size:13px;
+  font-weight:800;
+  display:flex;
+  justify-content:space-between;
+}
+
+.stat-icon{
+  color:var(--green);
+}
+
+.num{
+  font-size:42px;
+  font-weight:900;
+  margin-top:12px;
+}
+
+.section{
+  padding:22px;
+  margin-bottom:20px;
+}
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:20px;
+}
+
+.section-title{
+  font-size:24px;
+  font-weight:800;
+}
+
+.btn{
+  border:1px solid #3a3f46;
+  background:#202328;
+  color:white;
+  padding:11px 16px;
+  border-radius:10px;
+  font-weight:700;
+}
+
+.btn:hover{
+  border-color:var(--green);
+}
+
+.btn.primary{
+  background:var(--green);
+  color:#101300;
+  border-color:var(--green);
+}
+
+.btn.danger{
+  color:#ff7777;
+}
+
+.match-list{
+  display:grid;
+  gap:15px;
+}
+
+.match{
+  padding:20px;
+}
+
+.match-top{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.match-name{
+  font-size:20px;
+  font-weight:800;
+}
+
+.meta{
+  color:#9499a0;
+  margin-top:7px;
+  font-size:14px;
+}
+
+.badge{
+  height:max-content;
+  padding:7px 11px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:900;
+}
+
+.badge.live{
+  background:#243500;
+  color:var(--green);
+}
+
+.badge.upcoming{
+  background:#24272c;
+  color:#d6d8dc;
+}
+
+.badge.ended{
+  background:#321e1e;
+  color:#ff8b8b;
+}
+
+.score{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:20px;
+  padding:22px 0;
+}
+
+.team{
+  font-size:18px;
+  font-weight:800;
+}
+
+.team:last-child{
+  text-align:right;
+}
+
+.score-num{
+  font-size:28px;
+  font-weight:900;
+}
+
+.vs{
+  color:#777c83;
+  font-size:11px;
+  margin:0 8px;
+}
+
+.actions{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+}
+
+.empty{
+  text-align:center;
+  padding:55px 20px;
+  color:#9da1a8;
+}
+
+.empty-icon{
+  font-size:40px;
+  margin-bottom:10px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
+}
+
+.card{
+  padding:24px;
+}
+
+.card h3{
+  font-size:21px;
+  margin-bottom:10px;
+}
+
+.card p{
+  color:#a3a7ad;
+  line-height:1.6;
+  word-break:break-word;
+}
+
+.green{
+  color:var(--green);
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.75);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:100;
+  padding:20px;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  width:min(560px,100%);
+  background:#181a1e;
+  border:1px solid #383c43;
+  border-radius:20px;
+  padding:25px;
+}
+
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.modal-head h2{
+  font-size:25px;
+}
+
+.close{
+  background:none;
+  border:0;
+  color:#aaa;
+  font-size:30px;
+}
+
+label{
+  display:block;
+  color:#b4b8bd;
+  font-size:13px;
+  font-weight:800;
+  margin:15px 0 7px;
+}
+
+input,
+select{
+  width:100%;
+  padding:14px;
+  background:#0f1114;
+  border:1px solid #393e45;
+  color:white;
+  border-radius:10px;
+  outline:none;
+}
+
+input:focus,
+select:focus{
+  border-color:var(--green);
+}
+
+.modal-actions{
+  display:flex;
+  gap:10px;
+  margin-top:22px;
+}
+
+.modal-actions .btn{
+  flex:1;
+}
+
+#toast{
+  position:fixed;
+  left:50%;
+  bottom:30px;
+  transform:translateX(-50%) translateY(20px);
+  background:#f2f2f2;
+  color:#111;
+  padding:14px 20px;
+  border-radius:12px;
+  font-weight:800;
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+  z-index:200;
+  max-width:90%;
+  text-align:center;
+}
+
+#toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+.loading{
+  padding:50px;
+  text-align:center;
+  color:#a3a7ad;
+}
+
+@media(max-width:800px){
+
+  .header{
+    padding:0 15px;
+  }
+
+  .logo{
+    font-size:19px;
+  }
+
+  .status{
+    padding:10px 12px;
+    font-size:12px;
+  }
+
+  main{
+    padding:28px 15px 100px;
+  }
+
+  .title{
+    font-size:36px;
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .score{
+    grid-template-columns:1fr;
+    text-align:center;
+  }
+
+  .team:last-child{
+    text-align:center;
+  }
+
+  .updated{
+    display:none;
+  }
+}
+
+@media(max-width:500px){
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .stat{
+    padding:16px;
+  }
+
+  .num{
+    font-size:32px;
+  }
+
+  .page-head{
+    display:block;
+  }
+
+  .page-head > button{
+    margin-top:18px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+
+  <button class="menu-btn" id="menuBtn">
+    ☰
+  </button>
+
+  <div class="logo">
+    BAAZIGAR <span>LIVE LINE</span>
+  </div>
+
+  <div class="status" id="headerStatus">
+    ● API CONNECTING
+  </div>
+
+</header>
+
+
+<div class="overlay" id="overlay"></div>
+
+
+<aside class="sidebar" id="sidebar">
+
+  <div class="nav-item active" data-page="dashboard">
+    ▦ &nbsp; Dashboard
+  </div>
+
+  <div class="nav-item" data-page="matches">
+    ⚔ &nbsp; Matches
+  </div>
+
+  <div class="nav-item" data-page="series">
+    ▤ &nbsp; Series
+  </div>
+
+  <div class="nav-item" data-page="teams">
+    ◈ &nbsp; Teams
+  </div>
+
+  <div class="nav-item" data-page="players">
+    ◎ &nbsp; Players
+  </div>
+
+  <div class="nav-item" data-page="api">
+    ◆ &nbsp; API
+  </div>
+
+  <div class="nav-item" data-page="users">
+    ◉ &nbsp; Users
+  </div>
+
+  <div class="nav-item" data-page="settings">
+    ⚙ &nbsp; Settings
+  </div>
+
+  <div class="nav-item logout" id="logout">
+    ⇥ &nbsp; Logout
+  </div>
+
+</aside>
+
+
+<main id="app">
+  <div class="loading">
+    Connecting to Supabase...
+  </div>
+</main>
+
+
+<!-- NEW MATCH MODAL -->
+
+<div class="modal" id="modal">
+
+  <div class="modal-box">
+
+    <div class="modal-head">
+
+      <h2>Create New Match</h2>
+
+      <button class="close" id="close">
+        ×
+      </button>
+
+    </div>
+
+
+    <form id="form">
+
+      <label for="team1">
+        Team 1
+      </label>
+
+      <select id="team1" required>
+        <option value="">
+          Select Team 1
+        </option>
+      </select>
+
+
+      <label for="team2">
+        Team 2
+      </label>
+
+      <select id="team2" required>
+        <option value="">
+          Select Team 2
+        </option>
+      </select>
+
+
+      <label for="series">
+        Series
+      </label>
+
+      <select id="series">
+        <option value="">
+          General / No Series
+        </option>
+      </select>
+
+
+      <label for="status">
+        Status
+      </label>
+
+      <select id="status">
+        <option value="upcoming">
+          Upcoming
+        </option>
+
+        <option value="live">
+          Live
+        </option>
+
+        <option value="ended">
+          Ended
+        </option>
+      </select>
+
+
+      <label for="date">
+        Start Date & Time
+      </label>
+
+      <input
+        id="date"
+        type="datetime-local"
+        required
+      >
+
+
+      <div class="modal-actions">
+
+        <button
+          type="button"
+          class="btn"
+          id="cancel">
+
+          Cancel
+
+        </button>
+
+        <button
+          type="submit"
+          class="btn primary">
+
+          Create Match
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<div id="toast"></div>
+
+
 <script>
-/* =========================================
-   BAAZIGAR LIVE LINE
-   SUPABASE CONNECTION
-========================================= */
+/* =========================================================
+   SUPABASE
+========================================================= */
 
 const SUPABASE_URL =
   "https://lzvwictzhtfbdbgvekuq.supabase.co";
 
+/*
+  Tumhari Supabase PUBLISHABLE KEY
+*/
 const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_6fB6vZhG9yFHmfGdCs5lcw_m9Z6xVP9";
 
-/*
-  IMPORTANT:
-  Publishable key frontend me use karna safe hai.
-  Service Role Key yahan kabhi mat lagana.
-*/
 
-const sb = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
+const sb =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
 
 
-/* =========================================
-   DATA
-========================================= */
+/* =========================================================
+   STATE
+========================================================= */
 
 let matches = [];
 let teamsCache = [];
 let seriesCache = [];
+
 let currentPage = "dashboard";
-let toastTimer = null;
+
+let toastTimer;
 
 
-/* =========================================
-   ELEMENTS
-========================================= */
+/* =========================================================
+   DOM
+========================================================= */
 
-const app = document.getElementById("app");
-const sidebar = document.getElementById("sidebar");
-const overlay = document.getElementById("overlay");
-const modal = document.getElementById("modal");
-const form = document.getElementById("form");
+const app =
+  document.getElementById("app");
+
+const sidebar =
+  document.getElementById("sidebar");
+
+const overlay =
+  document.getElementById("overlay");
+
+const modal =
+  document.getElementById("modal");
+
+const form =
+  document.getElementById("form");
+
+const headerStatus =
+  document.getElementById("headerStatus");
 
 
-/* =========================================
+/* =========================================================
    TOAST
-========================================= */
+========================================================= */
 
-function showToast(text) {
+function showToast(message){
 
-  const t = document.getElementById("toast");
+  const toast =
+    document.getElementById("toast");
 
-  if (!t) {
-    console.log(text);
-    return;
-  }
+  toast.textContent = message;
 
-  t.textContent = text;
-  t.classList.add("show");
+  toast.classList.add("show");
 
   clearTimeout(toastTimer);
 
-  toastTimer = setTimeout(() => {
-    t.classList.remove("show");
-  }, 3000);
+  toastTimer =
+    setTimeout(()=>{
+
+      toast.classList.remove("show");
+
+    },3000);
 }
 
 
-/* =========================================
-   SAFE HTML
-========================================= */
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
 
-function esc(value) {
+function esc(value){
 
   return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 }
 
 
-/* =========================================
-   DATE FORMAT
-========================================= */
+/* =========================================================
+   DATE
+========================================================= */
 
-function dateFormat(value) {
+function dateFormat(value){
 
-  if (!value) {
+  if(!value)
     return "Date not set";
-  }
 
-  const d = new Date(value);
+  const date =
+    new Date(value);
 
-  if (isNaN(d.getTime())) {
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  )
     return String(value);
-  }
 
-  return d.toLocaleString([], {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit"
-  });
-}
-
-
-/* =========================================
-   API STATUS
-========================================= */
-
-function setAPIStatus(text) {
-
-  const el = document.getElementById("apiStatus");
-
-  if (el) {
-    el.textContent = text;
-  }
-}
-
-
-/* =========================================
-   SUPABASE TEST
-========================================= */
-
-async function testSupabaseConnection() {
-
-  try {
-
-    const { error } = await sb
-      .from("teams")
-      .select("id")
-      .limit(1);
-
-    if (error) {
-
-      console.error("Supabase connection error:", error);
-
-      setAPIStatus("API ERROR");
-
-      showToast(
-        "Supabase error: " + error.message
-      );
-
-      return false;
+  return date.toLocaleString(
+    [],
+    {
+      day:"2-digit",
+      month:"short",
+      year:"numeric",
+      hour:"2-digit",
+      minute:"2-digit"
     }
-
-    setAPIStatus("API ACTIVE");
-
-    return true;
-
-  } catch (error) {
-
-    console.error(error);
-
-    setAPIStatus("API ERROR");
-
-    showToast("Supabase connection failed");
-
-    return false;
-  }
+  );
 }
 
 
-/* =========================================
-   LOAD TEAMS + SERIES
-========================================= */
+/* =========================================================
+   OPEN / CLOSE SIDEBAR
+========================================================= */
 
-async function loadReferenceData() {
+document
+  .getElementById("menuBtn")
+  .addEventListener(
+    "click",
+    ()=>{
 
-  const [
-    teamsResult,
-    seriesResult
-  ] = await Promise.all([
+      sidebar.classList.add("open");
 
-    sb
-      .from("teams")
-      .select("*")
-      .order("id", { ascending: true }),
+      overlay.classList.add("show");
 
-    sb
-      .from("series")
-      .select("*")
-      .order("id", { ascending: true })
-
-  ]);
-
-
-  /* TEAMS */
-
-  if (teamsResult.error) {
-
-    console.error(
-      "Teams error:",
-      teamsResult.error
-    );
-
-    teamsCache = [];
-
-  } else {
-
-    teamsCache =
-      teamsResult.data || [];
-  }
-
-
-  /* SERIES */
-
-  if (seriesResult.error) {
-
-    console.error(
-      "Series error:",
-      seriesResult.error
-    );
-
-    seriesCache = [];
-
-  } else {
-
-    seriesCache =
-      seriesResult.data || [];
-  }
-}
-
-
-/* =========================================
-   LOAD MATCHES
-========================================= */
-
-async function loadMatches() {
-
-  try {
-
-    const { data, error } = await sb
-      .from("matches")
-      .select("*")
-      .order("start_time", {
-        ascending: false
-      });
-
-
-    if (error) {
-
-      console.error(
-        "Matches error:",
-        error
-      );
-
-      setAPIStatus("API ERROR");
-
-      showToast(
-        "Matches error: " + error.message
-      );
-
-      return;
     }
-
-
-    matches = data || [];
-
-    setAPIStatus("API ACTIVE");
-
-    render();
-
-  } catch (error) {
-
-    console.error(error);
-
-    setAPIStatus("API ERROR");
-
-    showToast(
-      "Supabase matches connection failed"
-    );
-  }
-}
-
-
-/* =========================================
-   TEAM NAME
-========================================= */
-
-function teamName(id) {
-
-  if (id === null || id === undefined) {
-    return "Unknown Team";
-  }
-
-  const team = teamsCache.find(
-    t => String(t.id) === String(id)
   );
 
 
-  if (!team) {
-    return "Team #" + id;
-  }
+overlay.addEventListener(
+  "click",
+  ()=>{
 
+    sidebar.classList.remove("open");
+
+    overlay.classList.remove("show");
+
+  }
+);
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function openModal(){
+
+  fillFormOptions();
+
+  modal.classList.add("show");
+
+}
+
+
+function closeModal(){
+
+  modal.classList.remove("show");
+
+  form.reset();
+
+}
+
+
+document
+  .getElementById("close")
+  .addEventListener(
+    "click",
+    closeModal
+  );
+
+
+document
+  .getElementById("cancel")
+  .addEventListener(
+    "click",
+    closeModal
+  );
+
+
+modal.addEventListener(
+  "click",
+  event=>{
+
+    if(event.target === modal){
+
+      closeModal();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+document
+  .querySelectorAll(".nav-item[data-page]")
+  .forEach(item=>{
+
+    item.addEventListener(
+      "click",
+      ()=>{
+
+        currentPage =
+          item.dataset.page;
+
+        setActive(currentPage);
+
+        sidebar.classList.remove("open");
+
+        overlay.classList.remove("show");
+
+        render();
+
+      }
+    );
+
+  });
+
+
+function setActive(page){
+
+  document
+    .querySelectorAll(
+      ".nav-item[data-page]"
+    )
+    .forEach(item=>{
+
+      item.classList.toggle(
+        "active",
+        item.dataset.page === page
+      );
+
+    });
+
+}
+
+
+/* =========================================================
+   TEAM NAME
+========================================================= */
+
+function teamName(id){
+
+  const team =
+    teamsCache.find(
+      item =>
+        String(item.id) === String(id)
+    );
+
+  if(!team)
+    return "Team #" + id;
 
   return (
     team.name ||
@@ -310,26 +1001,23 @@ function teamName(id) {
 }
 
 
-/* =========================================
+/* =========================================================
    SERIES NAME
-========================================= */
+========================================================= */
 
-function seriesName(id) {
+function seriesName(id){
 
-  if (!id) {
+  if(!id)
     return "General";
-  }
 
+  const series =
+    seriesCache.find(
+      item =>
+        String(item.id) === String(id)
+    );
 
-  const series = seriesCache.find(
-    s => String(s.id) === String(id)
-  );
-
-
-  if (!series) {
+  if(!series)
     return "Series #" + id;
-  }
-
 
   return (
     series.name ||
@@ -340,113 +1028,253 @@ function seriesName(id) {
 }
 
 
-/* =========================================
-   MENU
-========================================= */
+/* =========================================================
+   LOAD TEAMS + SERIES
+========================================================= */
 
-const menuBtn =
-  document.getElementById("menuBtn");
+async function loadReferenceData(){
+
+  const [
+    teamsResult,
+    seriesResult
+  ] = await Promise.all([
+
+    sb
+      .from("teams")
+      .select("*"),
+
+    sb
+      .from("series")
+      .select("*")
+
+  ]);
 
 
-if (menuBtn) {
+  if(teamsResult.error){
 
-  menuBtn.onclick = () => {
+    console.error(
+      "Teams error:",
+      teamsResult.error
+    );
 
-    sidebar.classList.add("open");
-    overlay.classList.add("show");
+    teamsCache = [];
 
-  };
+  }else{
+
+    teamsCache =
+      teamsResult.data || [];
+
+  }
+
+
+  if(seriesResult.error){
+
+    console.error(
+      "Series error:",
+      seriesResult.error
+    );
+
+    seriesCache = [];
+
+  }else{
+
+    seriesCache =
+      seriesResult.data || [];
+
+  }
+
+
+  fillFormOptions();
+
 }
 
 
-if (overlay) {
+/* =========================================================
+   FORM OPTIONS
+========================================================= */
 
-  overlay.onclick = () => {
+function fillFormOptions(){
 
-    sidebar.classList.remove("open");
-    overlay.classList.remove("show");
+  const team1 =
+    document.getElementById("team1");
 
-  };
+  const team2 =
+    document.getElementById("team2");
+
+  const series =
+    document.getElementById("series");
+
+
+  if(!team1 || !team2 || !series)
+    return;
+
+
+  team1.innerHTML =
+    `<option value="">Select Team 1</option>`;
+
+
+  team2.innerHTML =
+    `<option value="">Select Team 2</option>`;
+
+
+  series.innerHTML =
+    `<option value="">General / No Series</option>`;
+
+
+  teamsCache.forEach(team=>{
+
+    const name =
+      team.name ||
+      team.team_name ||
+      team.title ||
+      ("Team #" + team.id);
+
+
+    const option1 =
+      document.createElement("option");
+
+    option1.value = team.id;
+
+    option1.textContent = name;
+
+    team1.appendChild(option1);
+
+
+    const option2 =
+      document.createElement("option");
+
+    option2.value = team.id;
+
+    option2.textContent = name;
+
+    team2.appendChild(option2);
+
+  });
+
+
+  seriesCache.forEach(item=>{
+
+    const name =
+      item.name ||
+      item.series_name ||
+      item.title ||
+      ("Series #" + item.id);
+
+
+    const option =
+      document.createElement("option");
+
+    option.value = item.id;
+
+    option.textContent = name;
+
+    series.appendChild(option);
+
+  });
+
 }
 
 
-/* =========================================
-   MODAL
-========================================= */
+/* =========================================================
+   LOAD MATCHES
+========================================================= */
 
-function openModal() {
+async function loadMatches(){
 
-  if (modal) {
-    modal.classList.add("show");
+  const result =
+    await sb
+      .from("matches")
+      .select("*")
+      .order(
+        "start_time",
+        {
+          ascending:false
+        }
+      );
+
+
+  if(result.error){
+
+    console.error(
+      "Matches error:",
+      result.error
+    );
+
+    setAPIStatus(false);
+
+    app.innerHTML = `
+
+      <div class="card">
+
+        <h3>
+          Supabase Error
+        </h3>
+
+        <p>
+          ${esc(result.error.message)}
+        </p>
+
+        <p style="margin-top:10px">
+          Check Supabase RLS policies and
+          table permissions.
+        </p>
+
+      </div>
+
+    `;
+
+    showToast(
+      "Supabase connection error"
+    );
+
+    return;
+
+  }
+
+
+  matches =
+    result.data || [];
+
+
+  setAPIStatus(true);
+
+  render();
+
+}
+
+
+/* =========================================================
+   API STATUS
+========================================================= */
+
+function setAPIStatus(active){
+
+  if(active){
+
+    headerStatus.textContent =
+      "● API ACTIVE";
+
+    headerStatus.style.color =
+      "var(--green)";
+
+  }else{
+
+    headerStatus.textContent =
+      "● API ERROR";
+
+    headerStatus.style.color =
+      "#ff7070";
+
   }
 
 }
 
 
-function closeModal() {
-
-  if (modal) {
-    modal.classList.remove("show");
-  }
-
-  if (form) {
-    form.reset();
-  }
-}
-
-
-const newMatch =
-  document.getElementById("newMatch");
-
-
-if (newMatch) {
-
-  newMatch.onclick = () => {
-
-    sidebar.classList.remove("open");
-    overlay.classList.remove("show");
-
-    openModal();
-
-  };
-}
-
-
-const closeButton =
-  document.getElementById("close");
-
-
-if (closeButton) {
-  closeButton.onclick = closeModal;
-}
-
-
-const cancelButton =
-  document.getElementById("cancel");
-
-
-if (cancelButton) {
-  cancelButton.onclick = closeModal;
-}
-
-
-if (modal) {
-
-  modal.onclick = e => {
-
-    if (e.target === modal) {
-      closeModal();
-    }
-
-  };
-}
-
-
-/* =========================================
+/* =========================================================
    DASHBOARD
-========================================= */
+========================================================= */
 
-function dashboard() {
+function dashboard(){
 
   const live =
     matches.filter(
@@ -463,7 +1291,9 @@ function dashboard() {
   const activeSeries =
     new Set(
       matches
-        .map(m => m.series_id)
+        .map(
+          m => m.series_id
+        )
         .filter(Boolean)
     ).size;
 
@@ -565,7 +1395,7 @@ function dashboard() {
 
         <button
           class="btn primary"
-          onclick="openModal()">
+          id="dashboardNewMatch">
 
           + New Match
 
@@ -578,14 +1408,15 @@ function dashboard() {
     </div>
 
   `;
+
 }
 
 
-/* =========================================
+/* =========================================================
    MATCHES PAGE
-========================================= */
+========================================================= */
 
-function matchesPage() {
+function matchesPage(){
 
   return `
 
@@ -603,10 +1434,9 @@ function matchesPage() {
 
       </div>
 
-
       <button
         class="btn primary"
-        onclick="openModal()">
+        id="matchesNewMatch">
 
         + New Match
 
@@ -622,22 +1452,23 @@ function matchesPage() {
     </div>
 
   `;
+
 }
 
 
-/* =========================================
+/* =========================================================
    MATCH LIST
-========================================= */
+========================================================= */
 
-function matchList(limit) {
+function matchList(limit){
 
   const list =
     limit
-      ? matches.slice(0, limit)
+      ? matches.slice(0,limit)
       : matches;
 
 
-  if (!list.length) {
+  if(!list.length){
 
     return `
 
@@ -658,6 +1489,7 @@ function matchList(limit) {
       </div>
 
     `;
+
   }
 
 
@@ -672,18 +1504,18 @@ function matchList(limit) {
     </div>
 
   `;
+
 }
 
 
-/* =========================================
+/* =========================================================
    MATCH CARD
-========================================= */
+========================================================= */
 
-function matchCard(m) {
+function matchCard(match){
 
   const status =
-    String(m.status || "upcoming")
-      .toLowerCase();
+    match.status || "upcoming";
 
 
   const cls =
@@ -694,7 +1526,7 @@ function matchCard(m) {
       : "upcoming";
 
 
-  const text =
+  const statusText =
     status === "live"
       ? "LIVE"
       : status === "ended"
@@ -703,19 +1535,19 @@ function matchCard(m) {
 
 
   const t1 =
-    teamName(m.team1_id);
+    teamName(match.team1_id);
 
 
   const t2 =
-    teamName(m.team2_id);
+    teamName(match.team2_id);
 
 
   const s1 =
-    Number(m.team1_score ?? 0);
+    Number(match.team1_score || 0);
 
 
   const s2 =
-    Number(m.team2_score ?? 0);
+    Number(match.team2_score || 0);
 
 
   return `
@@ -734,16 +1566,17 @@ function matchCard(m) {
 
           </div>
 
-
           <div class="meta">
 
             ${esc(
-              seriesName(m.series_id)
+              seriesName(match.series_id)
             )}
 
             ·
 
-            ${dateFormat(m.start_time)}
+            ${esc(
+              dateFormat(match.start_time)
+            )}
 
           </div>
 
@@ -752,7 +1585,7 @@ function matchCard(m) {
 
         <span class="badge ${cls}">
 
-          ${text}
+          ${statusText}
 
         </span>
 
@@ -790,64 +1623,68 @@ function matchCard(m) {
 
         ${
           status !== "ended"
-            ? `
+          ?
 
-              <button
-                class="btn"
-                onclick="changeStatus(
-                  ${Number(m.id)},
-                  '${esc(status)}'
-                )">
+          `
 
-                ${
-                  status === "live"
-                    ? "End Match"
-                    : "Start Live"
-                }
+          <button
+            class="btn"
+            onclick="changeStatus(
+              '${esc(match.id)}',
+              '${esc(status)}'
+            )">
 
-              </button>
+            ${
+              status === "live"
+              ? "End Match"
+              : "Start Live"
+            }
 
-            `
-            : ""
+          </button>
+
+          `
+          : ""
         }
 
 
         ${
           status === "live"
-            ? `
+          ?
 
-              <button
-                class="btn"
-                onclick="addScore(
-                  ${Number(m.id)},
-                  1
-                )">
+          `
 
-                + ${esc(t1)}
+          <button
+            class="btn"
+            onclick="addScore(
+              '${esc(match.id)}',
+              1
+            )">
 
-              </button>
+            + ${esc(t1)}
+
+          </button>
 
 
-              <button
-                class="btn"
-                onclick="addScore(
-                  ${Number(m.id)},
-                  2
-                )">
+          <button
+            class="btn"
+            onclick="addScore(
+              '${esc(match.id)}',
+              2
+            )">
 
-                + ${esc(t2)}
+            + ${esc(t2)}
 
-              </button>
+          </button>
 
-            `
-            : ""
+          `
+          : ""
         }
 
 
         <button
           class="btn danger"
           onclick="deleteMatch(
-            ${Number(m.id)}
+            '${esc(match.id)}'
           )">
 
           Delete
@@ -859,164 +1696,167 @@ function matchCard(m) {
     </div>
 
   `;
+
 }
 
 
-/* =========================================
+/* =========================================================
    CHANGE STATUS
-========================================= */
+========================================================= */
 
-async function changeStatus(id, status) {
+async function changeStatus(
+  id,
+  currentStatus
+){
 
-  const next =
-    status === "upcoming"
+  const nextStatus =
+    currentStatus === "upcoming"
       ? "live"
       : "ended";
 
 
-  const { error } =
+  const result =
     await sb
       .from("matches")
       .update({
-        status: next
+        status:nextStatus
       })
-      .eq("id", id);
+      .eq("id",id);
 
 
-  if (error) {
+  if(result.error){
 
-    console.error(
-      "Status update error:",
-      error
-    );
+    console.error(result.error);
 
     showToast(
       "Status update failed: " +
-      error.message
+      result.error.message
     );
 
     return;
+
   }
 
 
   showToast(
-    next === "live"
+    nextStatus === "live"
       ? "Match is LIVE"
       : "Match ended"
   );
 
 
   await loadMatches();
+
 }
 
 
-/* =========================================
-   ADD SCORE
-========================================= */
+/* =========================================================
+   SCORE
+========================================================= */
 
-async function addScore(id, team) {
+async function addScore(
+  id,
+  team
+){
 
   const match =
     matches.find(
-      x => String(x.id) === String(id)
+      item =>
+        String(item.id) === String(id)
     );
 
 
-  if (
-    !match ||
-    String(match.status).toLowerCase() !== "live"
-  ) {
+  if(!match)
+    return;
+
+
+  if(match.status !== "live"){
 
     showToast(
-      "Match is not live"
+      "Match is not LIVE"
     );
 
     return;
+
   }
-
-
-  const current1 =
-    Number(match.team1_score || 0);
-
-
-  const current2 =
-    Number(match.team2_score || 0);
 
 
   const updateData =
     team === 1
-      ? {
-          team1_score:
-            current1 + 1
-        }
-      : {
-          team2_score:
-            current2 + 1
-        };
+
+      ?
+
+      {
+        team1_score:
+          Number(match.team1_score || 0) + 1
+      }
+
+      :
+
+      {
+        team2_score:
+          Number(match.team2_score || 0) + 1
+      };
 
 
-  const { error } =
+  const result =
     await sb
       .from("matches")
       .update(updateData)
-      .eq("id", id);
+      .eq("id",id);
 
 
-  if (error) {
+  if(result.error){
 
-    console.error(
-      "Score update error:",
-      error
-    );
+    console.error(result.error);
 
     showToast(
       "Score update failed: " +
-      error.message
+      result.error.message
     );
 
     return;
+
   }
 
 
   await loadMatches();
+
 }
 
 
-/* =========================================
+/* =========================================================
    DELETE MATCH
-========================================= */
+========================================================= */
 
-async function deleteMatch(id) {
+async function deleteMatch(id){
 
-  if (
+  if(
     !confirm(
       "Delete this match?"
     )
-  ) {
+  )
     return;
-  }
 
 
-  const { error } =
+  const result =
     await sb
       .from("matches")
       .delete()
-      .eq("id", id);
+      .eq("id",id);
 
 
-  if (error) {
+  if(result.error){
 
-    console.error(
-      "Delete error:",
-      error
-    );
+    console.error(result.error);
 
     showToast(
       "Delete failed: " +
-      error.message
+      result.error.message
     );
 
     return;
+
   }
 
 
@@ -1026,37 +1866,34 @@ async function deleteMatch(id) {
 
 
   await loadMatches();
+
 }
 
 
-/* =========================================
+/* =========================================================
    SERIES PAGE
-========================================= */
+========================================================= */
 
-function seriesPage() {
+function seriesPage(){
 
-  const list =
-    seriesCache;
-
-
-  return simple(
+  return simplePage(
     "Series",
     "Series available in Supabase.",
 
-    list.length
+    seriesCache.length
 
       ?
 
-      list.map(s => `
+      seriesCache.map(item=>`
 
         <div class="card">
 
           <h3>
 
             ${esc(
-              s.name ||
-              s.series_name ||
-              s.title ||
+              item.name ||
+              item.series_name ||
+              item.title ||
               "Series"
             )}
 
@@ -1065,7 +1902,7 @@ function seriesPage() {
           <p>
 
             Supabase series ID:
-            ${esc(s.id)}
+            ${esc(item.id)}
 
           </p>
 
@@ -1077,51 +1914,48 @@ function seriesPage() {
 
       `
 
-        <div class="card">
+      <div class="card">
 
-          <h3>
-            No Series
-          </h3>
+        <h3>
+          No Series
+        </h3>
 
-          <p>
-            No rows found in series table.
-          </p>
+        <p>
+          No rows found in series table.
+        </p>
 
-        </div>
+      </div>
 
       `
   );
+
 }
 
 
-/* =========================================
+/* =========================================================
    TEAMS PAGE
-========================================= */
+========================================================= */
 
-function teamsPage() {
+function teamsPage(){
 
-  const list =
-    teamsCache;
-
-
-  return simple(
+  return simplePage(
     "Teams",
     "Teams available in Supabase.",
 
-    list.length
+    teamsCache.length
 
       ?
 
-      list.map(t => `
+      teamsCache.map(item=>`
 
         <div class="card">
 
           <h3>
 
             ${esc(
-              t.name ||
-              t.team_name ||
-              t.title ||
+              item.name ||
+              item.team_name ||
+              item.title ||
               "Team"
             )}
 
@@ -1130,7 +1964,7 @@ function teamsPage() {
           <p>
 
             Supabase team ID:
-            ${esc(t.id)}
+            ${esc(item.id)}
 
           </p>
 
@@ -1142,32 +1976,74 @@ function teamsPage() {
 
       `
 
-        <div class="card">
+      <div class="card">
 
-          <h3>
-            No Teams
-          </h3>
+        <h3>
+          No Teams
+        </h3>
 
-          <p>
-            No rows found in teams table.
-          </p>
+        <p>
+          No rows found in teams table.
+        </p>
 
-        </div>
+      </div>
 
       `
   );
+
 }
 
 
-/* =========================================
-   SIMPLE PAGE
-========================================= */
+/* =========================================================
+   PLAYERS
+========================================================= */
 
-function simple(
-  title,
-  desc,
-  html
-) {
+function playersPage(){
+
+  return simplePage(
+    "Players",
+    "Player information.",
+
+    `
+
+    <div class="card">
+
+      <h3>
+        Player Database
+      </h3>
+
+      <p>
+        Player data can be connected
+        when the players table is ready.
+      </p>
+
+    </div>
+
+
+    <div class="card">
+
+      <h3>
+        Statistics
+      </h3>
+
+      <p>
+        Runs, wickets and player
+        statistics can be displayed here.
+      </p>
+
+    </div>
+
+    `
+  );
+
+}
+
+
+/* =========================================================
+   API PAGE
+========================================================= */
+
+function apiPage(){
 
   return `
 
@@ -1176,11 +2052,11 @@ function simple(
       <div>
 
         <div class="title">
-          ${esc(title)}
+          API Settings
         </div>
 
         <div class="desc">
-          ${esc(desc)}
+          Supabase connection information.
         </div>
 
       </div>
@@ -1189,75 +2065,6 @@ function simple(
 
 
     <div class="grid">
-
-      ${html}
-
-    </div>
-
-  `;
-}
-
-
-/* =========================================
-   PLAYERS
-========================================= */
-
-function playersPage() {
-
-  return simple(
-    "Players",
-    "Player information.",
-
-    `
-
-      <div class="card">
-
-        <h3>
-          Player Database
-        </h3>
-
-        <p>
-          Connect your players table when ready.
-        </p>
-
-      </div>
-
-
-      <div class="card">
-
-        <h3>
-          Statistics
-        </h3>
-
-        <p>
-          Runs, wickets and player statistics.
-        </p>
-
-      </div>
-
-    `
-  );
-}
-
-
-/* =========================================
-   API PAGE
-========================================= */
-
-function apiPage() {
-
-  const status =
-    document.getElementById(
-      "apiStatus"
-    )?.textContent ||
-    "API ACTIVE";
-
-
-  return simple(
-    "API Settings",
-    "Supabase connection information.",
-
-    `
 
       <div class="card">
 
@@ -1269,11 +2076,9 @@ function apiPage() {
           Project URL:
         </p>
 
-        <p style="
-          word-break:break-all;
-          color:#b6ff00;
-          margin-top:8px;
-        ">
+        <p
+          class="green"
+          style="margin-top:8px">
 
           ${esc(SUPABASE_URL)}
 
@@ -1282,7 +2087,9 @@ function apiPage() {
         <p style="margin-top:14px">
 
           Status:
-          ${esc(status)}
+          <span class="green">
+            ${headerStatus.textContent}
+          </span>
 
         </p>
 
@@ -1296,13 +2103,8 @@ function apiPage() {
         </h3>
 
         <p>
-          External cricket provider can
-          be connected here.
-        </p>
-
-        <p style="margin-top:10px">
-          Supabase and Cricket API are
-          separate connections.
+          External cricket provider
+          can be connected here.
         </p>
 
       </div>
@@ -1315,203 +2117,192 @@ function apiPage() {
         </h3>
 
         <p>
-          External odds provider can
-          be connected here.
+          External odds provider
+          can be connected here.
         </p>
 
       </div>
 
-    `
-  );
+
+      <div class="card">
+
+        <h3>
+          Supabase Realtime
+        </h3>
+
+        <p>
+          Live database updates are
+          available through Supabase.
+        </p>
+
+      </div>
+
+    </div>
+
+  `;
+
 }
 
 
-/* =========================================
+/* =========================================================
    USERS
-========================================= */
+========================================================= */
 
-function usersPage() {
+function usersPage(){
 
-  return simple(
+  return simplePage(
     "Users",
     "Manage dashboard users.",
 
     `
 
-      <div class="card">
+    <div class="card">
 
-        <h3>
-          Admin
-        </h3>
+      <h3>
+        Admin
+      </h3>
 
-        <p>
-          Administrator · Active
-        </p>
+      <p>
+        Administrator · Active
+      </p>
 
-      </div>
+    </div>
 
     `
   );
+
 }
 
 
-/* =========================================
+/* =========================================================
    SETTINGS
-========================================= */
+========================================================= */
 
-function settingsPage() {
+function settingsPage(){
 
-  return simple(
+  return simplePage(
     "Settings",
     "Application settings.",
 
     `
 
-      <div class="card">
+    <div class="card">
 
-        <h3>
-          Storage
-        </h3>
+      <h3>
+        Storage
+      </h3>
 
-        <p>
-          Live match data is read
-          from Supabase.
-        </p>
+      <p>
+        Match data is connected
+        directly to Supabase.
+      </p>
 
-      </div>
+    </div>
 
 
-      <div class="card">
+    <div class="card">
 
-        <h3>
-          Version
-        </h3>
+      <h3>
+        Version
+      </h3>
 
-        <p>
-          BAAZIGAR LIVE LINE v2.0
-        </p>
+      <p>
+        BAAZIGAR LIVE LINE v2.0
+      </p>
 
-      </div>
+    </div>
 
     `
   );
-}
-
-
-/* =========================================
-   NAVIGATION
-========================================= */
-
-function setActive(page) {
-
-  document
-    .querySelectorAll(
-      ".nav-item[data-page]"
-    )
-    .forEach(item => {
-
-      item.classList.toggle(
-        "active",
-        item.dataset.page === page
-      );
-
-    });
-}
-
-
-document
-  .querySelectorAll(
-    ".nav-item[data-page]"
-  )
-  .forEach(item => {
-
-    item.onclick = () => {
-
-      currentPage =
-        item.dataset.page;
-
-      setActive(
-        currentPage
-      );
-
-      sidebar.classList.remove(
-        "open"
-      );
-
-      overlay.classList.remove(
-        "show"
-      );
-
-      render();
-
-    };
-
-  });
-
-
-/* =========================================
-   LOGOUT
-========================================= */
-
-const logout =
-  document.getElementById("logout");
-
-
-if (logout) {
-
-  logout.onclick = () => {
-
-    if (
-      confirm(
-        "Are you sure you want to logout?"
-      )
-    ) {
-
-      showToast(
-        "Logout system ready"
-      );
-
-    }
-
-  };
 
 }
 
 
-/* =========================================
-   ROUTER
-========================================= */
+/* =========================================================
+   SIMPLE PAGE
+========================================================= */
 
-function render() {
+function simplePage(
+  title,
+  description,
+  content
+){
 
-  if (!app) {
-    return;
-  }
+  return `
+
+    <div class="page-head">
+
+      <div>
+
+        <div class="title">
+          ${esc(title)}
+        </div>
+
+        <div class="desc">
+          ${esc(description)}
+        </div>
+
+      </div>
+
+    </div>
 
 
-  if (
-    currentPage === "dashboard"
-  ) {
+    <div class="grid">
+
+      ${content}
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function render(){
+
+  if(currentPage === "dashboard"){
 
     app.innerHTML =
       dashboard();
 
+    const button =
+      document.getElementById(
+        "dashboardNewMatch"
+      );
+
+    if(button)
+      button.addEventListener(
+        "click",
+        openModal
+      );
+
   }
 
 
-  else if (
-    currentPage === "matches"
-  ) {
+  else if(currentPage === "matches"){
 
     app.innerHTML =
       matchesPage();
 
+    const button =
+      document.getElementById(
+        "matchesNewMatch"
+      );
+
+    if(button)
+      button.addEventListener(
+        "click",
+        openModal
+      );
+
   }
 
 
-  else if (
-    currentPage === "series"
-  ) {
+  else if(currentPage === "series"){
 
     app.innerHTML =
       seriesPage();
@@ -1519,9 +2310,7 @@ function render() {
   }
 
 
-  else if (
-    currentPage === "teams"
-  ) {
+  else if(currentPage === "teams"){
 
     app.innerHTML =
       teamsPage();
@@ -1529,9 +2318,7 @@ function render() {
   }
 
 
-  else if (
-    currentPage === "players"
-  ) {
+  else if(currentPage === "players"){
 
     app.innerHTML =
       playersPage();
@@ -1539,9 +2326,7 @@ function render() {
   }
 
 
-  else if (
-    currentPage === "api"
-  ) {
+  else if(currentPage === "api"){
 
     app.innerHTML =
       apiPage();
@@ -1549,9 +2334,7 @@ function render() {
   }
 
 
-  else if (
-    currentPage === "users"
-  ) {
+  else if(currentPage === "users"){
 
     app.innerHTML =
       usersPage();
@@ -1559,9 +2342,7 @@ function render() {
   }
 
 
-  else if (
-    currentPage === "settings"
-  ) {
+  else if(currentPage === "settings"){
 
     app.innerHTML =
       settingsPage();
@@ -1571,36 +2352,33 @@ function render() {
 }
 
 
-/* =========================================
+/* =========================================================
    CREATE MATCH
-========================================= */
+========================================================= */
 
-if (form) {
+form.addEventListener(
+  "submit",
+  async event=>{
 
-  form.onsubmit = async e => {
-
-    e.preventDefault();
+    event.preventDefault();
 
 
-    const team1 =
+    const team1Id =
       document
         .getElementById("team1")
-        .value
-        .trim();
+        .value;
 
 
-    const team2 =
+    const team2Id =
       document
         .getElementById("team2")
-        .value
-        .trim();
+        .value;
 
 
-    const series =
+    const seriesId =
       document
         .getElementById("series")
-        .value
-        .trim();
+        .value;
 
 
     const status =
@@ -1609,143 +2387,63 @@ if (form) {
         .value;
 
 
-    const date =
+    const dateValue =
       document
         .getElementById("date")
         .value;
 
 
-    /* FIND TEAM 1 */
-
-    const t1 =
-      teamsCache.find(
-        t => {
-
-          const name =
-            t.name ||
-            t.team_name ||
-            t.title ||
-            "";
-
-          return (
-            String(name)
-              .toLowerCase()
-              .trim()
-            ===
-            team1
-              .toLowerCase()
-              .trim()
-          );
-
-        }
-      );
-
-
-    /* FIND TEAM 2 */
-
-    const t2 =
-      teamsCache.find(
-        t => {
-
-          const name =
-            t.name ||
-            t.team_name ||
-            t.title ||
-            "";
-
-          return (
-            String(name)
-              .toLowerCase()
-              .trim()
-            ===
-            team2
-              .toLowerCase()
-              .trim()
-          );
-
-        }
-      );
-
-
-    if (!t1 || !t2) {
+    if(!team1Id || !team2Id){
 
       showToast(
-        "Team name Supabase teams table se match nahi hua"
+        "Please select both teams"
       );
 
       return;
-    }
-
-
-    /* FIND SERIES */
-
-    let s = null;
-
-
-    if (series) {
-
-      s =
-        seriesCache.find(
-          x => {
-
-            const name =
-              x.name ||
-              x.series_name ||
-              x.title ||
-              "";
-
-            return (
-              String(name)
-                .toLowerCase()
-                .trim()
-              ===
-              series
-                .toLowerCase()
-                .trim()
-            );
-
-          }
-        );
-
-
-      if (!s) {
-
-        showToast(
-          "Series Supabase series table me nahi mili"
-        );
-
-        return;
-      }
 
     }
 
 
-    /* DATE */
+    if(team1Id === team2Id){
 
-    const startTime =
-      date
-        ? new Date(date).toISOString()
-        : new Date().toISOString();
+      showToast(
+        "Team 1 and Team 2 cannot be same"
+      );
+
+      return;
+
+    }
 
 
-    /* PAYLOAD */
+    if(!dateValue){
+
+      showToast(
+        "Please select start date"
+      );
+
+      return;
+
+    }
+
 
     const payload = {
 
-      series_id:
-        s ? s.id : null,
-
       team1_id:
-        t1.id,
+        team1Id,
 
       team2_id:
-        t2.id,
+        team2Id,
+
+      series_id:
+        seriesId || null,
 
       status:
-        status || "upcoming",
+        status,
 
       start_time:
-        startTime,
+        new Date(
+          dateValue
+        ).toISOString(),
 
       team1_score:
         0,
@@ -1768,27 +2466,26 @@ if (form) {
     };
 
 
-    /* INSERT */
-
-    const { error } =
+    const result =
       await sb
         .from("matches")
         .insert(payload);
 
 
-    if (error) {
+    if(result.error){
 
       console.error(
         "Create match error:",
-        error
+        result.error
       );
 
       showToast(
         "Match create failed: " +
-        error.message
+        result.error.message
       );
 
       return;
+
     }
 
 
@@ -1798,69 +2495,77 @@ if (form) {
     currentPage =
       "matches";
 
-
     setActive(
       "matches"
     );
 
 
     showToast(
-      "Match created in Supabase"
+      "Match created successfully"
     );
 
 
     await loadMatches();
 
-  };
+  }
+);
 
-}
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+document
+  .getElementById("logout")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      if(
+        confirm(
+          "Are you sure you want to logout?"
+        )
+      ){
+
+        showToast(
+          "Logout system ready"
+        );
+
+      }
+
+    }
+  );
 
 
-/* =========================================
+/* =========================================================
    REALTIME
-========================================= */
+========================================================= */
 
-function setupRealtime() {
+function setupRealtime(){
 
-  try {
+  try{
 
     sb
-      .channel("baazigar-live-matches")
+      .channel("matches-live-channel")
 
       .on(
         "postgres_changes",
         {
-          event: "*",
-          schema: "public",
-          table: "matches"
+          event:"*",
+          schema:"public",
+          table:"matches"
         },
-        async payload => {
-
-          console.log(
-            "Realtime match update:",
-            payload
-          );
-
-          await loadMatches();
-
+        ()=>{
+          loadMatches();
         }
       )
 
-      .subscribe(
-        status => {
+      .subscribe();
 
-          console.log(
-            "Realtime status:",
-            status
-          );
-
-        }
-      );
-
-  } catch (error) {
+  }catch(error){
 
     console.error(
-      "Realtime setup error:",
+      "Realtime error:",
       error
     );
 
@@ -1869,74 +2574,55 @@ function setupRealtime() {
 }
 
 
-/* =========================================
+/* =========================================================
    START APPLICATION
-========================================= */
+========================================================= */
 
-(async function startApp() {
+(async function startApp(){
 
-  try {
-
-    /* Initial UI */
+  try{
 
     render();
 
-
-    /* Test Supabase */
-
-    const connected =
-      await testSupabaseConnection();
-
-
-    if (!connected) {
-      return;
-    }
-
-
-    /* Load teams + series */
-
     await loadReferenceData();
-
-
-    /* Load matches */
 
     await loadMatches();
 
-
-    /* Realtime */
-
     setupRealtime();
 
-
-    /* Final status */
-
-    setAPIStatus(
-      "API ACTIVE"
-    );
-
-
-    console.log(
-      "BAAZIGAR LIVE LINE connected to Supabase"
-    );
-
-
-  } catch (error) {
+  }catch(error){
 
     console.error(
-      "Application startup error:",
+      "START ERROR:",
       error
     );
 
-    setAPIStatus(
-      "API ERROR"
-    );
+    setAPIStatus(false);
+
+    app.innerHTML = `
+
+      <div class="card">
+
+        <h3>
+          Application Error
+        </h3>
+
+        <p>
+          ${esc(error.message)}
+        </p>
+
+      </div>
+
+    `;
 
     showToast(
-      "Application connection error"
+      "Application failed to start"
     );
 
   }
 
 })();
-
 </script>
+
+</body>
+</html>
