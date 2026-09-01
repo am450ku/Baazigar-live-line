@@ -1,6 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<title>BAAZIGAR LIVE — Admin Dashboard</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0f12;
+  --panel:#181b20;
+  --panel2:#20242a;
+  --border:#30343b;
+  --text:#f1f3ed;
+  --muted:#aeb3a2;
+  --lime:#b7ff00;
+  --red:#ff7777;
+}
+html,body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+body{min-height:100vh;overflow-x:hidden}
+button,input,select{font:inherit}
+
+.header{
+  height:68px;
+  position:sticky;
+  top:0;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 14px;
+  background:rgba(13,15,18,.97);
+  border-bottom:1px solid var(--border);
+}
+.brand{display:flex;align-items:center;gap:10px}
+.menu{
+  width:38px;height:38px;border-radius:9px;
+  border:1px solid var(--border);
+  background:var(--panel);color:white;
+  font-size:20px;cursor:pointer
+}
+.logo{font-size:17px;font-weight:900;white-space:nowrap}
+.logo span{color:var(--lime)}
+.status{
+  display:flex;align-items:center;gap:6px;
+  color:var(--lime);font-size:9px;font-weight:bold;
+  border:1px solid #4c6900;border-radius:8px;padding:7px 9px
+}
+.dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--lime);box-shadow:0 0 8px var(--lime)
+}
+.avatar{
+  width:37px;height:37px;border-radius:50%;
+  background:var(--lime);color:#111;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900
+}
+.head-right{display:flex;align-items:center;gap:8px}
+
+.overlay{
+  position:fixed;inset:0;background:#000a;
+  z-index:150;display:none
+}
+.overlay.show{display:block}
+
+.sidebar{
+  position:fixed;left:0;top:0;bottom:0;
+  width:285px;background:#090b0d;
+  border-right:1px solid var(--border);
+  z-index:200;
+  transform:translateX(-100%);
+  transition:.22s;
+  overflow:auto;
+  padding:22px 10px
+}
+.sidebar.open{transform:translateX(0)}
+
+.side-logo{
+  padding:0 10px 22px;
+  font-size:25px;font-weight:900
+}
+.side-logo span{color:var(--lime)}
+.sub{
+  color:#858b7e;font-size:10px;
+  letter-spacing:3px;margin-top:8px
+}
+.new{
+  width:100%;height:48px;border:0;
+  border-radius:10px;background:var(--lime);
+  color:#101400;font-weight:900;
+  margin-bottom:15px;cursor:pointer
+}
+.nav-item{
+  height:46px;border-radius:9px;
+  display:flex;align-items:center;gap:12px;
+  padding:0 13px;color:#adb2a5;
+  cursor:pointer;font-size:14px;margin:3px 0
+}
+.nav-item.active{
+  color:var(--lime);
+  background:#182204;
+  border-left:3px solid var(--lime)
+}
+.nav-item:hover{color:var(--lime);background:#161c0b}
+.bottom{
+  margin-top:25px;padding-top:10px;
+  border-top:1px solid var(--border)
+}
+
+main{width:100%}
+.container{
+  width:100%;max-width:1180px;
+  margin:auto;padding:22px 14px 70px
+}
+.page-head{
+  display:flex;justify-content:space-between;
+  align-items:flex-end;gap:15px;margin-bottom:22px
+}
+.title{
+  font-size:34px;line-height:1;
+  font-weight:900;letter-spacing:-1px
+}
+.desc{
+  color:var(--muted);font-size:14px;
+  margin-top:9px;line-height:1.5
+}
+.updated{font-size:11px;color:#bfc4b5;text-align:right}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:9px
+}
+.stat{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:12px;
+  min-height:112px;padding:14px
+}
+.stat-top{
+  display:flex;justify-content:space-between;
+  color:#b8bdaf;font-size:10px;font-weight:800
+}
+.stat-icon{color:var(--lime);font-size:16px}
+.num{
+  font-size:31px;font-weight:900;
+  margin-top:20px
+}
+
+.section{margin-top:22px}
+.section-head{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:10px;margin-bottom:12px
+}
+.section-title{font-size:17px;font-weight:900}
+
+.btn{
+  border:1px solid var(--border);
+  background:var(--panel);
+  color:white;border-radius:8px;
+  padding:9px 11px;
+  cursor:pointer;font-size:12px;font-weight:700
+}
+.btn:hover{border-color:var(--lime);color:var(--lime)}
+.primary{
+  background:var(--lime);
+  color:#101400;border-color:var(--lime)
+}
+.danger{color:#ff9999}
+
+.match-list{display:grid;gap:10px}
+.match{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:12px;padding:14px
+}
+.match-top{
+  display:flex;justify-content:space-between;
+  gap:10px;align-items:flex-start
+}
+.match-name{font-size:16px;font-weight:900}
+.meta{color:var(--muted);font-size:11px;margin-top:5px}
+.badge{
+  padding:5px 8px;border-radius:30px;
+  font-size:9px;font-weight:900;white-space:nowrap
+}
+.live{color:var(--lime);background:#192400;border:1px solid #4b6800}
+.upcoming{color:#ddd;background:#25282d}
+.ended{color:#999;background:#1b1d20}
+
+.score{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  text-align:center;
+  margin:18px 0
+}
+.team{font-size:14px;font-weight:800}
+.score-num{font-size:23px;font-weight:900}
+.vs{font-size:10px;color:#777;padding:0 8px}
+.actions{display:flex;flex-wrap:wrap;gap:7px}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px
+}
+.card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:12px;padding:16px
+}
+.card h3{font-size:15px;margin-bottom:7px}
+.card p{font-size:12px;color:var(--muted);line-height:1.5}
+
+.empty{
+  text-align:center;padding:35px 15px;
+  border:1px dashed var(--border);
+  border-radius:12px;background:var(--panel)
+}
+.empty-icon{font-size:30px;margin-bottom:8px}
+.empty h3{font-size:16px}
+.empty p{font-size:12px;color:var(--muted);margin-top:5px}
+
+.modal-bg{
+  position:fixed;inset:0;z-index:300;
+  background:#000b;display:none;
+  align-items:center;justify-content:center;padding:14px
+}
+.modal-bg.show{display:flex}
+.modal{
+  width:100%;max-width:500px;
+  max-height:90vh;overflow:auto;
+  background:#15181c;
+  border:1px solid var(--border);
+  border-radius:14px;padding:17px
+}
+.modal-head{
+  display:flex;justify-content:space-between;
+  align-items:center;margin-bottom:18px
+}
+.modal-title{font-size:20px;font-weight:900}
+.close{
+  width:34px;height:34px;
+  background:var(--panel);color:white;
+  border:1px solid var(--border);
+  border-radius:8px;cursor:pointer;font-size:20px
+}
+.form{display:grid;gap:12px}
+.field{display:grid;gap:6px}
+.field label{
+  font-size:11px;color:#bfc4b6;font-weight:700
+}
+.field input,.field select{
+  width:100%;height:44px;
+  background:#0e1013;color:white;
+  border:1px solid var(--border);
+  border-radius:8px;padding:0 11px;
+  outline:none;font-size:13px
+}
+.field input:focus,.field select:focus{
+  border-color:var(--lime)
+}
+.form-actions{display:flex;gap:8px;margin-top:4px}
+.form-actions .btn{flex:1;height:44px}
+
+.toast{
+  position:fixed;z-index:500;
+  left:50%;bottom:22px;
+  transform:translate(-50%,20px);
+  opacity:0;pointer-events:none;
+  background:#eef2e8;color:#111;
+  padding:11px 15px;border-radius:9px;
+  font-size:12px;font-weight:700;
+  transition:.2s
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media(min-width:900px){
+  .container{padding:30px 28px 60px}
+  .title{font-size:45px}
+  .stats{grid-template-columns:repeat(4,1fr)}
+  .stat{min-height:135px;padding:18px}
+  .num{font-size:38px}
+  .sidebar{transform:none}
+  .overlay{display:none!important}
+  main{margin-left:285px}
+  .menu{display:none}
+  .header{padding-left:305px}
+}
+
+@media(max-width:380px){
+  .status{display:none}
+  .logo{font-size:15px}
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="brand">
+    <button class="menu" id="menuBtn">☰</button>
+    <div class="logo">BAAZIGAR <span>LIVE LINE</span></div>
+  </div>
+
+  <div class="head-right">
+    <div class="status">
+      <span class="dot"></span>
+      <span id="apiStatus">CONNECTING</span>
+    </div>
+    <div class="avatar">A</div>
+  </div>
+</header>
+
+<div class="overlay" id="overlay"></div>
+
+<aside class="sidebar" id="sidebar">
+
+  <div class="side-logo">
+    BAAZIGAR <span>LIVE LINE</span>
+    <div class="sub">ADMIN CONTROL PANEL</div>
+  </div>
+
+  <button class="new" id="newMatch">
+    ＋ NEW MATCH
+  </button>
+
+  <div class="nav">
+
+    <div class="nav-item active" data-page="dashboard">
+      ▦ Dashboard
+    </div>
+
+    <div class="nav-item" data-page="matches">
+      ⚔ Match Management
+    </div>
+
+    <div class="nav-item" data-page="series">
+      ▣ Series
+    </div>
+
+    <div class="nav-item" data-page="teams">
+      ♟ Teams
+    </div>
+
+    <div class="nav-item" data-page="players">
+      ♙ Players
+    </div>
+
+    <div class="nav-item" data-page="api">
+      ◆ API Settings
+    </div>
+
+    <div class="nav-item" data-page="users">
+      ♙ Users
+    </div>
+
+    <div class="nav-item" data-page="settings">
+      ⚙ Settings
+    </div>
+
+  </div>
+
+  <div class="bottom">
+    <div class="nav-item" id="logout">
+      ↪ Logout
+    </div>
+  </div>
+
+</aside>
+
+<main>
+  <div class="container" id="app"></div>
+</main>
+
+<div class="modal-bg" id="modal">
+
+  <div class="modal">
+
+    <div class="modal-head">
+      <div class="modal-title">
+        Create New Match
+      </div>
+
+      <button class="close" id="close">
+        ×
+      </button>
+    </div>
+
+    <form class="form" id="form">
+
+      <div class="field">
+        <label>Match Name</label>
+        <input
+          id="name"
+          required
+          placeholder="India vs Australia">
+      </div>
+
+      <div class="field">
+        <label>Team 1</label>
+        <input
+          id="team1"
+          required
+          placeholder="India">
+      </div>
+
+      <div class="field">
+        <label>Team 2</label>
+        <input
+          id="team2"
+          required
+          placeholder="Australia">
+      </div>
+
+      <div class="field">
+        <label>Series</label>
+        <input
+          id="series"
+          placeholder="ODI Series">
+      </div>
+
+      <div class="field">
+        <label>Date & Time</label>
+        <input
+          id="date"
+          type="datetime-local"
+          required>
+      </div>
+
+      <div class="field">
+        <label>Status</label>
+
+        <select id="status">
+          <option value="upcoming">
+            Upcoming
+          </option>
+
+          <option value="live">
+            Live
+          </option>
+        </select>
+
+      </div>
+
+      <div class="form-actions">
+
+        <button
+          type="button"
+          class="btn"
+          id="cancel">
+          Cancel
+        </button>
+
+        <button
+          class="btn primary"
+          type="submit">
+          Create Match
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+
 <script>
+
 /* =========================================
    SUPABASE CONNECTION
 ========================================= */
@@ -8,13 +487,18 @@
 const SUPABASE_URL =
 "https://lzvwictzhtfbdbgvekuq.supabase.co";
 
+/*
+   PUBLISHABLE KEY
+*/
 const SUPABASE_ANON_KEY =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx6dndpY3R6aHRmYmRiZ3Zla3VxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgxNTkyNTcsImV4cCI6MjEwMzczNTI1N30.k1yRlaI6AzB9zZ_QUEQeOEHyYv0BMTI0-038cvfkGtw";
+"sb_publishable_6fB6vZhG9yFHmfGdCs5lcw_m9Z6xVP9";
 
-const sb = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY
-);
+
+const sb =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
 
 
 /* =========================================
@@ -31,11 +515,23 @@ let currentPage = "dashboard";
    ELEMENTS
 ========================================= */
 
-const app = document.getElementById("app");
-const sidebar = document.getElementById("sidebar");
-const overlay = document.getElementById("overlay");
-const modal = document.getElementById("modal");
-const form = document.getElementById("form");
+const app =
+  document.getElementById("app");
+
+const sidebar =
+  document.getElementById("sidebar");
+
+const overlay =
+  document.getElementById("overlay");
+
+const modal =
+  document.getElementById("modal");
+
+const form =
+  document.getElementById("form");
+
+const apiStatus =
+  document.getElementById("apiStatus");
 
 
 /* =========================================
@@ -46,16 +542,22 @@ let toastTimer;
 
 function showToast(text){
 
-  const t = document.getElementById("toast");
+  const t =
+    document.getElementById("toast");
 
   t.textContent = text;
+
   t.classList.add("show");
 
   clearTimeout(toastTimer);
 
-  toastTimer = setTimeout(()=>{
-    t.classList.remove("show");
-  },2500);
+  toastTimer =
+    setTimeout(()=>{
+
+      t.classList.remove("show");
+
+    },2500);
+
 }
 
 
@@ -71,14 +573,17 @@ function esc(v){
     .replaceAll(">","&gt;")
     .replaceAll('"',"&quot;")
     .replaceAll("'","&#039;");
+
 }
 
 
 function dateFormat(v){
 
-  if(!v) return "Date not set";
+  if(!v)
+    return "Date not set";
 
-  const d = new Date(v);
+  const d =
+    new Date(v);
 
   if(isNaN(d.getTime()))
     return v;
@@ -90,73 +595,100 @@ function dateFormat(v){
     hour:"2-digit",
     minute:"2-digit"
   });
+
 }
 
 
 /* =========================================
-   LOAD TEAMS + SERIES
+   LOAD TEAMS
 ========================================= */
 
-async function loadReferenceData(){
+async function loadTeams(){
 
-  const [teamsResult,seriesResult] =
-    await Promise.all([
+  const {data,error} =
+    await sb
+      .from("teams")
+      .select("*");
 
-      sb
-        .from("teams")
-        .select("*"),
-
-      sb
-        .from("series")
-        .select("*")
-    ]);
-
-
-  if(teamsResult.error){
+  if(error){
 
     console.error(
       "Teams error:",
-      teamsResult.error
+      error
     );
 
     teamsCache = [];
 
-  }else{
+    return;
 
-    teamsCache =
-      teamsResult.data || [];
   }
 
+  teamsCache =
+    data || [];
 
-  if(seriesResult.error){
-
-    console.error(
-      "Series error:",
-      seriesResult.error
-    );
-
-    seriesCache = [];
-
-  }else{
-
-    seriesCache =
-      seriesResult.data || [];
-  }
 }
 
 
 /* =========================================
-   LOAD MATCHES FROM SUPABASE
+   LOAD SERIES
+========================================= */
+
+async function loadSeries(){
+
+  const {data,error} =
+    await sb
+      .from("series")
+      .select("*");
+
+  if(error){
+
+    console.error(
+      "Series error:",
+      error
+    );
+
+    seriesCache = [];
+
+    return;
+
+  }
+
+  seriesCache =
+    data || [];
+
+}
+
+
+/* =========================================
+   LOAD REFERENCE DATA
+========================================= */
+
+async function loadReferenceData(){
+
+  await Promise.all([
+    loadTeams(),
+    loadSeries()
+  ]);
+
+}
+
+
+/* =========================================
+   LOAD MATCHES
 ========================================= */
 
 async function loadMatches(){
 
-  const {data,error} = await sb
-    .from("matches")
-    .select("*")
-    .order("start_time",{
-      ascending:false
-    });
+  const {data,error} =
+    await sb
+      .from("matches")
+      .select("*")
+      .order(
+        "start_time",
+        {
+          ascending:false
+        }
+      );
 
 
   if(error){
@@ -166,27 +698,28 @@ async function loadMatches(){
       error
     );
 
-    document
-      .getElementById("apiStatus")
-      .textContent = "API ERROR";
+    apiStatus.textContent =
+      "API ERROR";
 
     showToast(
       "Supabase matches error"
     );
 
     return;
+
   }
 
 
-  matches = data || [];
+  matches =
+    data || [];
 
 
-  document
-    .getElementById("apiStatus")
-    .textContent = "API ACTIVE";
+  apiStatus.textContent =
+    "API ACTIVE";
 
 
   render();
+
 }
 
 
@@ -198,7 +731,8 @@ function teamName(id){
 
   const team =
     teamsCache.find(
-      t => String(t.id) === String(id)
+      t =>
+        String(t.id) === String(id)
     );
 
 
@@ -211,6 +745,7 @@ function teamName(id){
     team.team_name ||
     "Team #" + id
   );
+
 }
 
 
@@ -226,7 +761,8 @@ function seriesName(id){
 
   const series =
     seriesCache.find(
-      s => String(s.id) === String(id)
+      s =>
+        String(s.id) === String(id)
     );
 
 
@@ -239,6 +775,7 @@ function seriesName(id){
     series.series_name ||
     "Series #" + id
   );
+
 }
 
 
@@ -253,6 +790,7 @@ document
     sidebar.classList.add("open");
 
     overlay.classList.add("show");
+
   };
 
 
@@ -261,6 +799,7 @@ overlay.onclick = ()=>{
   sidebar.classList.remove("open");
 
   overlay.classList.remove("show");
+
 };
 
 
@@ -271,6 +810,7 @@ overlay.onclick = ()=>{
 function openModal(){
 
   modal.classList.add("show");
+
 }
 
 
@@ -279,6 +819,7 @@ function closeModal(){
   modal.classList.remove("show");
 
   form.reset();
+
 }
 
 
@@ -291,23 +832,27 @@ document
     overlay.classList.remove("show");
 
     openModal();
+
   };
 
 
 document
   .getElementById("close")
-  .onclick = closeModal;
+  .onclick =
+    closeModal;
 
 
 document
   .getElementById("cancel")
-  .onclick = closeModal;
+  .onclick =
+    closeModal;
 
 
 modal.onclick = e=>{
 
   if(e.target === modal)
     closeModal();
+
 };
 
 
@@ -447,6 +992,7 @@ function dashboard(){
     </div>
 
   `;
+
 }
 
 
@@ -491,6 +1037,7 @@ function matchesPage(){
     </div>
 
   `;
+
 }
 
 
@@ -527,6 +1074,7 @@ function matchList(limit){
       </div>
 
     `;
+
   }
 
 
@@ -541,6 +1089,7 @@ function matchList(limit){
     </div>
 
   `;
+
 }
 
 
@@ -601,9 +1150,17 @@ function matchCard(m){
 
           <div class="meta">
 
-            ${esc(seriesName(m.series_id))}
+            ${esc(
+              seriesName(
+                m.series_id
+              )
+            )}
+
             ·
-            ${dateFormat(m.start_time)}
+
+            ${dateFormat(
+              m.start_time
+            )}
 
           </div>
 
@@ -661,7 +1218,7 @@ function matchCard(m){
           <button
             class="btn"
             onclick="changeStatus(
-              ${m.id},
+              '${m.id}',
               '${m.status}'
             )">
 
@@ -688,7 +1245,7 @@ function matchCard(m){
           <button
             class="btn"
             onclick="addScore(
-              ${m.id},
+              '${m.id}',
               1
             )">
 
@@ -700,7 +1257,7 @@ function matchCard(m){
           <button
             class="btn"
             onclick="addScore(
-              ${m.id},
+              '${m.id}',
               2
             )">
 
@@ -716,7 +1273,9 @@ function matchCard(m){
 
         <button
           class="btn danger"
-          onclick="deleteMatch(${m.id})">
+          onclick="deleteMatch(
+            '${m.id}'
+          )">
 
           Delete
 
@@ -727,6 +1286,7 @@ function matchCard(m){
     </div>
 
   `;
+
 }
 
 
@@ -759,10 +1319,12 @@ async function changeStatus(
     console.error(error);
 
     showToast(
-      "Status update failed"
+      "Status update failed: " +
+      error.message
     );
 
     return;
+
   }
 
 
@@ -774,6 +1336,7 @@ async function changeStatus(
 
 
   await loadMatches();
+
 }
 
 
@@ -788,7 +1351,8 @@ async function addScore(
 
   const match =
     matches.find(
-      x => String(x.id) === String(id)
+      x =>
+        String(x.id) === String(id)
     );
 
 
@@ -835,14 +1399,17 @@ async function addScore(
     console.error(error);
 
     showToast(
-      "Score update failed"
+      "Score update failed: " +
+      error.message
     );
 
     return;
+
   }
 
 
   await loadMatches();
+
 }
 
 
@@ -872,10 +1439,12 @@ async function deleteMatch(id){
     console.error(error);
 
     showToast(
-      "Delete failed"
+      "Delete failed: " +
+      error.message
     );
 
     return;
+
   }
 
 
@@ -885,131 +1454,12 @@ async function deleteMatch(id){
 
 
   await loadMatches();
+
 }
 
 
 /* =========================================
-   SERIES PAGE
-========================================= */
-
-function seriesPage(){
-
-  const list =
-    seriesCache;
-
-
-  return simple(
-    "Series",
-    "Series available in Supabase.",
-
-    list.length
-
-      ?
-
-      list.map(s=>`
-
-        <div class="card">
-
-          <h3>
-            ${esc(
-              s.name ||
-              s.series_name ||
-              "Series"
-            )}
-          </h3>
-
-          <p>
-            Supabase series ID:
-            ${esc(s.id)}
-          </p>
-
-        </div>
-
-      `).join("")
-
-      :
-
-      `
-
-      <div class="card">
-
-        <h3>
-          No Series
-        </h3>
-
-        <p>
-          No rows found in series table.
-        </p>
-
-      </div>
-
-      `
-  );
-}
-
-
-/* =========================================
-   TEAMS PAGE
-========================================= */
-
-function teamsPage(){
-
-  const list =
-    teamsCache;
-
-
-  return simple(
-    "Teams",
-    "Teams available in Supabase.",
-
-    list.length
-
-      ?
-
-      list.map(t=>`
-
-        <div class="card">
-
-          <h3>
-            ${esc(
-              t.name ||
-              t.team_name ||
-              "Team"
-            )}
-          </h3>
-
-          <p>
-            Supabase team ID:
-            ${esc(t.id)}
-          </p>
-
-        </div>
-
-      `).join("")
-
-      :
-
-      `
-
-      <div class="card">
-
-        <h3>
-          No Teams
-        </h3>
-
-        <p>
-          No rows found in teams table.
-        </p>
-
-      </div>
-
-      `
-  );
-}
-
-
-/* =========================================
-   SIMPLE PAGES
+   SIMPLE PAGE
 ========================================= */
 
 function simple(
@@ -1044,8 +1494,135 @@ function simple(
     </div>
 
   `;
+
 }
 
+
+/* =========================================
+   SERIES
+========================================= */
+
+function seriesPage(){
+
+  const list =
+    seriesCache;
+
+
+  return simple(
+    "Series",
+    "Series available in Supabase.",
+
+    list.length
+
+    ?
+
+    list.map(s=>`
+
+      <div class="card">
+
+        <h3>
+          ${esc(
+            s.name ||
+            s.series_name ||
+            "Series"
+          )}
+        </h3>
+
+        <p>
+          Supabase series ID:
+          ${esc(s.id)}
+        </p>
+
+      </div>
+
+    `).join("")
+
+    :
+
+    `
+
+      <div class="card">
+
+        <h3>
+          No Series
+        </h3>
+
+        <p>
+          No rows found in series table.
+        </p>
+
+      </div>
+
+    `
+  );
+
+}
+
+
+/* =========================================
+   TEAMS
+========================================= */
+
+function teamsPage(){
+
+  const list =
+    teamsCache;
+
+
+  return simple(
+    "Teams",
+    "Teams available in Supabase.",
+
+    list.length
+
+    ?
+
+    list.map(t=>`
+
+      <div class="card">
+
+        <h3>
+          ${esc(
+            t.name ||
+            t.team_name ||
+            "Team"
+          )}
+        </h3>
+
+        <p>
+          Supabase team ID:
+          ${esc(t.id)}
+        </p>
+
+      </div>
+
+    `).join("")
+
+    :
+
+    `
+
+      <div class="card">
+
+        <h3>
+          No Teams
+        </h3>
+
+        <p>
+          No rows found in teams table.
+        </p>
+
+      </div>
+
+    `
+  );
+
+}
+
+
+/* =========================================
+   PLAYERS
+========================================= */
 
 function playersPage(){
 
@@ -1055,33 +1632,34 @@ function playersPage(){
 
     `
 
-    <div class="card">
+      <div class="card">
 
-      <h3>
-        Player Database
-      </h3>
+        <h3>
+          Player Database
+        </h3>
 
-      <p>
-        Connect your players table when ready.
-      </p>
+        <p>
+          Connect your players table when ready.
+        </p>
 
-    </div>
+      </div>
 
 
-    <div class="card">
+      <div class="card">
 
-      <h3>
-        Statistics
-      </h3>
+        <h3>
+          Statistics
+        </h3>
 
-      <p>
-        Runs, wickets and player statistics.
-      </p>
+        <p>
+          Runs, wickets and player statistics.
+        </p>
 
-    </div>
+      </div>
 
     `
   );
+
 }
 
 
@@ -1097,59 +1675,62 @@ function apiPage(){
 
     `
 
-    <div class="card">
+      <div class="card">
 
-      <h3>
-        Supabase
-      </h3>
+        <h3>
+          Supabase
+        </h3>
 
-      <p>
-        ${SUPABASE_URL}
-      </p>
+        <p>
+          Connected database:
+        </p>
 
-      <p style="margin-top:8px">
+        <p style="margin-top:8px">
+          ${esc(SUPABASE_URL)}
+        </p>
 
-        Connection:
-        ${document.getElementById(
-          "apiStatus"
-        ).textContent}
+        <p style="margin-top:8px">
 
-      </p>
+          Connection:
+          ${esc(apiStatus.textContent)}
 
-    </div>
+        </p>
 
-
-    <div class="card">
-
-      <h3>
-        Cricket API
-      </h3>
-
-      <p>
-        External cricket provider can
-        be connected after its API URL
-        and key are supplied.
-      </p>
-
-    </div>
+      </div>
 
 
-    <div class="card">
+      <div class="card">
 
-      <h3>
-        Odds API
-      </h3>
+        <h3>
+          Cricket API
+        </h3>
 
-      <p>
-        External odds provider can
-        be connected after its API URL
-        and key are supplied.
-      </p>
+        <p>
+          External cricket provider can
+          be connected after its API URL
+          and key are supplied.
+        </p>
 
-    </div>
+      </div>
+
+
+      <div class="card">
+
+        <h3>
+          Odds API
+        </h3>
+
+        <p>
+          External odds provider can
+          be connected after its API URL
+          and key are supplied.
+        </p>
+
+      </div>
 
     `
   );
+
 }
 
 
@@ -1165,20 +1746,21 @@ function usersPage(){
 
     `
 
-    <div class="card">
+      <div class="card">
 
-      <h3>
-        Admin
-      </h3>
+        <h3>
+          Admin
+        </h3>
 
-      <p>
-        Administrator · Active
-      </p>
+        <p>
+          Administrator · Active
+        </p>
 
-    </div>
+      </div>
 
     `
   );
+
 }
 
 
@@ -1194,34 +1776,35 @@ function settingsPage(){
 
     `
 
-    <div class="card">
+      <div class="card">
 
-      <h3>
-        Storage
-      </h3>
+        <h3>
+          Storage
+        </h3>
 
-      <p>
-        Live match data is now read
-        from Supabase.
-      </p>
+        <p>
+          Live match data is read
+          from Supabase.
+        </p>
 
-    </div>
+      </div>
 
 
-    <div class="card">
+      <div class="card">
 
-      <h3>
-        Version
-      </h3>
+        <h3>
+          Version
+        </h3>
 
-      <p>
-        BAAZIGAR LIVE LINE v2.0
-      </p>
+        <p>
+          BAAZIGAR LIVE LINE v2.0
+        </p>
 
-    </div>
+      </div>
 
     `
   );
+
 }
 
 
@@ -1243,6 +1826,7 @@ function setActive(page){
       );
 
     });
+
 }
 
 
@@ -1311,58 +1895,75 @@ function render(){
 
   if(
     currentPage === "dashboard"
-  )
+  ){
+
     app.innerHTML =
       dashboard();
 
+  }
 
   else if(
     currentPage === "matches"
-  )
+  ){
+
     app.innerHTML =
       matchesPage();
 
+  }
 
   else if(
     currentPage === "series"
-  )
+  ){
+
     app.innerHTML =
       seriesPage();
 
+  }
 
   else if(
     currentPage === "teams"
-  )
+  ){
+
     app.innerHTML =
       teamsPage();
 
+  }
 
   else if(
     currentPage === "players"
-  )
+  ){
+
     app.innerHTML =
       playersPage();
 
+  }
 
   else if(
     currentPage === "api"
-  )
+  ){
+
     app.innerHTML =
       apiPage();
 
+  }
 
   else if(
     currentPage === "users"
-  )
+  ){
+
     app.innerHTML =
       usersPage();
 
+  }
 
   else if(
     currentPage === "settings"
-  )
+  ){
+
     app.innerHTML =
       settingsPage();
+
+  }
 
 }
 
@@ -1371,168 +1972,180 @@ function render(){
    CREATE MATCH → SUPABASE
 ========================================= */
 
-form.onsubmit = async e=>{
+form.onsubmit =
+  async e=>{
 
-  e.preventDefault();
-
-
-  const team1 =
-    document
-      .getElementById("team1")
-      .value
-      .trim();
+    e.preventDefault();
 
 
-  const team2 =
-    document
-      .getElementById("team2")
-      .value
-      .trim();
+    const team1 =
+      document
+        .getElementById("team1")
+        .value
+        .trim();
 
 
-  const series =
-    document
-      .getElementById("series")
-      .value
-      .trim();
+    const team2 =
+      document
+        .getElementById("team2")
+        .value
+        .trim();
 
 
-  const t1 =
-    teamsCache.find(
-      t =>
-        String(
-          t.name ||
-          t.team_name ||
-          ""
-        ).toLowerCase()
-        === team1.toLowerCase()
-    );
+    const series =
+      document
+        .getElementById("series")
+        .value
+        .trim();
 
 
-  const t2 =
-    teamsCache.find(
-      t =>
-        String(
-          t.name ||
-          t.team_name ||
-          ""
-        ).toLowerCase()
-        === team2.toLowerCase()
-    );
-
-
-  if(!t1 || !t2){
-
-    showToast(
-      "Team name Supabase teams table se match nahi hua"
-    );
-
-    return;
-  }
-
-
-  let s = null;
-
-
-  if(series){
-
-    s =
-      seriesCache.find(
-        x =>
+    const t1 =
+      teamsCache.find(
+        t =>
           String(
-            x.name ||
-            x.series_name ||
+            t.name ||
+            t.team_name ||
             ""
           ).toLowerCase()
-          === series.toLowerCase()
+          === team1.toLowerCase()
       );
 
 
-    if(!s){
+    const t2 =
+      teamsCache.find(
+        t =>
+          String(
+            t.name ||
+            t.team_name ||
+            ""
+          ).toLowerCase()
+          === team2.toLowerCase()
+      );
+
+
+    if(!t1 || !t2){
 
       showToast(
-        "Series Supabase series table me nahi mili"
+        "Team name Supabase teams table se match nahi hua"
       );
 
       return;
+
     }
 
-  }
+
+    let s = null;
 
 
-  const payload = {
+    if(series){
 
-    series_id:
-      s ? s.id : null,
+      s =
+        seriesCache.find(
+          x =>
+            String(
+              x.name ||
+              x.series_name ||
+              ""
+            ).toLowerCase()
+            === series.toLowerCase()
+        );
 
-    team1_id:
-      t1.id,
 
-    team2_id:
-      t2.id,
+      if(!s){
 
-    status:
+        showToast(
+          "Series Supabase series table me nahi mili"
+        );
+
+        return;
+
+      }
+
+    }
+
+
+    const dateValue =
       document
-        .getElementById("status")
-        .value,
+        .getElementById("date")
+        .value;
 
-    start_time:
-      new Date(
+
+    const payload = {
+
+      series_id:
+        s ? s.id : null,
+
+      team1_id:
+        t1.id,
+
+      team2_id:
+        t2.id,
+
+      status:
         document
-          .getElementById("date")
-          .value
-      ).toISOString(),
+          .getElementById("status")
+          .value,
 
-    team1_score:0,
-    team1_wickets:0,
-    team1_overs:0,
+      start_time:
+        new Date(
+          dateValue
+        ).toISOString(),
 
-    team2_score:0,
-    team2_wickets:0,
-    team2_overs:0
+      team1_score:0,
 
-  };
+      team1_wickets:0,
+
+      team1_overs:0,
+
+      team2_score:0,
+
+      team2_wickets:0,
+
+      team2_overs:0
+
+    };
 
 
-  const {error} =
-    await sb
-      .from("matches")
-      .insert(payload);
+    const {error} =
+      await sb
+        .from("matches")
+        .insert(payload);
 
 
-  if(error){
+    if(error){
 
-    console.error(error);
+      console.error(error);
 
-    showToast(
-      "Match create failed: " +
-      error.message
+      showToast(
+        "Match create failed: " +
+        error.message
+      );
+
+      return;
+
+    }
+
+
+    closeModal();
+
+
+    currentPage =
+      "matches";
+
+
+    setActive(
+      "matches"
     );
 
-    return;
-  }
+
+    showToast(
+      "Match created in Supabase"
+    );
 
 
-  closeModal();
+    await loadMatches();
 
-
-  currentPage =
-    "matches";
-
-
-  setActive(
-    "matches"
-  );
-
-
-  showToast(
-    "Match created in Supabase"
-  );
-
-
-  await loadMatches();
-
-};
+  };
 
 
 /* =========================================
@@ -1543,6 +2156,10 @@ form.onsubmit = async e=>{
 
   render();
 
+  apiStatus.textContent =
+    "CONNECTING";
+
+
   try{
 
     await loadReferenceData();
@@ -1551,11 +2168,11 @@ form.onsubmit = async e=>{
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
 
-    document
-      .getElementById("apiStatus")
-      .textContent =
+    apiStatus.textContent =
       "API ERROR";
 
     showToast(
@@ -1567,3 +2184,6 @@ form.onsubmit = async e=>{
 })();
 
 </script>
+
+</body>
+</html>
