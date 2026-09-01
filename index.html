@@ -2,1228 +2,1027 @@
 <html lang="en" class="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>BAAZIGAR LIVE — Admin Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BAAZIGAR LIVE LINE — Admin Panel</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0" rel="stylesheet">
-
-<script>
-tailwind.config = {
-  darkMode: "class",
-  theme: {
-    extend: {
-      colors: {
-        bg:"#121317",
-        panel:"#1e1f24",
-        panel2:"#292a2e",
-        line:"#343539",
-        text:"#e3e2e7",
-        muted:"#c3caac",
-        neon:"#b8f600",
-        danger:"#ff4d4d"
-      }
-    }
-  }
-}
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0" rel="stylesheet">
 
 <style>
 *{box-sizing:border-box}
 body{
   margin:0;
-  background:#121317;
-  color:#e3e2e7;
+  background:#0d0f12;
+  color:#e8eadf;
   font-family:Inter,sans-serif;
 }
+button,a{transition:.2s}
 .material-symbols-outlined{
-  font-size:22px;
-  vertical-align:middle;
+  font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;
 }
-button,a{transition:.18s}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-thumb{background:#343a25;border-radius:10px}
+
 .card{
-  background:#1e1f24;
-  border:1px solid #343539;
-  border-radius:8px;
+  background:#1a1c20;
+  border:1px solid #30332f;
+  border-radius:12px;
 }
 .input{
   width:100%;
-  background:#121317;
-  border:1px solid #434933;
+  background:#111317;
+  border:1px solid #383b38;
   color:#fff;
-  padding:12px;
-  border-radius:6px;
+  padding:12px 14px;
+  border-radius:8px;
   outline:none;
 }
-.input:focus{
-  border-color:#b8f600;
-}
+.input:focus{border-color:#bfff00}
 .btn{
-  background:#b8f600;
-  color:#141f00;
+  background:#bfff00;
+  color:#111600;
   font-weight:800;
   padding:11px 16px;
-  border-radius:6px;
+  border-radius:8px;
 }
-.btn:hover{background:#a1d800}
+.btn:hover{background:#d1ff4d}
 .btn-dark{
-  background:#292a2e;
-  border:1px solid #434933;
-  color:#e3e2e7;
-  padding:10px 15px;
-  border-radius:6px;
+  background:#24272b;
+  color:#fff;
+  border:1px solid #3b3e42;
+  padding:11px 16px;
+  border-radius:8px;
 }
 .btn-danger{
-  background:#421b1d;
+  background:#5d161b;
   color:#ffb4ab;
-  border:1px solid #71383a;
-  padding:9px 13px;
-  border-radius:6px;
+  border:1px solid #8e3030;
+  padding:10px 14px;
+  border-radius:8px;
 }
 .nav-active{
-  background:rgba(184,246,0,.10);
-  color:#b8f600;
-  border-left:4px solid #b8f600;
+  background:rgba(191,255,0,.12);
+  color:#bfff00;
+  border-left:4px solid #bfff00;
 }
-.page{display:none}
-.page.active{display:block}
-.overlay{
-  position:fixed;
-  inset:0;
+.modal-bg{
   background:rgba(0,0,0,.75);
-  z-index:100;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
+  backdrop-filter:blur(5px);
 }
-.overlay.show{display:flex}
-.modal{
-  width:100%;
-  max-width:520px;
-  background:#1e1f24;
-  border:1px solid #434933;
-  border-radius:10px;
-  padding:24px;
-}
-@media(max-width:800px){
-  aside{transform:translateX(-100%);transition:.2s}
-  aside.open{transform:translateX(0)}
-  main{margin-left:0!important}
-  header{left:0!important}
-  .mobile-menu{display:block!important}
-}
+.hidden-page{display:none!important}
 </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
-<aside id="sidebar"
-class="fixed left-0 top-0 bottom-0 z-50 w-[260px] bg-[#0d0e12] border-r border-[#343539] flex flex-col">
-
-<div class="p-6">
-  <div class="text-xl font-black tracking-tight text-white">
-    BAAZIGAR LIVE LINE
-  </div>
-  <div class="text-xs font-bold tracking-widest text-[#c3caac] mt-2">
-    ADMIN CONTROL PANEL
-  </div>
-</div>
-
-<div class="px-5 mb-5">
-  <button onclick="openNewMatch()" class="btn w-full flex items-center justify-center gap-2">
-    <span class="material-symbols-outlined">add</span>
-    New Match
+<!-- MOBILE HEADER -->
+<header class="lg:hidden fixed top-0 left-0 right-0 z-40 h-16 bg-[#0d0f12] border-b border-[#30332f] flex items-center justify-between px-4">
+  <button onclick="toggleSidebar()" class="text-white">
+    <span class="material-symbols-outlined text-3xl">menu</span>
   </button>
-</div>
 
-<nav class="flex-1 overflow-y-auto">
+  <div class="font-black text-lg">
+    BAAZIGAR <span class="text-[#bfff00]">LIVE LINE</span>
+  </div>
 
-<a onclick="showPage('dashboard')" data-page="dashboard"
-class="nav flex items-center gap-3 px-6 py-3 cursor-pointer nav-active">
-<span class="material-symbols-outlined">dashboard</span>
-Dashboard
-</a>
-
-<a onclick="showPage('matches')" data-page="matches"
-class="nav flex items-center gap-3 px-6 py-3 cursor-pointer text-[#c3caac] hover:bg-[#292a2e]">
-<span class="material-symbols-outlined">sports_cricket</span>
-Match Management
-</a>
-
-<a onclick="showPage('series')" data-page="series"
-class="nav flex items-center gap-3 px-6 py-3 cursor-pointer text-[#c3caac] hover:bg-[#292a2e]">
-<span class="material-symbols-outlined">event_note</span>
-Series
-</a>
-
-<a onclick="showPage('teams')" data-page="teams"
-class="nav flex items-center gap-3 px-6 py-3 cursor-pointer text-[#c3caac] hover:bg-[#292a2e]">
-<span class="material-symbols-outlined">groups</span>
-Teams
-</a>
-
-<a onclick="showPage('players')" data-page="players"
-class="nav flex items-center gap-3 px-6 py-3 cursor-pointer text-[#c3caac] hover:bg-[#292a2e]">
-<span class="material-symbols-outlined">person_search</span>
-Players
-</a>
-
-<a onclick="showPage('api')" data-page="api"
-class="nav flex items-center gap-3 px-6 py-3 cursor-pointer text-[#c3caac] hover:bg-[#292a2e]">
-<span class="material-symbols-outlined">api</span>
-API Settings
-</a>
-
-<a onclick="showPage('users')" data-page="users"
-class="nav flex items-center gap-3 px-6 py-3 cursor-pointer text-[#c3caac] hover:bg-[#292a2e]">
-<span class="material-symbols-outlined">manage_accounts</span>
-User Management
-</a>
-
-</nav>
-
-<div class="border-t border-[#343539]">
-<a onclick="showPage('settings')" data-page="settings"
-class="nav flex items-center gap-3 px-6 py-3 cursor-pointer text-[#c3caac] hover:bg-[#292a2e]">
-<span class="material-symbols-outlined">settings</span>
-Settings
-</a>
-
-<a onclick="logout()"
-class="flex items-center gap-3 px-6 py-3 cursor-pointer text-[#ffb4ab] hover:bg-[#292a2e]">
-<span class="material-symbols-outlined">logout</span>
-Logout
-</a>
-</div>
-
-</aside>
-
-
-<!-- HEADER -->
-<header
-class="fixed top-0 right-0 left-[260px] h-16 z-40 bg-[#121317] border-b border-[#343539] flex items-center justify-between px-6">
-
-<button onclick="toggleMenu()" class="mobile-menu hidden text-white">
-<span class="material-symbols-outlined">menu</span>
-</button>
-
-<div class="font-bold text-white text-lg">
-BAAZIGAR LIVE LINE
-</div>
-
-<div class="flex items-center gap-4">
-
-<div class="flex items-center gap-2 text-[#b8f600] text-xs font-bold border border-[#b8f600]/30 bg-[#b8f600]/10 px-3 py-2 rounded">
-<span class="w-2 h-2 rounded-full bg-[#b8f600] animate-pulse"></span>
-API STATUS: <span id="apiStatus">ACTIVE</span>
-</div>
-
-<div class="w-9 h-9 rounded-full bg-[#b8f600] text-black flex items-center justify-center font-black">
-A
-</div>
-
-</div>
+  <div class="w-9 h-9 rounded-full bg-[#bfff00] text-black flex items-center justify-center font-black">
+    A
+  </div>
 </header>
 
+<!-- SIDEBAR -->
+<aside id="sidebar"
+class="fixed z-50 top-0 bottom-0 left-0 w-[270px] bg-[#0b0d10] border-r border-[#30332f] flex flex-col transform -translate-x-full lg:translate-x-0 transition-transform">
+
+  <div class="p-6">
+    <div class="text-xl font-black tracking-tight">
+      BAAZIGAR <span class="text-[#bfff00]">LIVE LINE</span>
+    </div>
+    <div class="text-xs text-[#aeb59a] mt-2 uppercase tracking-widest">
+      Admin Control Panel
+    </div>
+  </div>
+
+  <div class="px-5 mb-5">
+    <button onclick="openNewMatch()" class="btn w-full flex items-center justify-center gap-2">
+      <span class="material-symbols-outlined">add</span>
+      New Match
+    </button>
+  </div>
+
+  <nav class="flex-1 overflow-y-auto">
+
+    <button onclick="showPage('dashboard')" data-page="dashboard"
+      class="nav-btn w-full flex items-center gap-3 px-6 py-3 text-left nav-active">
+      <span class="material-symbols-outlined">dashboard</span>
+      Dashboard
+    </button>
+
+    <button onclick="showPage('matches')" data-page="matches"
+      class="nav-btn w-full flex items-center gap-3 px-6 py-3 text-left text-[#bfc4b2] hover:bg-[#202329]">
+      <span class="material-symbols-outlined">sports_cricket</span>
+      Match Management
+    </button>
+
+    <button onclick="showPage('series')" data-page="series"
+      class="nav-btn w-full flex items-center gap-3 px-6 py-3 text-left text-[#bfc4b2] hover:bg-[#202329]">
+      <span class="material-symbols-outlined">event_note</span>
+      Series
+    </button>
+
+    <button onclick="showPage('teams')" data-page="teams"
+      class="nav-btn w-full flex items-center gap-3 px-6 py-3 text-left text-[#bfc4b2] hover:bg-[#202329]">
+      <span class="material-symbols-outlined">groups</span>
+      Teams
+    </button>
+
+    <button onclick="showPage('players')" data-page="players"
+      class="nav-btn w-full flex items-center gap-3 px-6 py-3 text-left text-[#bfc4b2] hover:bg-[#202329]">
+      <span class="material-symbols-outlined">person_search</span>
+      Players
+    </button>
+
+    <button onclick="showPage('api')" data-page="api"
+      class="nav-btn w-full flex items-center gap-3 px-6 py-3 text-left text-[#bfc4b2] hover:bg-[#202329]">
+      <span class="material-symbols-outlined">api</span>
+      API Settings
+    </button>
+
+    <button onclick="showPage('users')" data-page="users"
+      class="nav-btn w-full flex items-center gap-3 px-6 py-3 text-left text-[#bfc4b2] hover:bg-[#202329]">
+      <span class="material-symbols-outlined">manage_accounts</span>
+      User Management
+    </button>
+
+  </nav>
+
+  <div class="border-t border-[#30332f]">
+
+    <button onclick="showPage('settings')"
+      data-page="settings"
+      class="nav-btn w-full flex items-center gap-3 px-6 py-3 text-left text-[#bfc4b2] hover:bg-[#202329]">
+      <span class="material-symbols-outlined">settings</span>
+      Settings
+    </button>
+
+    <button onclick="logout()" class="w-full flex items-center gap-3 px-6 py-3 text-left text-[#ffb4ab] hover:bg-[#35171b]">
+      <span class="material-symbols-outlined">logout</span>
+      Logout
+    </button>
+
+  </div>
+</aside>
 
 <!-- MAIN -->
-<main class="ml-[260px] pt-16 min-h-screen">
+<div class="lg:ml-[270px] min-h-screen">
 
-<div class="p-6 md:p-8">
+<!-- DESKTOP TOP BAR -->
+<header class="hidden lg:flex fixed top-0 right-0 left-[270px] z-30 h-16 bg-[#0d0f12] border-b border-[#30332f] items-center justify-between px-8">
 
+  <div class="font-bold text-lg">BAAZIGAR LIVE LINE</div>
+
+  <div class="flex items-center gap-5">
+
+    <div class="px-4 py-2 rounded-lg border border-[#617b00] bg-[#bfff00]/10 text-[#bfff00] text-xs font-bold flex items-center gap-2">
+      <span class="w-2 h-2 bg-[#bfff00] rounded-full animate-pulse"></span>
+      API STATUS: <span id="apiStatusTop">ACTIVE</span>
+    </div>
+
+    <div class="w-9 h-9 rounded-full bg-[#bfff00] text-black flex items-center justify-center font-black">
+      A
+    </div>
+
+  </div>
+</header>
+
+<main class="pt-20 lg:pt-24 px-4 sm:px-6 lg:px-8 pb-10">
 
 <!-- DASHBOARD -->
-<section id="dashboard" class="page active">
+<section id="page-dashboard">
 
-<div class="flex items-center justify-between mb-7">
-<div>
-<h1 class="text-3xl font-black text-white">Overview</h1>
-<p class="text-[#c3caac] text-sm mt-1">
-BAAZIGAR LIVE control center
-</p>
-</div>
+  <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-8">
 
-<div class="text-xs text-[#c3caac]">
-LAST UPDATED: <span id="lastUpdated">JUST NOW</span>
-</div>
-</div>
+    <div>
+      <h1 class="text-4xl sm:text-5xl font-black">Overview</h1>
+      <p class="text-[#aeb59a] mt-2">BAAZIGAR LIVE control center</p>
+    </div>
 
+    <div class="text-xs font-bold text-[#aeb59a]">
+      LAST UPDATED: <span id="lastUpdated">JUST NOW</span>
+    </div>
 
-<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+  </div>
 
-<div class="card p-6">
-<div class="flex justify-between text-xs font-bold text-[#c3caac]">
-TOTAL USERS
-<span class="material-symbols-outlined">group</span>
-</div>
-<div id="totalUsers" class="text-3xl font-black mt-4 text-white">0</div>
-</div>
+  <!-- KPI -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
 
-<div class="card p-6 border-l-4 border-l-[#b8f600]">
-<div class="flex justify-between text-xs font-bold text-[#c3caac]">
-LIVE MATCHES
-<span class="material-symbols-outlined text-[#b8f600]">sports_cricket</span>
-</div>
-<div id="liveMatches" class="text-3xl font-black mt-4 text-white">0</div>
-</div>
+    <div class="card p-6">
+      <div class="flex justify-between text-[#bfc4b2] text-xs font-bold tracking-widest">
+        TOTAL USERS
+        <span class="material-symbols-outlined">group</span>
+      </div>
+      <div class="text-4xl font-black mt-8" id="totalUsers">1</div>
+    </div>
 
-<div class="card p-6">
-<div class="flex justify-between text-xs font-bold text-[#c3caac]">
-UPCOMING MATCHES
-<span class="material-symbols-outlined">event</span>
-</div>
-<div id="upcomingMatches" class="text-3xl font-black mt-4 text-white">0</div>
-</div>
+    <div class="card p-6 border-l-4 border-l-[#bfff00]">
+      <div class="flex justify-between text-[#bfc4b2] text-xs font-bold tracking-widest">
+        LIVE MATCHES
+        <span class="material-symbols-outlined text-[#bfff00]">sports_cricket</span>
+      </div>
+      <div class="text-4xl font-black mt-8" id="liveMatches">0</div>
+    </div>
 
-<div class="card p-6">
-<div class="flex justify-between text-xs font-bold text-[#c3caac]">
-ACTIVE SERIES
-<span class="material-symbols-outlined">view_timeline</span>
-</div>
-<div id="activeSeries" class="text-3xl font-black mt-4 text-white">0</div>
-</div>
+    <div class="card p-6">
+      <div class="flex justify-between text-[#bfc4b2] text-xs font-bold tracking-widest">
+        UPCOMING MATCHES
+        <span class="material-symbols-outlined">event</span>
+      </div>
+      <div class="text-4xl font-black mt-8" id="upcomingMatches">0</div>
+    </div>
 
-</div>
+    <div class="card p-6">
+      <div class="flex justify-between text-[#bfc4b2] text-xs font-bold tracking-widest">
+        ACTIVE SERIES
+        <span class="material-symbols-outlined">view_timeline</span>
+      </div>
+      <div class="text-4xl font-black mt-8" id="activeSeries">0</div>
+    </div>
 
+  </div>
 
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-6">
+  <!-- DATA + LOGS -->
+  <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
 
-<div class="card p-6">
-<div class="flex items-center justify-between mb-5">
-<h2 class="font-bold text-white">DATA STREAMS</h2>
-<span class="text-xs text-[#b8f600]">LIVE</span>
-</div>
+    <div class="xl:col-span-2">
 
-<div class="space-y-4">
+      <div class="flex justify-between items-center border-b border-[#30332f] pb-3 mb-4">
+        <h2 class="text-sm font-bold tracking-widest text-[#bfc4b2]">
+          DATA STREAMS
+        </h2>
+        <span class="text-xs text-[#bfff00]">SYSTEM ONLINE</span>
+      </div>
 
-<div class="border border-[#343539] rounded p-5">
-<div class="flex justify-between">
-<div class="flex gap-3 items-center">
-<span class="material-symbols-outlined text-[#b8f600]">api</span>
-<div>
-<div class="font-bold">Cricket Data</div>
-<div class="text-xs text-[#c3caac] mt-1">Match data connection</div>
-</div>
-</div>
-<span class="text-[#b8f600] text-xs font-bold">CONNECTED</span>
-</div>
-</div>
+      <div class="grid md:grid-cols-2 gap-4">
 
-<div class="border border-[#343539] rounded p-5">
-<div class="flex justify-between">
-<div class="flex gap-3 items-center">
-<span class="material-symbols-outlined">swap_calls</span>
-<div>
-<div class="font-bold">Odds Data</div>
-<div class="text-xs text-[#c3caac] mt-1">Odds provider connection</div>
-</div>
-</div>
-<span class="text-[#b8f600] text-xs font-bold">CONNECTED</span>
-</div>
-</div>
+        <div class="card p-6">
+          <div class="flex justify-between items-center">
+            <div class="flex gap-3 items-center">
+              <span class="material-symbols-outlined text-[#bfff00]">api</span>
+              <span class="font-bold">Cricket Data</span>
+            </div>
+            <span class="text-xs text-[#bfff00]">● CONNECTED</span>
+          </div>
 
-</div>
-</div>
+          <div class="border-t border-[#30332f] mt-6 pt-4 flex justify-between text-sm">
+            <span class="text-[#aeb59a]">LATENCY</span>
+            <span>120ms</span>
+          </div>
+        </div>
 
+        <div class="card p-6">
+          <div class="flex justify-between items-center">
+            <div class="flex gap-3 items-center">
+              <span class="material-symbols-outlined text-[#bfff00]">swap_calls</span>
+              <span class="font-bold">Odds Data</span>
+            </div>
+            <span class="text-xs text-[#bfff00]">● CONNECTED</span>
+          </div>
 
-<div class="card p-6">
-<div class="flex justify-between mb-5">
-<h2 class="font-bold text-white">RECENT ACTIVITY</h2>
-<button onclick="showPage('matches')" class="text-xs text-[#b8f600]">
-VIEW MATCHES
-</button>
-</div>
+          <div class="border-t border-[#30332f] mt-6 pt-4 flex justify-between text-sm">
+            <span class="text-[#aeb59a]">LATENCY</span>
+            <span>340ms</span>
+          </div>
+        </div>
 
-<div id="activity" class="space-y-4 text-sm">
-<div class="text-[#c3caac]">No activity yet.</div>
-</div>
+      </div>
 
-</div>
+    </div>
 
-</div>
+    <div>
+
+      <div class="border-b border-[#30332f] pb-3 mb-4">
+        <h2 class="text-sm font-bold tracking-widest text-[#bfc4b2]">
+          SYSTEM LOGS
+        </h2>
+      </div>
+
+      <div id="logs" class="card p-4 space-y-4 max-h-[330px] overflow-y-auto"></div>
+
+    </div>
+
+  </div>
 
 </section>
 
 
 <!-- MATCHES -->
-<section id="matches" class="page">
+<section id="page-matches" class="hidden-page">
 
-<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-<div>
-<h1 class="text-3xl font-black text-white">Match Management</h1>
-<p class="text-[#c3caac] text-sm mt-1">Create and manage matches</p>
-</div>
+  <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+    <div>
+      <h1 class="text-4xl font-black">Match Management</h1>
+      <p class="text-[#aeb59a] mt-2">Create and manage cricket matches</p>
+    </div>
 
-<button onclick="openNewMatch()" class="btn flex items-center gap-2 w-fit">
-<span class="material-symbols-outlined">add</span>
-New Match
-</button>
-</div>
+    <button onclick="openNewMatch()" class="btn flex items-center justify-center gap-2">
+      <span class="material-symbols-outlined">add</span>
+      New Match
+    </button>
+  </div>
 
-<div class="card overflow-hidden">
-<div class="p-5 border-b border-[#343539]">
-<input id="matchSearch" oninput="renderMatches()"
-class="input"
-placeholder="Search teams or match...">
-</div>
-
-<div id="matchList" class="divide-y divide-[#343539]"></div>
-</div>
+  <div id="matchesList" class="grid gap-4"></div>
 
 </section>
 
 
 <!-- SERIES -->
-<section id="series" class="page">
+<section id="page-series" class="hidden-page">
 
-<div class="flex justify-between items-center mb-6">
-<div>
-<h1 class="text-3xl font-black text-white">Series</h1>
-<p class="text-[#c3caac] text-sm">Manage cricket series</p>
-</div>
-<button onclick="addSeries()" class="btn">+ Add Series</button>
-</div>
+  <div class="flex justify-between items-center mb-6">
+    <div>
+      <h1 class="text-4xl font-black">Series</h1>
+      <p class="text-[#aeb59a] mt-2">Manage cricket series</p>
+    </div>
 
-<div id="seriesList" class="grid md:grid-cols-2 xl:grid-cols-3 gap-5"></div>
+    <button onclick="addSeries()" class="btn">+ Add Series</button>
+  </div>
+
+  <div id="seriesList" class="grid md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
 
 </section>
 
 
 <!-- TEAMS -->
-<section id="teams" class="page">
+<section id="page-teams" class="hidden-page">
 
-<div class="flex justify-between items-center mb-6">
-<div>
-<h1 class="text-3xl font-black text-white">Teams</h1>
-<p class="text-[#c3caac] text-sm">Manage teams</p>
-</div>
-<button onclick="addTeam()" class="btn">+ Add Team</button>
-</div>
+  <div class="flex justify-between items-center mb-6">
+    <div>
+      <h1 class="text-4xl font-black">Teams</h1>
+      <p class="text-[#aeb59a] mt-2">Manage cricket teams</p>
+    </div>
 
-<div id="teamList" class="grid md:grid-cols-2 xl:grid-cols-3 gap-5"></div>
+    <button onclick="addTeam()" class="btn">+ Add Team</button>
+  </div>
+
+  <div id="teamsList" class="grid sm:grid-cols-2 xl:grid-cols-4 gap-4"></div>
 
 </section>
 
 
 <!-- PLAYERS -->
-<section id="players" class="page">
+<section id="page-players" class="hidden-page">
 
-<div class="flex justify-between items-center mb-6">
-<div>
-<h1 class="text-3xl font-black text-white">Players</h1>
-<p class="text-[#c3caac] text-sm">Manage player database</p>
-</div>
-<button onclick="addPlayer()" class="btn">+ Add Player</button>
-</div>
+  <div class="flex justify-between items-center mb-6">
+    <div>
+      <h1 class="text-4xl font-black">Players</h1>
+      <p class="text-[#aeb59a] mt-2">Manage player database</p>
+    </div>
 
-<div class="card overflow-hidden">
-<div id="playerList"></div>
-</div>
+    <button onclick="addPlayer()" class="btn">+ Add Player</button>
+  </div>
+
+  <div class="card overflow-hidden">
+    <div id="playersList"></div>
+  </div>
 
 </section>
 
 
 <!-- API -->
-<section id="api" class="page">
+<section id="page-api" class="hidden-page">
 
-<div class="mb-6">
-<h1 class="text-3xl font-black text-white">API Settings</h1>
-<p class="text-[#c3caac] text-sm mt-1">
-Configure cricket and odds data providers
-</p>
-</div>
+  <h1 class="text-4xl font-black mb-2">API Settings</h1>
+  <p class="text-[#aeb59a] mb-6">Configure your live data providers</p>
 
-<div class="grid md:grid-cols-2 gap-5">
+  <div class="card p-6 max-w-2xl">
 
-<div class="card p-6">
-<h2 class="font-bold text-white mb-5">Cricket API</h2>
+    <label class="block text-sm font-bold mb-2">Cricket API Key</label>
+    <input id="cricketApi" class="input mb-5" type="password" placeholder="Enter API key">
 
-<label class="text-xs text-[#c3caac]">API URL</label>
-<input id="cricketApiUrl" class="input mt-2"
-placeholder="https://api.example.com">
+    <label class="block text-sm font-bold mb-2">Odds API Key</label>
+    <input id="oddsApi" class="input mb-5" type="password" placeholder="Enter API key">
 
-<label class="text-xs text-[#c3caac] block mt-4">API KEY</label>
-<input id="cricketApiKey" type="password" class="input mt-2"
-placeholder="Enter API key">
+    <label class="flex items-center gap-3 mb-6">
+      <input id="apiEnabled" type="checkbox" class="w-5 h-5 accent-lime-400">
+      <span>Enable live API connection</span>
+    </label>
 
-<button onclick="saveApi()" class="btn mt-5">
-Save Cricket API
-</button>
-</div>
+    <button onclick="saveApi()" class="btn">Save API Settings</button>
 
-<div class="card p-6">
-<h2 class="font-bold text-white mb-5">Odds API</h2>
-
-<label class="text-xs text-[#c3caac]">API URL</label>
-<input id="oddsApiUrl" class="input mt-2"
-placeholder="https://api.example.com">
-
-<label class="text-xs text-[#c3caac] block mt-4">API KEY</label>
-<input id="oddsApiKey" type="password" class="input mt-2"
-placeholder="Enter API key">
-
-<button onclick="saveApi()" class="btn mt-5">
-Save Odds API
-</button>
-</div>
-
-</div>
+  </div>
 
 </section>
 
 
 <!-- USERS -->
-<section id="users" class="page">
+<section id="page-users" class="hidden-page">
 
-<div class="flex justify-between items-center mb-6">
-<div>
-<h1 class="text-3xl font-black text-white">User Management</h1>
-<p class="text-[#c3caac] text-sm">Manage admin users</p>
-</div>
+  <div class="flex justify-between items-center mb-6">
+    <div>
+      <h1 class="text-4xl font-black">User Management</h1>
+      <p class="text-[#aeb59a] mt-2">Manage admin users</p>
+    </div>
 
-<button onclick="addUser()" class="btn">+ Add User</button>
-</div>
+    <button onclick="addUser()" class="btn">+ Add User</button>
+  </div>
 
-<div class="card overflow-hidden">
-<div id="userList"></div>
-</div>
+  <div id="usersList" class="grid gap-4"></div>
 
 </section>
 
 
 <!-- SETTINGS -->
-<section id="settings" class="page">
+<section id="page-settings" class="hidden-page">
 
-<div class="mb-6">
-<h1 class="text-3xl font-black text-white">Settings</h1>
-<p class="text-[#c3caac] text-sm mt-1">Application settings</p>
-</div>
+  <h1 class="text-4xl font-black mb-2">Settings</h1>
+  <p class="text-[#aeb59a] mb-6">Dashboard preferences</p>
 
-<div class="card p-6 max-w-xl">
+  <div class="card p-6 max-w-2xl space-y-6">
 
-<label class="text-xs text-[#c3caac]">APPLICATION NAME</label>
-<input id="appName" class="input mt-2"
-value="BAAZIGAR LIVE LINE">
+    <div>
+      <label class="block font-bold mb-2">Dashboard Name</label>
+      <input id="dashboardName" class="input" value="BAAZIGAR LIVE LINE">
+    </div>
 
-<label class="text-xs text-[#c3caac] block mt-5">
-ADMIN NAME
-</label>
-<input id="adminName" class="input mt-2"
-value="Administrator">
+    <div>
+      <label class="block font-bold mb-2">Admin Name</label>
+      <input id="adminName" class="input" value="Admin">
+    </div>
 
-<button onclick="saveSettings()" class="btn mt-6">
-Save Settings
-</button>
+    <div class="flex items-center justify-between">
+      <div>
+        <div class="font-bold">Live Notifications</div>
+        <div class="text-sm text-[#aeb59a]">Show system notifications</div>
+      </div>
+      <input id="notifications" type="checkbox" checked class="w-5 h-5 accent-lime-400">
+    </div>
 
-<button onclick="clearAllData()" class="btn-danger mt-6 ml-2">
-Reset Demo Data
-</button>
+    <button onclick="saveSettings()" class="btn">Save Settings</button>
 
-</div>
+  </div>
 
 </section>
 
-</div>
 </main>
+</div>
 
 
 <!-- NEW MATCH MODAL -->
-<div id="matchModal" class="overlay">
+<div id="matchModal" class="hidden fixed inset-0 z-[100] modal-bg flex items-center justify-center p-4">
 
-<div class="modal">
+  <div class="card w-full max-w-lg p-6">
 
-<div class="flex justify-between items-center mb-6">
-<h2 class="text-xl font-black">Create New Match</h2>
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-black">Create New Match</h2>
 
-<button onclick="closeModal()">
-<span class="material-symbols-outlined">close</span>
-</button>
-</div>
+      <button onclick="closeModal()" class="text-[#aeb59a]">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
 
-<label class="text-xs text-[#c3caac]">TEAM 1</label>
-<input id="team1" class="input mt-2" placeholder="India">
+    <div class="space-y-4">
 
-<label class="text-xs text-[#c3caac] block mt-4">TEAM 2</label>
-<input id="team2" class="input mt-2" placeholder="Australia">
+      <div>
+        <label class="block text-sm font-bold mb-2">Team 1</label>
+        <input id="team1" class="input" placeholder="India">
+      </div>
 
-<label class="text-xs text-[#c3caac] block mt-4">MATCH TYPE</label>
+      <div>
+        <label class="block text-sm font-bold mb-2">Team 2</label>
+        <input id="team2" class="input" placeholder="Australia">
+      </div>
 
-<select id="matchType" class="input mt-2">
-<option>T20</option>
-<option>ODI</option>
-<option>Test</option>
-<option>Other</option>
-</select>
+      <div>
+        <label class="block text-sm font-bold mb-2">Match Date</label>
+        <input id="matchDate" class="input" type="date">
+      </div>
 
-<label class="text-xs text-[#c3caac] block mt-4">
-MATCH DATE
-</label>
+      <div>
+        <label class="block text-sm font-bold mb-2">Match Status</label>
+        <select id="matchStatus" class="input">
+          <option value="upcoming">Upcoming</option>
+          <option value="live">Live</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
 
-<input id="matchDate" type="datetime-local" class="input mt-2">
+      <button onclick="createMatch()" class="btn w-full">
+        Create Match
+      </button>
 
-<div class="flex justify-end gap-3 mt-7">
-<button onclick="closeModal()" class="btn-dark">
-Cancel
-</button>
+    </div>
 
-<button onclick="createMatch()" class="btn">
-Create Match
-</button>
-</div>
-
-</div>
+  </div>
 </div>
 
 
 <script>
 
 const defaultData = {
- matches: [],
- series: [
-   {id:1,name:"International Series",status:"ACTIVE"},
-   {id:2,name:"Domestic League",status:"ACTIVE"},
-   {id:3,name:"T20 Championship",status:"ACTIVE"}
- ],
- teams: [
-   {id:1,name:"India"},
-   {id:2,name:"Australia"}
- ],
- players: [],
- users: [
-   {id:1,name:"Administrator",email:"admin@baazigar.live",role:"SUPER ADMIN"}
- ],
- api:{
-   cricketUrl:"",
-   cricketKey:"",
-   oddsUrl:"",
-   oddsKey:""
- },
- settings:{
-   appName:"BAAZIGAR LIVE LINE",
-   adminName:"Administrator"
- }
+  matches: [],
+  series: [
+    {name:"No active series",status:"Inactive"}
+  ],
+  teams: [
+    {name:"India",code:"IND"},
+    {name:"Australia",code:"AUS"}
+  ],
+  players: [
+    {name:"Add your players",team:"—",role:"—"}
+  ],
+  users: [
+    {name:"Admin",email:"admin@baazigar.live",role:"Administrator"}
+  ],
+  logs: [
+    "System initialized successfully",
+    "Admin dashboard loaded",
+    "Waiting for live match data"
+  ],
+  api:{
+    cricket:"",
+    odds:"",
+    enabled:false
+  }
 };
 
 function loadData(){
-
- let saved=localStorage.getItem("baazigarData");
-
- if(saved){
-   return JSON.parse(saved);
- }
-
- localStorage.setItem(
-   "baazigarData",
-   JSON.stringify(defaultData)
- );
-
- return JSON.parse(JSON.stringify(defaultData));
+  const saved=localStorage.getItem("baazigarData");
+  if(!saved){
+    localStorage.setItem("baazigarData",JSON.stringify(defaultData));
+    return JSON.parse(JSON.stringify(defaultData));
+  }
+  return JSON.parse(saved);
 }
 
 let data=loadData();
 
-
 function saveData(){
- localStorage.setItem("baazigarData",JSON.stringify(data));
- updateDashboard();
- renderMatches();
- renderSeries();
- renderTeams();
- renderPlayers();
- renderUsers();
+  localStorage.setItem("baazigarData",JSON.stringify(data));
 }
 
+function addLog(text){
+  data.logs.unshift(text);
+  data.logs=data.logs.slice(0,20);
+  saveData();
+  renderAll();
+}
 
 function showPage(page){
 
- document.querySelectorAll(".page").forEach(p=>{
-   p.classList.remove("active");
- });
+  document.querySelectorAll("section[id^='page-']").forEach(el=>{
+    el.classList.add("hidden-page");
+  });
 
- document.getElementById(page).classList.add("active");
+  const target=document.getElementById("page-"+page);
+  if(target) target.classList.remove("hidden-page");
 
- document.querySelectorAll(".nav").forEach(n=>{
-   n.classList.remove("nav-active");
-   n.classList.add("text-[#c3caac]");
- });
+  document.querySelectorAll(".nav-btn").forEach(btn=>{
+    btn.classList.remove("nav-active");
+    btn.classList.add("text-[#bfc4b2]");
+  });
 
- const active=document.querySelector(`[data-page="${page}"]`);
+  const active=document.querySelector(`[data-page="${page}"]`);
 
- if(active){
-   active.classList.add("nav-active");
-   active.classList.remove("text-[#c3caac]");
- }
+  if(active){
+    active.classList.add("nav-active");
+    active.classList.remove("text-[#bfc4b2]");
+  }
 
- document.getElementById("sidebar").classList.remove("open");
+  if(window.innerWidth<1024){
+    document.getElementById("sidebar").classList.add("-translate-x-full");
+  }
 
- window.scrollTo(0,0);
+  renderAll();
 }
 
-
-function toggleMenu(){
- document.getElementById("sidebar").classList.toggle("open");
+function toggleSidebar(){
+  document.getElementById("sidebar").classList.toggle("-translate-x-full");
 }
-
 
 function openNewMatch(){
-
- document.getElementById("matchModal").classList.add("show");
-
- const now=new Date();
- now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
-
- document.getElementById("matchDate").value=
-   now.toISOString().slice(0,16);
+  document.getElementById("matchModal").classList.remove("hidden");
+  document.getElementById("matchDate").value=new Date().toISOString().split("T")[0];
 }
-
 
 function closeModal(){
- document.getElementById("matchModal").classList.remove("show");
+  document.getElementById("matchModal").classList.add("hidden");
 }
-
 
 function createMatch(){
 
- const t1=document.getElementById("team1").value.trim();
- const t2=document.getElementById("team2").value.trim();
- const type=document.getElementById("matchType").value;
- const date=document.getElementById("matchDate").value;
+  const t1=document.getElementById("team1").value.trim();
+  const t2=document.getElementById("team2").value.trim();
+  const date=document.getElementById("matchDate").value;
+  const status=document.getElementById("matchStatus").value;
 
- if(!t1 || !t2){
-   alert("Please enter both teams.");
-   return;
- }
+  if(!t1 || !t2 || !date){
+    alert("Please fill Team 1, Team 2 and Match Date.");
+    return;
+  }
 
- if(t1.toLowerCase()===t2.toLowerCase()){
-   alert("Team 1 and Team 2 cannot be same.");
-   return;
- }
+  data.matches.push({
+    id:Date.now(),
+    team1:t1,
+    team2:t2,
+    date:date,
+    status:status,
+    score1:"0/0",
+    score2:"0/0"
+  });
 
- const match={
-   id:Date.now(),
-   team1:t1,
-   team2:t2,
-   type:type,
-   date:date,
-   status:"UPCOMING",
-   score1:"0/0",
-   score2:"0/0"
- };
+  addLog(`New match created: ${t1} vs ${t2}`);
 
- data.matches.unshift(match);
+  closeModal();
 
- if(!data.teams.find(t=>t.name.toLowerCase()===t1.toLowerCase())){
-   data.teams.push({id:Date.now()+1,name:t1});
- }
+  document.getElementById("team1").value="";
+  document.getElementById("team2").value="";
 
- if(!data.teams.find(t=>t.name.toLowerCase()===t2.toLowerCase())){
-   data.teams.push({id:Date.now()+2,name:t2});
- }
-
- saveData();
-
- closeModal();
-
- document.getElementById("team1").value="";
- document.getElementById("team2").value="";
-
- showPage("matches");
-
- addActivity(
-   `${t1} vs ${t2} match created`
- );
+  showPage("matches");
 }
-
-
-function renderMatches(){
-
- const box=document.getElementById("matchList");
- const search=(document.getElementById("matchSearch")?.value||"").toLowerCase();
-
- const matches=data.matches.filter(m=>
-   `${m.team1} ${m.team2} ${m.type}`.toLowerCase().includes(search)
- );
-
- if(!matches.length){
-   box.innerHTML=`
-   <div class="p-10 text-center text-[#c3caac]">
-   No matches found.<br>
-   <button onclick="openNewMatch()" class="text-[#b8f600] mt-3">
-   Create your first match
-   </button>
-   </div>`;
-   return;
- }
-
- box.innerHTML=matches.map(m=>`
-
- <div class="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
-
-   <div>
-     <div class="flex items-center gap-3">
-       <span class="font-black text-white">
-       ${escapeHtml(m.team1)} vs ${escapeHtml(m.team2)}
-       </span>
-
-       <span class="text-xs border border-[#434933] px-2 py-1 rounded text-[#c3caac]">
-       ${m.type}
-       </span>
-     </div>
-
-     <div class="text-xs text-[#c3caac] mt-2">
-       ${m.date ? new Date(m.date).toLocaleString() : "Date not set"}
-     </div>
-   </div>
-
-   <div class="flex items-center gap-3">
-
-     <span class="text-xs font-bold
-       ${m.status==="LIVE" ? "text-[#b8f600]" : "text-[#c3caac]"}">
-       ${m.status}
-     </span>
-
-     <button onclick="toggleMatch(${m.id})"
-       class="btn-dark">
-       ${m.status==="LIVE" ? "Stop Live" : "Start Live"}
-     </button>
-
-     <button onclick="deleteMatch(${m.id})"
-       class="btn-danger">
-       Delete
-     </button>
-
-   </div>
-
- </div>
-
- `).join("");
-}
-
-
-function toggleMatch(id){
-
- const m=data.matches.find(x=>x.id===id);
-
- if(!m)return;
-
- m.status=m.status==="LIVE" ? "UPCOMING" : "LIVE";
-
- addActivity(
-   `${m.team1} vs ${m.team2} is now ${m.status}`
- );
-
- saveData();
-}
-
 
 function deleteMatch(id){
 
- if(!confirm("Delete this match?"))return;
+  if(!confirm("Delete this match?")) return;
 
- data.matches=data.matches.filter(m=>m.id!==id);
+  data.matches=data.matches.filter(m=>m.id!==id);
 
- saveData();
+  addLog("Match deleted");
+
+  renderAll();
 }
 
+function toggleMatch(id){
 
-function renderSeries(){
+  const match=data.matches.find(m=>m.id===id);
 
- const box=document.getElementById("seriesList");
+  if(!match)return;
 
- box.innerHTML=data.series.map(s=>`
+  if(match.status==="live"){
+    match.status="completed";
+  }else{
+    match.status="live";
+  }
 
- <div class="card p-5">
+  addLog(`${match.team1} vs ${match.team2} status changed to ${match.status}`);
 
- <div class="flex justify-between">
-
- <div>
- <div class="font-bold text-white">${escapeHtml(s.name)}</div>
- <div class="text-xs text-[#b8f600] mt-2">${s.status}</div>
- </div>
-
- <button onclick="deleteSeries(${s.id})"
- class="text-[#ffb4ab]">
- <span class="material-symbols-outlined">delete</span>
- </button>
-
- </div>
-
- </div>
-
- `).join("");
+  saveData();
+  renderAll();
 }
-
 
 function addSeries(){
 
- const name=prompt("Series name:");
+  const name=prompt("Enter series name:");
 
- if(!name)return;
+  if(!name)return;
 
- data.series.push({
-   id:Date.now(),
-   name:name.trim(),
-   status:"ACTIVE"
- });
+  data.series.push({
+    name:name,
+    status:"Active"
+  });
 
- saveData();
+  addLog(`Series added: ${name}`);
 }
-
-
-function deleteSeries(id){
-
- if(!confirm("Delete this series?"))return;
-
- data.series=data.series.filter(s=>s.id!==id);
-
- saveData();
-}
-
-
-function renderTeams(){
-
- const box=document.getElementById("teamList");
-
- box.innerHTML=data.teams.map(t=>`
-
- <div class="card p-5 flex justify-between items-center">
-
- <div class="flex items-center gap-3">
- <div class="w-11 h-11 rounded-full bg-[#b8f600] text-black flex items-center justify-center font-black">
- ${escapeHtml(t.name.charAt(0).toUpperCase())}
- </div>
-
- <div>
- <div class="font-bold">${escapeHtml(t.name)}</div>
- <div class="text-xs text-[#c3caac]">Cricket Team</div>
- </div>
- </div>
-
- <button onclick="deleteTeam(${t.id})"
- class="text-[#ffb4ab]">
- <span class="material-symbols-outlined">delete</span>
- </button>
-
- </div>
-
- `).join("");
-}
-
 
 function addTeam(){
 
- const name=prompt("Team name:");
+  const name=prompt("Enter team name:");
 
- if(!name)return;
+  if(!name)return;
 
- data.teams.push({
-   id:Date.now(),
-   name:name.trim()
- });
+  const code=prompt("Enter team code:") || name.substring(0,3).toUpperCase();
 
- saveData();
+  data.teams.push({
+    name:name,
+    code:code
+  });
+
+  addLog(`Team added: ${name}`);
 }
-
-
-function deleteTeam(id){
-
- if(!confirm("Delete this team?"))return;
-
- data.teams=data.teams.filter(t=>t.id!==id);
-
- saveData();
-}
-
-
-function renderPlayers(){
-
- const box=document.getElementById("playerList");
-
- if(!data.players.length){
-   box.innerHTML=`
-   <div class="p-10 text-center text-[#c3caac]">
-   No players added yet.
-   </div>`;
-   return;
- }
-
- box.innerHTML=data.players.map(p=>`
-
- <div class="p-5 border-b border-[#343539] flex justify-between">
-
- <div>
- <div class="font-bold">${escapeHtml(p.name)}</div>
- <div class="text-xs text-[#c3caac] mt-1">
- ${escapeHtml(p.team)} • ${escapeHtml(p.role)}
- </div>
- </div>
-
- <button onclick="deletePlayer(${p.id})"
- class="text-[#ffb4ab]">
- Delete
- </button>
-
- </div>
-
- `).join("");
-}
-
 
 function addPlayer(){
 
- const name=prompt("Player name:");
- if(!name)return;
+  const name=prompt("Player name:");
 
- const team=prompt("Team name:","India");
- if(!team)return;
+  if(!name)return;
 
- const role=prompt("Role:","Batter");
- if(!role)return;
+  const team=prompt("Team:") || "—";
+  const role=prompt("Role:") || "Player";
 
- data.players.push({
-   id:Date.now(),
-   name:name.trim(),
-   team:team.trim(),
-   role:role.trim()
- });
+  data.players.push({
+    name:name,
+    team:team,
+    role:role
+  });
 
- saveData();
+  addLog(`Player added: ${name}`);
 }
-
-
-function deletePlayer(id){
-
- data.players=data.players.filter(p=>p.id!==id);
-
- saveData();
-}
-
-
-function renderUsers(){
-
- const box=document.getElementById("userList");
-
- box.innerHTML=data.users.map(u=>`
-
- <div class="p-5 border-b border-[#343539] flex justify-between items-center">
-
- <div>
- <div class="font-bold">${escapeHtml(u.name)}</div>
- <div class="text-xs text-[#c3caac] mt-1">
- ${escapeHtml(u.email)}
- </div>
- </div>
-
- <span class="text-xs text-[#b8f600] font-bold">
- ${escapeHtml(u.role)}
- </span>
-
- </div>
-
- `).join("");
-}
-
 
 function addUser(){
 
- const name=prompt("User name:");
- if(!name)return;
+  const name=prompt("User name:");
 
- const email=prompt("Email:");
- if(!email)return;
+  if(!name)return;
 
- data.users.push({
-   id:Date.now(),
-   name:name.trim(),
-   email:email.trim(),
-   role:"ADMIN"
- });
+  const email=prompt("Email:");
 
- saveData();
+  if(!email)return;
+
+  data.users.push({
+    name:name,
+    email:email,
+    role:"Staff"
+  });
+
+  addLog(`User added: ${name}`);
 }
-
 
 function saveApi(){
 
- data.api.cricketUrl=
-   document.getElementById("cricketApiUrl").value;
+  data.api.cricket=document.getElementById("cricketApi").value;
+  data.api.odds=document.getElementById("oddsApi").value;
+  data.api.enabled=document.getElementById("apiEnabled").checked;
 
- data.api.cricketKey=
-   document.getElementById("cricketApiKey").value;
+  saveData();
 
- data.api.oddsUrl=
-   document.getElementById("oddsApiUrl").value;
+  document.getElementById("apiStatusTop").textContent=
+    data.api.enabled ? "ACTIVE" : "OFFLINE";
 
- data.api.oddsKey=
-   document.getElementById("oddsApiKey").value;
+  addLog("API settings saved");
 
- saveData();
-
- alert("API settings saved.");
+  alert("API settings saved.");
 }
-
-
-function loadApi(){
-
- document.getElementById("cricketApiUrl").value=data.api.cricketUrl||"";
- document.getElementById("cricketApiKey").value=data.api.cricketKey||"";
- document.getElementById("oddsApiUrl").value=data.api.oddsUrl||"";
- document.getElementById("oddsApiKey").value=data.api.oddsKey||"";
-}
-
 
 function saveSettings(){
 
- data.settings.appName=
-   document.getElementById("appName").value;
+  localStorage.setItem(
+    "dashboardName",
+    document.getElementById("dashboardName").value
+  );
 
- data.settings.adminName=
-   document.getElementById("adminName").value;
+  localStorage.setItem(
+    "adminName",
+    document.getElementById("adminName").value
+  );
 
- saveData();
+  localStorage.setItem(
+    "notifications",
+    document.getElementById("notifications").checked
+  );
 
- alert("Settings saved.");
+  addLog("Dashboard settings updated");
+
+  alert("Settings saved.");
 }
-
-
-function loadSettings(){
-
- document.getElementById("appName").value=
-   data.settings.appName;
-
- document.getElementById("adminName").value=
-   data.settings.adminName;
-}
-
-
-function updateDashboard(){
-
- const live=data.matches.filter(m=>m.status==="LIVE").length;
- const upcoming=data.matches.filter(m=>m.status==="UPCOMING").length;
-
- document.getElementById("totalUsers").textContent=
-   data.users.length;
-
- document.getElementById("liveMatches").textContent=
-   live;
-
- document.getElementById("upcomingMatches").textContent=
-   upcoming;
-
- document.getElementById("activeSeries").textContent=
-   data.series.filter(s=>s.status==="ACTIVE").length;
-
- document.getElementById("lastUpdated").textContent=
-   new Date().toLocaleTimeString();
-
-}
-
-
-function addActivity(text){
-
- let logs=JSON.parse(
-   localStorage.getItem("baazigarLogs")||"[]"
- );
-
- logs.unshift({
-   text:text,
-   time:new Date().toLocaleTimeString()
- });
-
- logs=logs.slice(0,8);
-
- localStorage.setItem(
-   "baazigarLogs",
-   JSON.stringify(logs)
- );
-
- renderActivity();
-}
-
-
-function renderActivity(){
-
- const box=document.getElementById("activity");
-
- const logs=JSON.parse(
-   localStorage.getItem("baazigarLogs")||"[]"
- );
-
- if(!logs.length){
-   box.innerHTML=
-   `<div class="text-[#c3caac]">No activity yet.</div>`;
-   return;
- }
-
- box.innerHTML=logs.map(l=>`
-
- <div class="flex gap-3">
-
- <div class="w-8 h-8 rounded bg-[#292a2e] flex items-center justify-center text-[#b8f600]">
- <span class="material-symbols-outlined text-[17px]">
- sports_cricket
- </span>
- </div>
-
- <div>
- <div class="text-white">${escapeHtml(l.text)}</div>
- <div class="text-xs text-[#c3caac] mt-1">
- ${escapeHtml(l.time)}
- </div>
- </div>
-
- </div>
-
- `).join("");
-}
-
-
-function clearAllData(){
-
- if(!confirm("Reset all demo data?"))return;
-
- localStorage.removeItem("baazigarData");
- localStorage.removeItem("baazigarLogs");
-
- location.reload();
-}
-
 
 function logout(){
 
- alert("Logout system will be connected with authentication backend in the next step.");
-}
-
-
-function escapeHtml(value){
-
- return String(value)
- .replaceAll("&","&amp;")
- .replaceAll("<","&lt;")
- .replaceAll(">","&gt;")
- .replaceAll('"',"&quot;")
- .replaceAll("'","&#039;");
-}
-
-
-function init(){
-
- updateDashboard();
- renderMatches();
- renderSeries();
- renderTeams();
- renderPlayers();
- renderUsers();
- renderActivity();
- loadApi();
- loadSettings();
+  if(confirm("Are you sure you want to logout?")){
+    alert("Logout system is ready. Connect your authentication backend to make this a real secure logout.");
+  }
 
 }
 
-init();
+function renderDashboard(){
+
+  const live=data.matches.filter(m=>m.status==="live").length;
+
+  const upcoming=data.matches.filter(m=>m.status==="upcoming").length;
+
+  document.getElementById("totalUsers").textContent=data.users.length;
+
+  document.getElementById("liveMatches").textContent=live;
+
+  document.getElementById("upcomingMatches").textContent=upcoming;
+
+  document.getElementById("activeSeries").textContent=
+    data.series.filter(s=>s.status==="Active").length;
+
+  document.getElementById("lastUpdated").textContent=
+    new Date().toLocaleTimeString();
+
+  document.getElementById("apiStatusTop").textContent=
+    data.api.enabled ? "ACTIVE" : "OFFLINE";
+
+  document.getElementById("logs").innerHTML=data.logs.map(log=>`
+    <div class="flex gap-3">
+      <div class="w-2 h-2 rounded-full bg-[#bfff00] mt-2 flex-shrink-0"></div>
+      <div>
+        <div class="text-sm">${escapeHtml(log)}</div>
+        <div class="text-[10px] text-[#858b7a] mt-1">${new Date().toLocaleTimeString()}</div>
+      </div>
+    </div>
+  `).join("");
+}
+
+function renderMatches(){
+
+  const el=document.getElementById("matchesList");
+
+  if(!data.matches.length){
+    el.innerHTML=`
+      <div class="card p-10 text-center">
+        <span class="material-symbols-outlined text-5xl text-[#666]">sports_cricket</span>
+        <h3 class="text-xl font-bold mt-3">No Matches</h3>
+        <p class="text-[#92988a] mt-2">Create your first match using New Match.</p>
+      </div>
+    `;
+    return;
+  }
+
+  el.innerHTML=data.matches.map(m=>`
+
+    <div class="card p-5">
+
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+
+        <div>
+          <div class="text-xs text-[#aeb59a] uppercase tracking-widest">
+            ${escapeHtml(m.date)}
+          </div>
+
+          <div class="text-xl font-black mt-2">
+            ${escapeHtml(m.team1)}
+            <span class="text-[#72776d] mx-2">VS</span>
+            ${escapeHtml(m.team2)}
+          </div>
+
+          <div class="mt-2 text-sm">
+            ${m.score1} &nbsp; | &nbsp; ${m.score2}
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+
+          <span class="px-3 py-2 rounded-lg text-xs font-bold
+          ${m.status==="live"
+            ?"bg-[#bfff00]/10 text-[#bfff00]"
+            :"bg-[#282b2f] text-[#bfc4b2]"}">
+            ${m.status.toUpperCase()}
+          </span>
+
+          <button onclick="toggleMatch(${m.id})" class="btn-dark">
+            ${m.status==="live" ? "Finish" : "Make Live"}
+          </button>
+
+          <button onclick="deleteMatch(${m.id})" class="btn-danger">
+            Delete
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `).join("");
+}
+
+function renderSeries(){
+
+  document.getElementById("seriesList").innerHTML=data.series.map(s=>`
+
+    <div class="card p-6">
+
+      <div class="flex justify-between items-start">
+
+        <div>
+          <div class="text-xl font-bold">${escapeHtml(s.name)}</div>
+          <div class="text-sm text-[#aeb59a] mt-2">
+            Cricket Series
+          </div>
+        </div>
+
+        <span class="text-xs font-bold
+        ${s.status==="Active"?"text-[#bfff00]":"text-[#777]"}">
+          ● ${s.status}
+        </span>
+
+      </div>
+
+    </div>
+
+  `).join("");
+}
+
+function renderTeams(){
+
+  document.getElementById("teamsList").innerHTML=data.teams.map(t=>`
+
+    <div class="card p-6 text-center">
+
+      <div class="w-14 h-14 mx-auto rounded-full bg-[#bfff00]/10 flex items-center justify-center text-[#bfff00] font-black text-lg">
+        ${escapeHtml(t.code)}
+      </div>
+
+      <div class="font-bold text-lg mt-4">${escapeHtml(t.name)}</div>
+
+      <div class="text-xs text-[#858b7a] mt-1">
+        Team Code: ${escapeHtml(t.code)}
+      </div>
+
+    </div>
+
+  `).join("");
+}
+
+function renderPlayers(){
+
+  document.getElementById("playersList").innerHTML=`
+
+    <div class="grid grid-cols-3 gap-3 px-5 py-4 text-xs font-bold text-[#aeb59a] border-b border-[#30332f]">
+      <div>PLAYER</div>
+      <div>TEAM</div>
+      <div>ROLE</div>
+    </div>
+
+    ${data.players.map(p=>`
+
+      <div class="grid grid-cols-3 gap-3 px-5 py-4 border-b border-[#292c2f]">
+
+        <div class="font-bold">${escapeHtml(p.name)}</div>
+
+        <div class="text-[#bfc4b2]">${escapeHtml(p.team)}</div>
+
+        <div class="text-[#bfc4b2]">${escapeHtml(p.role)}</div>
+
+      </div>
+
+    `).join("")}
+
+  `;
+}
+
+function renderUsers(){
+
+  document.getElementById("usersList").innerHTML=data.users.map(u=>`
+
+    <div class="card p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+
+      <div class="flex items-center gap-4">
+
+        <div class="w-11 h-11 rounded-full bg-[#bfff00] text-black flex items-center justify-center font-black">
+          ${escapeHtml(u.name.charAt(0).toUpperCase())}
+        </div>
+
+        <div>
+          <div class="font-bold">${escapeHtml(u.name)}</div>
+          <div class="text-sm text-[#909688]">${escapeHtml(u.email)}</div>
+        </div>
+
+      </div>
+
+      <span class="text-xs text-[#bfff00] font-bold">
+        ${escapeHtml(u.role)}
+      </span>
+
+    </div>
+
+  `).join("");
+}
+
+function loadSettings(){
+
+  const name=localStorage.getItem("dashboardName");
+  const admin=localStorage.getItem("adminName");
+  const notifications=localStorage.getItem("notifications");
+
+  if(name)document.getElementById("dashboardName").value=name;
+
+  if(admin)document.getElementById("adminName").value=admin;
+
+  if(notifications!==null)
+    document.getElementById("notifications").checked=notifications==="true";
+
+  document.getElementById("cricketApi").value=data.api.cricket;
+  document.getElementById("oddsApi").value=data.api.odds;
+  document.getElementById("apiEnabled").checked=data.api.enabled;
+}
+
+function renderAll(){
+
+  saveData();
+
+  renderDashboard();
+  renderMatches();
+  renderSeries();
+  renderTeams();
+  renderPlayers();
+  renderUsers();
+  loadSettings();
+}
+
+function escapeHtml(text){
+
+  return String(text)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+renderAll();
 
 </script>
 
