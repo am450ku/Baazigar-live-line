@@ -1,16 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html class="dark" lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Match Management - BAAZIGAR LIVE</title>
 
-<script src="https://cdn.tailwindcss.com"></script>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
 
 <script>
 tailwind.config = {
@@ -21,275 +16,208 @@ tailwind.config = {
                 primary: "#b8f600",
                 "primary-container": "#b8f600",
                 "primary-fixed": "#b8f600",
-                "primary-fixed-dim": "#a1d800",
+                "primary-fixed-dim": "#a0d500",
                 background: "#121317",
+                "on-background": "#e3e2e7",
                 surface: "#121317",
                 "surface-dim": "#121317",
                 "surface-container-lowest": "#0d0e12",
                 "surface-container-low": "#1a1b20",
                 "surface-container": "#1e1f24",
                 "surface-container-high": "#292a2e",
-                "surface-container-highest": "#343439",
+                "surface-container-highest": "#343539",
                 "on-surface": "#e3e2e7",
-                "on-surface-variant": "#c3caac",
+                "on-surface-variant": "#c3c7b5",
                 "on-primary-container": "#263500",
                 "border-subtle": "#343539",
-                "outline-variant": "#434933",
-                "success-neon": "#bfff00",
-                "critical-red": "#ffb4ab"
+                "outline-variant": "#43483a"
+            },
+            fontFamily: {
+                headline: ["Space Grotesk", "sans-serif"],
+                body: ["Inter", "sans-serif"],
+                label: ["Inter", "sans-serif"]
             }
         }
     }
-}
+};
 </script>
 
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1&display=swap" rel="stylesheet"/>
+
 <style>
-* {
-    box-sizing: border-box;
-}
-
-html,
 body {
-    margin: 0;
-    padding: 0;
-    min-height: 100%;
-}
-
-body {
-    font-family: "Inter", sans-serif;
-    background: #121317;
+    font-family: 'Inter', sans-serif;
+    background-color: #121317;
     color: #e3e2e7;
 }
 
 .material-symbols-outlined {
-    font-family: "Material Symbols Outlined";
-    font-weight: normal;
-    font-style: normal;
-    font-size: 24px;
-    line-height: 1;
-    letter-spacing: normal;
-    text-transform: none;
-    display: inline-block;
-    white-space: nowrap;
-    word-wrap: normal;
-    direction: ltr;
-    -webkit-font-feature-settings: "liga";
-    -webkit-font-smoothing: antialiased;
+    font-variation-settings: 'FILL' 1;
 }
 
 .glass-panel {
-    background: rgba(30,31,36,.72);
-    border: 1px solid #343539;
+    background: rgba(30, 31, 36, 0.6);
     backdrop-filter: blur(12px);
+    border: 1px solid #343539;
 }
 
 [x-cloak] {
     display: none !important;
 }
 
-/* IMPORTANT:
-   Team inputs are intentionally NOT controlled by any framework.
-   This prevents mobile keyboard/input problems.
-*/
-.team-input {
-    width: 100%;
-    min-width: 0;
-    height: 44px;
-    padding: 10px 12px;
-    border: 1px solid #343539;
-    border-radius: 6px;
-    background: #1a1b20;
-    color: #b8f600;
-    outline: none;
-    font-size: 16px;
-    font-family: "Inter", sans-serif;
+/* =========================================================
+   TEAM INPUT FIX
+   These inputs are completely independent from Alpine.
+   ========================================================= */
+
+.team-name-input {
     -webkit-appearance: none;
     appearance: none;
+    display: block;
+    width: 100%;
+    min-width: 0;
+    height: 42px;
+    padding: 8px 12px;
+
+    background-color: #1a1b20;
+    border: 1px solid #343539;
+    border-radius: 6px;
+
+    color: #b8f600;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+
+    outline: none;
+
     -webkit-user-select: text;
     user-select: text;
+
+    -webkit-touch-callout: default;
     touch-action: manipulation;
 }
 
-.team-input:focus {
+.team-name-input:focus {
     border-color: #b8f600;
     box-shadow: 0 0 0 1px #b8f600;
 }
 
-.normal-input,
-.normal-select {
-    width: 100%;
-    height: 40px;
-    padding: 8px 12px;
-    border: 1px solid #343539;
-    border-radius: 6px;
-    background: #1a1b20;
-    color: #e3e2e7;
-    outline: none;
-    font-size: 14px;
-}
-
-.normal-input:focus,
-.normal-select:focus {
+.team-name-input:active {
     border-color: #b8f600;
-    box-shadow: 0 0 0 1px #b8f600;
 }
 
-.modal-backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: rgba(0,0,0,.72);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-}
-
-.modal-backdrop.show {
-    display: flex;
-}
-
-.modal-box {
-    width: 100%;
-    max-width: 560px;
-    max-height: 92vh;
-    overflow-y: auto;
-    background: #121317;
-    border: 1px solid #343539;
-    border-radius: 10px;
-    box-shadow: 0 25px 80px rgba(0,0,0,.55);
-}
-
-@media (max-width: 900px) {
-    .desktop-sidebar {
-        display: none !important;
-    }
-
-    .main-area {
-        margin-left: 0 !important;
-    }
-
-    .topbar {
-        left: 0 !important;
-    }
-}
-
-@media (max-width: 640px) {
-    .desktop-search {
-        display: none !important;
-    }
-
-    .page-padding {
-        padding: 16px !important;
-    }
-
-    .page-header {
-        flex-direction: column;
-        align-items: stretch !important;
-        gap: 14px;
-    }
-
-    .page-header-actions {
-        width: 100%;
-    }
-
-    .page-header-actions button {
-        width: 100%;
-    }
-
-    .filters {
-        flex-direction: column;
-    }
-
-    .filters > div {
-        width: 100% !important;
-    }
-
-    .modal-box {
-        max-height: 94vh;
-    }
-
-    .team-row {
-        flex-direction: column;
+/* Keep mobile page from changing the original desktop layout */
+@media (max-width: 767px) {
+    body {
+        min-width: 1100px;
     }
 }
 </style>
+
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 
-<body>
+<body
+    class="bg-background text-on-background min-h-screen flex"
+    x-data="matchManagement()"
+>
 
-<!-- =========================
-     SIDEBAR
-========================= -->
-<nav class="desktop-sidebar fixed inset-y-0 left-0 z-50 flex flex-col w-64 bg-surface-container-lowest border-r border-outline-variant">
+<!-- =========================================================
+     SIDE NAVIGATION
+========================================================= -->
 
-    <div class="p-8 border-b border-border-subtle">
-        <h1 class="text-3xl font-black text-primary tracking-tighter">
+<nav class="fixed inset-y-0 left-0 z-50 flex flex-col w-64 bg-surface-container-lowest border-r border-outline-variant">
+
+    <div class="p-edge-margin border-b border-border-subtle">
+        <h1 class="font-headline-xl text-headline-xl font-black text-primary tracking-tighter">
             BAAZIGAR LIVE
         </h1>
 
-        <p class="text-xs font-bold tracking-widest text-on-surface-variant mt-1">
-            ADMIN CONTROL PANEL
+        <p class="font-label-caps text-label-caps text-on-surface-variant mt-1">
+            Admin Control Panel
         </p>
     </div>
 
-    <div class="p-6">
+    <div class="p-gutter pb-0">
         <button
-            type="button"
-            onclick="openAddMatch()"
-            class="w-full bg-primary-container text-on-primary-container font-semibold py-3 px-4 rounded flex items-center justify-center gap-2 hover:bg-primary-fixed-dim transition"
+            @click="openModal('add')"
+            class="w-full bg-primary-container text-on-primary-container hover:bg-primary-fixed-dim font-headline-md text-headline-md py-3 px-4 rounded flex items-center justify-center gap-2 transition-colors duration-200 ease-in-out"
         >
             <span class="material-symbols-outlined">add</span>
             New Match
         </button>
     </div>
 
-    <ul class="flex-1 overflow-y-auto py-2">
+    <ul class="flex-1 overflow-y-auto py-gutter flex flex-col gap-1">
 
         <li>
-            <a href="#" class="flex items-center gap-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high px-6 py-3 transition">
+            <a
+                href="#"
+                class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors"
+            >
                 <span class="material-symbols-outlined">dashboard</span>
                 Dashboard
             </a>
         </li>
 
         <li>
-            <a href="#" class="flex items-center gap-3 text-primary bg-primary/10 border-l-4 border-primary px-6 py-3 font-bold transition">
+            <a
+                href="#"
+                class="flex items-center gap-3 px-6 py-3 text-primary bg-surface-container border-l-4 border-primary transition-colors"
+            >
                 <span class="material-symbols-outlined">sports_cricket</span>
                 Match Management
             </a>
         </li>
 
         <li>
-            <a href="#" class="flex items-center gap-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high px-6 py-3 transition">
+            <a
+                href="#"
+                class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors"
+            >
                 <span class="material-symbols-outlined">event_note</span>
                 Series
             </a>
         </li>
 
         <li>
-            <a href="#" class="flex items-center gap-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high px-6 py-3 transition">
+            <a
+                href="#"
+                class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors"
+            >
                 <span class="material-symbols-outlined">groups</span>
                 Teams
             </a>
         </li>
 
         <li>
-            <a href="#" class="flex items-center gap-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high px-6 py-3 transition">
+            <a
+                href="#"
+                class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors"
+            >
                 <span class="material-symbols-outlined">person_search</span>
                 Players
             </a>
         </li>
 
         <li>
-            <a href="#" class="flex items-center gap-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high px-6 py-3 transition">
+            <a
+                href="#"
+                class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors"
+            >
                 <span class="material-symbols-outlined">api</span>
                 API Settings
             </a>
         </li>
 
         <li>
-            <a href="#" class="flex items-center gap-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high px-6 py-3 transition">
+            <a
+                href="#"
+                class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors"
+            >
                 <span class="material-symbols-outlined">manage_accounts</span>
                 User Management
             </a>
@@ -299,64 +227,41 @@ body {
 
     <div class="border-t border-border-subtle p-4">
 
-        <a href="#" class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-6 py-3">
+        <a
+            href="#"
+            class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:text-primary transition-colors"
+        >
             <span class="material-symbols-outlined">settings</span>
             Settings
         </a>
 
-        <a href="#" class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-6 py-3">
+        <a
+            href="#"
+            class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:text-primary transition-colors"
+        >
             <span class="material-symbols-outlined">logout</span>
             Logout
         </a>
 
     </div>
+
 </nav>
 
 
-<!-- =========================
-     MAIN AREA
-========================= -->
-<div class="main-area ml-[260px] min-h-screen bg-background">
+<!-- =========================================================
+     MAIN CONTENT
+========================================================= -->
 
-    <!-- TOP BAR -->
-    <header class="topbar fixed top-0 right-0 left-[260px] h-16 z-40 flex items-center justify-between px-8 bg-surface border-b border-outline-variant">
+<main class="ml-64 flex-1 min-h-screen">
 
-        <div class="font-bold text-primary">
-            BAAZIGAR LIVE LINE
-        </div>
+    <!-- TOP HEADER -->
 
-        <div class="flex items-center gap-5">
+    <header class="sticky top-0 z-40 bg-surface/95 backdrop-blur border-b border-border-subtle">
 
-            <div class="desktop-search relative">
-                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">
-                    search
-                </span>
-
-                <input
-                    id="searchInput"
-                    type="text"
-                    placeholder="Search matches..."
-                    class="normal-input pl-10 w-64"
-                    oninput="renderMatches()"
-                >
-            </div>
-
-            <span class="text-xs font-bold tracking-widest text-success-neon hidden sm:block">
-                ● API STATUS: ACTIVE
-            </span>
-
-        </div>
-    </header>
-
-
-    <!-- CONTENT -->
-    <main class="page-padding pt-24 p-8">
-
-        <!-- PAGE HEADER -->
-        <div class="page-header flex justify-between items-end mb-6">
+        <div class="px-8 py-5 flex items-center justify-between">
 
             <div>
-                <h2 class="text-3xl font-bold text-primary">
+                <h2 class="font-headline-xl text-2xl font-bold text-on-surface">
                     Match Management
                 </h2>
 
@@ -365,104 +270,319 @@ body {
                 </p>
             </div>
 
-            <div class="page-header-actions">
-                <button
-                    type="button"
-                    onclick="openAddMatch()"
-                    class="bg-primary-container text-on-primary-container font-semibold px-5 py-3 rounded hover:bg-primary-fixed-dim transition"
-                >
-                    + Add New Match
-                </button>
+            <div class="flex items-center gap-4">
+
+                <div class="relative">
+
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">
+                        search
+                    </span>
+
+                    <input
+                        type="text"
+                        placeholder="Search matches..."
+                        class="bg-surface-container-low border border-border-subtle rounded text-on-surface text-sm pl-10 pr-3 py-2 focus:border-primary-fixed focus:ring-0"
+                        x-model="searchQuery"
+                    />
+
+                </div>
+
+                <div class="flex items-center gap-2 text-xs text-primary font-semibold">
+                    <span class="w-2 h-2 rounded-full bg-primary"></span>
+                    LIVE SYSTEM
+                </div>
+
             </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- PAGE CONTENT -->
+
+    <section class="p-8">
+
+        <!-- PAGE TITLE / BUTTON -->
+
+        <div class="flex items-center justify-between mb-6">
+
+            <div>
+                <div class="font-label-caps text-label-caps text-primary text-xs mb-2">
+                    MATCH CENTER
+                </div>
+
+                <h3 class="font-headline-md text-2xl font-semibold text-on-surface">
+                    All Matches
+                </h3>
+            </div>
+
+            <button
+                @click="openModal('add')"
+                class="bg-primary-container text-on-primary-container hover:bg-primary-fixed-dim font-headline-md py-3 px-5 rounded flex items-center justify-center gap-2 transition-colors duration-200 ease-in-out"
+            >
+                <span class="material-symbols-outlined">add</span>
+                Add New Match
+            </button>
 
         </div>
 
 
         <!-- FILTERS -->
-        <div class="filters flex gap-4 mb-6">
 
-            <div class="w-48">
-                <label class="block text-xs font-bold tracking-widest text-on-surface-variant mb-2">
-                    STATUS
+        <div class="grid grid-cols-4 gap-4 mb-6">
+
+            <div class="col-span-1">
+
+                <label class="block font-label-caps text-label-caps text-on-surface-variant text-xs mb-2">
+                    Search
                 </label>
 
-                <select id="statusFilter" class="normal-select" onchange="renderMatches()">
+                <div class="relative">
+
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">
+                        search
+                    </span>
+
+                    <input
+                        type="text"
+                        placeholder="Search..."
+                        class="w-full bg-surface-container-low border border-border-subtle rounded text-on-surface text-sm pl-10 pr-3 py-3 focus:border-primary-fixed focus:ring-0"
+                        x-model="searchQuery"
+                    />
+
+                </div>
+
+            </div>
+
+
+            <div class="col-span-1">
+
+                <label class="block font-label-caps text-label-caps text-on-surface-variant text-xs mb-2">
+                    Status
+                </label>
+
+                <select
+                    class="w-full bg-surface-container-low border border-border-subtle rounded text-on-surface text-sm px-3 py-3 focus:border-primary-fixed focus:ring-0"
+                    x-model="filters.status"
+                >
                     <option value="">All Statuses</option>
                     <option value="LIVE">Live</option>
                     <option value="UPCOMING">Upcoming</option>
-                    <option value="COMPLETED">Completed</option>
                     <option value="DELAYED">Delayed</option>
+                    <option value="COMPLETED">Completed</option>
                     <option value="ABANDONED">Abandoned</option>
                 </select>
+
             </div>
 
 
-            <div class="w-64">
-                <label class="block text-xs font-bold tracking-widest text-on-surface-variant mb-2">
-                    TOURNAMENT
+            <div class="col-span-1">
+
+                <label class="block font-label-caps text-label-caps text-on-surface-variant text-xs mb-2">
+                    Tournament
                 </label>
 
-                <select id="tournamentFilter" class="normal-select" onchange="renderMatches()">
+                <select
+                    class="w-full bg-surface-container-low border border-border-subtle rounded text-on-surface text-sm px-3 py-3 focus:border-primary-fixed focus:ring-0"
+                    x-model="filters.tournament"
+                >
                     <option value="">All Tournaments</option>
                     <option value="T20 World Cup">T20 World Cup</option>
                     <option value="Indian Premier League">Indian Premier League</option>
-                    <option value="Ashes Series">Ashes Series</option>
                 </select>
+
             </div>
 
 
-            <div class="w-48">
-                <label class="block text-xs font-bold tracking-widest text-on-surface-variant mb-2">
-                    DATE
+            <div class="col-span-1">
+
+                <label class="block font-label-caps text-label-caps text-on-surface-variant text-xs mb-2">
+                    Date
                 </label>
 
                 <input
-                    id="dateFilter"
                     type="date"
-                    class="normal-input"
-                    onchange="renderMatches()"
-                >
+                    class="w-full bg-surface-container-low border border-border-subtle rounded text-on-surface text-sm px-3 py-3 focus:border-primary-fixed focus:ring-0"
+                    x-model="filters.date"
+                />
+
             </div>
 
         </div>
 
 
-        <!-- TABLE -->
+        <!-- MATCH TABLE -->
+
         <div class="glass-panel rounded-lg overflow-hidden">
 
             <div class="overflow-x-auto">
 
-                <table class="w-full text-left">
+                <table class="w-full">
 
                     <thead class="bg-surface-container">
+
                         <tr>
-                            <th class="px-4 py-4 text-xs font-bold tracking-widest text-on-surface-variant">
-                                TEAMS
+
+                            <th class="px-5 py-4 text-left font-label-caps text-label-caps text-on-surface-variant text-xs">
+                                Teams
                             </th>
 
-                            <th class="px-4 py-4 text-xs font-bold tracking-widest text-on-surface-variant">
-                                TOURNAMENT
+                            <th class="px-5 py-4 text-left font-label-caps text-label-caps text-on-surface-variant text-xs">
+                                Tournament
                             </th>
 
-                            <th class="px-4 py-4 text-xs font-bold tracking-widest text-on-surface-variant">
-                                VENUE
+                            <th class="px-5 py-4 text-left font-label-caps text-label-caps text-on-surface-variant text-xs">
+                                Venue
                             </th>
 
-                            <th class="px-4 py-4 text-xs font-bold tracking-widest text-on-surface-variant">
-                                DATE & TIME
+                            <th class="px-5 py-4 text-left font-label-caps text-label-caps text-on-surface-variant text-xs">
+                                Date & Time
                             </th>
 
-                            <th class="px-4 py-4 text-xs font-bold tracking-widest text-on-surface-variant">
-                                STATUS
+                            <th class="px-5 py-4 text-left font-label-caps text-label-caps text-on-surface-variant text-xs">
+                                Status
                             </th>
 
-                            <th class="px-4 py-4 text-xs font-bold tracking-widest text-on-surface-variant text-right">
-                                ACTIONS
+                            <th class="px-5 py-4 text-right font-label-caps text-label-caps text-on-surface-variant text-xs">
+                                Actions
                             </th>
+
                         </tr>
+
                     </thead>
 
-                    <tbody id="matchTableBody"></tbody>
+
+                    <tbody>
+
+                        <template x-for="match in paginatedMatches" :key="match.id">
+
+                            <tr class="border-t border-border-subtle hover:bg-surface-container transition-colors">
+
+                                <td class="px-5 py-5">
+
+                                    <div class="flex items-center gap-3">
+
+                                        <div class="flex items-center gap-2">
+
+                                            <img
+                                                :src="match.team1Img"
+                                                class="w-8 h-8 rounded-full object-cover"
+                                                alt=""
+                                            />
+
+                                            <span
+                                                class="font-semibold text-on-surface"
+                                                x-text="match.team1"
+                                            ></span>
+
+                                        </div>
+
+                                        <span class="text-xs text-on-surface-variant">
+                                            VS
+                                        </span>
+
+                                        <div class="flex items-center gap-2">
+
+                                            <img
+                                                :src="match.team2Img"
+                                                class="w-8 h-8 rounded-full object-cover"
+                                                alt=""
+                                            />
+
+                                            <span
+                                                class="font-semibold text-on-surface"
+                                                x-text="match.team2"
+                                            ></span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td
+                                    class="px-5 py-5 text-sm text-on-surface-variant"
+                                    x-text="match.tournament"
+                                ></td>
+
+
+                                <td
+                                    class="px-5 py-5 text-sm text-on-surface-variant"
+                                    x-text="match.venue"
+                                ></td>
+
+
+                                <td
+                                    class="px-5 py-5 text-sm text-on-surface-variant"
+                                    x-text="match.dateTime"
+                                ></td>
+
+
+                                <td class="px-5 py-5">
+
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold"
+                                        :class="{
+                                            'bg-primary-container text-on-primary-container': match.status === 'LIVE',
+                                            'bg-surface-container-high text-on-surface': match.status === 'UPCOMING',
+                                            'bg-yellow-500/10 text-yellow-400': match.status === 'DELAYED',
+                                            'bg-surface-container-highest text-on-surface-variant': match.status === 'COMPLETED',
+                                            'bg-red-500/10 text-red-400': match.status === 'ABANDONED'
+                                        }"
+                                        x-text="match.status"
+                                    ></span>
+
+                                </td>
+
+
+                                <td class="px-5 py-5">
+
+                                    <div class="flex items-center justify-end gap-2">
+
+                                        <button
+                                            @click="openModal('edit', match)"
+                                            type="button"
+                                            class="p-2 rounded hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition"
+                                        >
+                                            <span class="material-symbols-outlined text-[20px]">
+                                                edit
+                                            </span>
+                                        </button>
+
+
+                                        <button
+                                            @click="deleteMatch(match.id)"
+                                            type="button"
+                                            class="p-2 rounded hover:bg-red-500/10 text-on-surface-variant hover:text-red-400 transition"
+                                        >
+                                            <span class="material-symbols-outlined text-[20px]">
+                                                delete
+                                            </span>
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        </template>
+
+
+                        <tr x-show="paginatedMatches.length === 0">
+
+                            <td
+                                colspan="6"
+                                class="px-5 py-12 text-center text-on-surface-variant"
+                            >
+                                No matches found.
+                            </td>
+
+                        </tr>
+
+                    </tbody>
 
                 </table>
 
@@ -470,32 +590,72 @@ body {
 
 
             <!-- PAGINATION -->
-            <div class="p-4 border-t border-border-subtle bg-surface-container-lowest flex items-center justify-between">
 
-                <span id="paginationText" class="text-sm text-on-surface-variant">
-                    Showing 0-0 of 0 matches
-                </span>
+            <div class="border-t border-border-subtle px-5 py-4 flex items-center justify-between">
 
-                <div class="flex gap-2">
+                <div class="text-sm text-on-surface-variant">
+
+                    Showing
+                    <span
+                        class="text-on-surface font-semibold"
+                        x-text="paginationStart"
+                    ></span>
+
+                    -
+
+                    <span
+                        class="text-on-surface font-semibold"
+                        x-text="paginationEnd"
+                    ></span>
+
+                    of
+
+                    <span
+                        class="text-on-surface font-semibold"
+                        x-text="filteredMatches.length"
+                    ></span>
+
+                    matches
+
+                </div>
+
+
+                <div class="flex items-center gap-2">
 
                     <button
-                        id="prevBtn"
+                        @click="currentPage = Math.max(1, currentPage - 1)"
+                        :disabled="currentPage === 1"
                         type="button"
-                        onclick="previousPage()"
-                        class="w-9 h-9 rounded border border-border-subtle flex items-center justify-center hover:text-primary disabled:opacity-40"
+                        class="w-9 h-9 flex items-center justify-center rounded border border-border-subtle hover:bg-surface-container-high disabled:opacity-40 disabled:cursor-not-allowed"
                     >
-                        <span class="material-symbols-outlined text-sm">
+                        <span class="material-symbols-outlined text-[18px]">
                             chevron_left
                         </span>
                     </button>
 
+
+                    <template x-for="page in totalPages" :key="page">
+
+                        <button
+                            @click="currentPage = page"
+                            type="button"
+                            class="min-w-9 h-9 px-2 rounded text-sm font-semibold"
+                            :class="currentPage === page
+                                ? 'bg-primary-container text-on-primary-container'
+                                : 'border border-border-subtle hover:bg-surface-container-high'"
+                            x-text="page"
+                        ></button>
+
+                    </template>
+
+
                     <button
-                        id="nextBtn"
+                        @click="currentPage = Math.min(totalPages, currentPage + 1)"
+                        :disabled="currentPage === totalPages || totalPages === 0"
                         type="button"
-                        onclick="nextPage()"
-                        class="w-9 h-9 rounded border border-border-subtle flex items-center justify-center hover:text-primary disabled:opacity-40"
+                        class="w-9 h-9 flex items-center justify-center rounded border border-border-subtle hover:bg-surface-container-high disabled:opacity-40 disabled:cursor-not-allowed"
                     >
-                        <span class="material-symbols-outlined text-sm">
+                        <span class="material-symbols-outlined text-[18px]">
                             chevron_right
                         </span>
                     </button>
@@ -506,28 +666,38 @@ body {
 
         </div>
 
-    </main>
+    </section>
 
-</div>
+</main>
 
 
-<!-- =========================
+<!-- =========================================================
      ADD / EDIT MODAL
-========================= -->
-<div id="matchModal" class="modal-backdrop">
+========================================================= -->
 
-    <div class="modal-box">
+<div
+    class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm"
+    x-cloak
+    x-show="isModalOpen"
+>
+
+    <div
+        @click.away="closeModal()"
+        class="bg-surface-dim border border-border-subtle rounded-lg shadow-2xl w-full max-w-lg overflow-hidden flex flex-col"
+    >
 
         <!-- MODAL HEADER -->
+
         <div class="px-6 py-4 border-b border-border-subtle flex justify-between items-center">
 
-            <h3 id="modalTitle" class="text-xl font-bold text-primary">
-                Add New Match
-            </h3>
+            <h3
+                class="font-headline-md text-headline-md text-primary"
+                x-text="modalMode === 'add' ? 'Add New Match' : 'Edit Match'"
+            ></h3>
 
             <button
+                @click="closeModal()"
                 type="button"
-                onclick="closeMatchModal()"
                 class="text-on-surface-variant hover:text-primary"
             >
                 <span class="material-symbols-outlined">
@@ -538,803 +708,649 @@ body {
         </div>
 
 
-        <!-- FORM -->
-        <form id="matchForm" class="p-6">
+        <!-- MODAL BODY -->
 
-            <!-- TEAM INPUTS -->
-            <div class="team-row flex gap-4 mb-5">
+        <div class="p-6 overflow-y-auto">
 
-                <div class="flex-1 min-w-0">
+            <form
+                id="matchForm"
+                @submit.prevent="saveMatch()"
+                class="flex flex-col gap-4"
+            >
 
-                    <label
-                        for="team1Input"
-                        class="block text-xs font-bold tracking-widest text-on-surface-variant mb-2"
-                    >
-                        TEAM 1
-                    </label>
+                <!-- =================================================
+                     TEAM 1 + TEAM 2
+                     NO x-model HERE
+                     ================================================= -->
 
-                    <!-- NO ALPINE / NO x-model / NO REACTIVE JS -->
-                    <input
-                        id="team1Input"
-                        name="team1"
-                        type="text"
-                        class="team-input"
-                        placeholder="Enter Team 1"
-                        autocomplete="off"
-                        autocorrect="off"
-                        autocapitalize="words"
-                        spellcheck="false"
-                        inputmode="text"
-                        enterkeyhint="next"
-                        required
-                    >
+                <div class="flex gap-4">
+
+                    <div class="flex-1 flex flex-col gap-1">
+
+                        <label
+                            for="team1Input"
+                            class="font-label-caps text-label-caps text-on-surface-variant"
+                        >
+                            Team 1
+                        </label>
+
+                        <input
+                            id="team1Input"
+                            name="team1"
+                            class="team-name-input"
+                            required
+                            type="text"
+                            autocomplete="off"
+                            autocorrect="off"
+                            autocapitalize="words"
+                            spellcheck="false"
+                            inputmode="text"
+                            enterkeyhint="next"
+                        />
+
+                    </div>
+
+
+                    <div class="flex-1 flex flex-col gap-1">
+
+                        <label
+                            for="team2Input"
+                            class="font-label-caps text-label-caps text-on-surface-variant"
+                        >
+                            Team 2
+                        </label>
+
+                        <input
+                            id="team2Input"
+                            name="team2"
+                            class="team-name-input"
+                            required
+                            type="text"
+                            autocomplete="off"
+                            autocorrect="off"
+                            autocapitalize="words"
+                            spellcheck="false"
+                            inputmode="text"
+                            enterkeyhint="done"
+                        />
+
+                    </div>
 
                 </div>
 
 
-                <div class="flex-1 min-w-0">
+                <!-- TOURNAMENT -->
 
-                    <label
-                        for="team2Input"
-                        class="block text-xs font-bold tracking-widest text-on-surface-variant mb-2"
-                    >
-                        TEAM 2
+                <div class="flex flex-col gap-1">
+
+                    <label class="font-label-caps text-label-caps text-on-surface-variant">
+                        Tournament
                     </label>
 
-                    <!-- NO ALPINE / NO x-model / NO REACTIVE JS -->
                     <input
-                        id="team2Input"
-                        name="team2"
-                        type="text"
-                        class="team-input"
-                        placeholder="Enter Team 2"
-                        autocomplete="off"
-                        autocorrect="off"
-                        autocapitalize="words"
-                        spellcheck="false"
-                        inputmode="text"
-                        enterkeyhint="next"
+                        class="bg-surface-container-low border border-border-subtle rounded text-primary text-sm px-3 py-2 focus:border-primary-fixed focus:ring-0"
                         required
-                    >
+                        type="text"
+                        x-model="editingMatch.tournament"
+                    />
 
                 </div>
 
-            </div>
+
+                <!-- VENUE -->
+
+                <div class="flex flex-col gap-1">
+
+                    <label class="font-label-caps text-label-caps text-on-surface-variant">
+                        Venue
+                    </label>
+
+                    <input
+                        class="bg-surface-container-low border border-border-subtle rounded text-primary text-sm px-3 py-2 focus:border-primary-fixed focus:ring-0"
+                        required
+                        type="text"
+                        x-model="editingMatch.venue"
+                    />
+
+                </div>
 
 
-            <!-- TOURNAMENT -->
-            <div class="mb-5">
+                <!-- DATE TIME + STATUS -->
 
-                <label
-                    for="tournamentInput"
-                    class="block text-xs font-bold tracking-widest text-on-surface-variant mb-2"
-                >
-                    TOURNAMENT
-                </label>
+                <div class="flex gap-4">
 
-                <input
-                    id="tournamentInput"
-                    type="text"
-                    class="normal-input"
-                    placeholder="Enter tournament"
-                    required
-                >
+                    <div class="flex-1 flex flex-col gap-1">
 
-            </div>
+                        <label class="font-label-caps text-label-caps text-on-surface-variant">
+                            Date &amp; Time (e.g. Oct 24, 14:00 UTC)
+                        </label>
 
+                        <input
+                            class="bg-surface-container-low border border-border-subtle rounded text-primary text-sm px-3 py-2 focus:border-primary-fixed focus:ring-0"
+                            required
+                            type="text"
+                            x-model="editingMatch.dateTime"
+                        />
 
-            <!-- VENUE -->
-            <div class="mb-5">
-
-                <label
-                    for="venueInput"
-                    class="block text-xs font-bold tracking-widest text-on-surface-variant mb-2"
-                >
-                    VENUE
-                </label>
-
-                <input
-                    id="venueInput"
-                    type="text"
-                    class="normal-input"
-                    placeholder="Enter venue"
-                    required
-                >
-
-            </div>
+                    </div>
 
 
-            <!-- DATE TIME -->
-            <div class="mb-5">
+                    <div class="w-1/3 flex flex-col gap-1">
 
-                <label
-                    for="dateTimeInput"
-                    class="block text-xs font-bold tracking-widest text-on-surface-variant mb-2"
-                >
-                    DATE & TIME
-                </label>
+                        <label class="font-label-caps text-label-caps text-on-surface-variant">
+                            Status
+                        </label>
 
-                <input
-                    id="dateTimeInput"
-                    type="text"
-                    class="normal-input"
-                    placeholder="Oct 24, 14:00 UTC"
-                    required
-                >
+                        <select
+                            class="bg-surface-container-low border border-border-subtle rounded text-primary text-sm px-3 py-2 focus:border-primary-fixed focus:ring-0"
+                            required
+                            x-model="editingMatch.status"
+                        >
 
-            </div>
+                            <option value="LIVE">LIVE</option>
+                            <option value="UPCOMING">UPCOMING</option>
+                            <option value="DELAYED">DELAYED</option>
+                            <option value="COMPLETED">COMPLETED</option>
+                            <option value="ABANDONED">ABANDONED</option>
 
+                        </select>
 
-            <!-- STATUS -->
-            <div class="mb-6">
+                    </div>
 
-                <label
-                    for="statusInput"
-                    class="block text-xs font-bold tracking-widest text-on-surface-variant mb-2"
-                >
-                    STATUS
-                </label>
-
-                <select id="statusInput" class="normal-select" required>
-                    <option value="LIVE">LIVE</option>
-                    <option value="UPCOMING">UPCOMING</option>
-                    <option value="DELAYED">DELAYED</option>
-                    <option value="COMPLETED">COMPLETED</option>
-                    <option value="ABANDONED">ABANDONED</option>
-                </select>
-
-            </div>
+                </div>
 
 
-            <!-- BUTTONS -->
-            <div class="flex justify-end gap-3 border-t border-border-subtle pt-5">
+                <!-- BUTTONS -->
 
-                <button
-                    type="button"
-                    onclick="closeMatchModal()"
-                    class="px-5 py-2 rounded border border-border-subtle text-on-surface-variant hover:text-primary"
-                >
-                    Cancel
-                </button>
+                <div class="mt-4 flex justify-end gap-3">
 
-                <button
-                    type="submit"
-                    class="px-5 py-2 rounded bg-primary-container text-on-primary-container font-semibold hover:bg-primary-fixed-dim"
-                >
-                    Save Match
-                </button>
+                    <button
+                        @click="closeModal()"
+                        class="px-4 py-2 rounded border border-border-subtle text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors font-body-md"
+                        type="button"
+                    >
+                        Cancel
+                    </button>
 
-            </div>
+                    <button
+                        class="px-4 py-2 rounded bg-primary-container text-on-primary-container font-body-md font-semibold hover:bg-primary-fixed-dim transition-colors"
+                        type="submit"
+                    >
+                        Save Match
+                    </button>
 
-        </form>
+                </div>
+
+            </form>
+
+        </div>
 
     </div>
 
 </div>
 
 
+<!-- =========================================================
+     ALPINE DATA
+========================================================= -->
+
 <script>
 
-/* =========================================================
-   MATCH DATA
-========================================================= */
-
-let matches = [
-    {
-        id: 1,
-        team1: "IND",
-        team2: "AUS",
-        tournament: "T20 World Cup",
-        venue: "Melbourne Cricket Ground",
-        dateTime: "Oct 24, 14:00 UTC",
-        status: "LIVE",
-        rawDate: "2023-10-24"
-    },
-    {
-        id: 2,
-        team1: "ENG",
-        team2: "RSA",
-        tournament: "T20 World Cup",
-        venue: "Sydney Cricket Ground",
-        dateTime: "Oct 25, 09:30 UTC",
-        status: "UPCOMING",
-        rawDate: "2023-10-25"
-    },
-    {
-        id: 3,
-        team1: "MI",
-        team2: "CSK",
-        tournament: "Indian Premier League",
-        venue: "Wankhede Stadium",
-        dateTime: "Oct 25, 14:00 UTC",
-        status: "DELAYED",
-        rawDate: "2023-10-25"
-    },
-    {
-        id: 4,
-        team1: "NZ",
-        team2: "PAK",
-        tournament: "T20 World Cup",
-        venue: "Brisbane Cricket Ground",
-        dateTime: "Oct 23, 10:00 UTC",
-        status: "COMPLETED",
-        rawDate: "2023-10-23"
-    },
-    {
-        id: 5,
-        team1: "BAN",
-        team2: "AFG",
-        tournament: "T20 World Cup",
-        venue: "Adelaide Oval",
-        dateTime: "Oct 26, 05:00 UTC",
-        status: "UPCOMING",
-        rawDate: "2023-10-26"
-    }
-];
-
-let currentPage = 1;
-const itemsPerPage = 4;
-let editingId = null;
-
-
-/* =========================================================
-   GET FILTERED MATCHES
-========================================================= */
-
-function getFilteredMatches() {
-
-    const search =
-        document.getElementById("searchInput").value
-        .trim()
-        .toLowerCase();
-
-    const status =
-        document.getElementById("statusFilter").value;
-
-    const tournament =
-        document.getElementById("tournamentFilter").value;
-
-    const date =
-        document.getElementById("dateFilter").value;
-
-    return matches.filter(function(match) {
-
-        const searchMatch =
-            !search ||
-            (
-                match.team1 +
-                " " +
-                match.team2 +
-                " " +
-                match.tournament +
-                " " +
-                match.venue
-            )
-            .toLowerCase()
-            .includes(search);
-
-        const statusMatch =
-            !status ||
-            match.status === status;
-
-        const tournamentMatch =
-            !tournament ||
-            match.tournament === tournament;
-
-        const dateMatch =
-            !date ||
-            match.rawDate === date;
-
-        return (
-            searchMatch &&
-            statusMatch &&
-            tournamentMatch &&
-            dateMatch
-        );
-    });
-}
-
-
-/* =========================================================
-   RENDER TABLE
-========================================================= */
-
-function renderMatches() {
-
-    const filtered = getFilteredMatches();
-
-    const totalPages =
-        Math.max(
-            1,
-            Math.ceil(filtered.length / itemsPerPage)
-        );
-
-    if (currentPage > totalPages) {
-        currentPage = totalPages;
-    }
-
-    const start =
-        (currentPage - 1) * itemsPerPage;
-
-    const pageMatches =
-        filtered.slice(
-            start,
-            start + itemsPerPage
-        );
-
-    const tbody =
-        document.getElementById("matchTableBody");
-
-    tbody.innerHTML = "";
-
-    if (pageMatches.length === 0) {
-
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="6" class="py-10 text-center text-on-surface-variant">
-                    No matches found.
-                </td>
-            </tr>
-        `;
-
-    } else {
-
-        pageMatches.forEach(function(match) {
-
-            const row = document.createElement("tr");
-
-            row.className =
-                "border-t border-border-subtle hover:bg-surface-container-high transition";
-
-            row.innerHTML = `
-
-                <td class="px-4 py-4">
-                    <div class="font-semibold text-primary">
-                        ${escapeHtml(match.team1)}
-                        <span class="text-on-surface-variant mx-1">
-                            vs
-                        </span>
-                        ${escapeHtml(match.team2)}
-                    </div>
-                </td>
-
-                <td class="px-4 py-4 text-sm text-on-surface-variant">
-                    ${escapeHtml(match.tournament)}
-                </td>
-
-                <td class="px-4 py-4 text-sm text-on-surface-variant">
-                    ${escapeHtml(match.venue)}
-                </td>
-
-                <td class="px-4 py-4 text-sm text-on-surface-variant">
-                    ${escapeHtml(match.dateTime)}
-                </td>
-
-                <td class="px-4 py-4">
-                    <span class="text-xs font-bold
-                        ${getStatusClass(match.status)}">
-                        ${escapeHtml(match.status)}
-                    </span>
-                </td>
-
-                <td class="px-4 py-4 text-right">
-
-                    <button
-                        type="button"
-                        onclick="openEditMatch(${match.id})"
-                        class="p-2 text-on-surface-variant hover:text-primary"
-                        title="Edit"
-                    >
-                        <span class="material-symbols-outlined text-[18px]">
-                            edit
-                        </span>
-                    </button>
-
-                    <button
-                        type="button"
-                        onclick="deleteMatch(${match.id})"
-                        class="p-2 text-on-surface-variant hover:text-critical-red"
-                        title="Delete"
-                    >
-                        <span class="material-symbols-outlined text-[18px]">
-                            delete
-                        </span>
-                    </button>
-
-                </td>
-            `;
-
-            tbody.appendChild(row);
-        });
-    }
-
-    const from =
-        filtered.length === 0
-            ? 0
-            : start + 1;
-
-    const to =
-        Math.min(
-            start + itemsPerPage,
-            filtered.length
-        );
-
-    document.getElementById("paginationText").textContent =
-        `Showing ${from}-${to} of ${filtered.length} matches`;
-
-    document.getElementById("prevBtn").disabled =
-        currentPage <= 1;
-
-    document.getElementById("nextBtn").disabled =
-        currentPage >= totalPages;
-}
-
-
-/* =========================================================
-   STATUS STYLE
-========================================================= */
-
-function getStatusClass(status) {
-
-    if (status === "LIVE") {
-        return "text-success-neon";
-    }
-
-    if (status === "DELAYED") {
-        return "text-yellow-400";
-    }
-
-    if (status === "ABANDONED") {
-        return "text-critical-red";
-    }
-
-    return "text-on-surface-variant";
-}
-
-
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
-
-function escapeHtml(value) {
-
-    return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-}
-
-
-/* =========================================================
-   OPEN ADD MODAL
-========================================================= */
-
-function openAddMatch() {
-
-    editingId = null;
-
-    document.getElementById("modalTitle").textContent =
-        "Add New Match";
-
-    document.getElementById("team1Input").value = "";
-    document.getElementById("team2Input").value = "";
-    document.getElementById("tournamentInput").value = "";
-    document.getElementById("venueInput").value = "";
-    document.getElementById("dateTimeInput").value = "";
-    document.getElementById("statusInput").value = "UPCOMING";
-
-    const modal =
-        document.getElementById("matchModal");
-
-    modal.classList.add("show");
-
-    /*
-       IMPORTANT:
-       Focus is delayed only after modal opens.
-       Nothing controls the input while typing.
-    */
-    setTimeout(function() {
-        document.getElementById("team1Input").focus();
-    }, 100);
-}
-
-
-/* =========================================================
-   OPEN EDIT MODAL
-========================================================= */
-
-function openEditMatch(id) {
-
-    const match =
-        matches.find(function(item) {
-            return item.id === id;
-        });
-
-    if (!match) {
-        return;
-    }
-
-    editingId = id;
-
-    document.getElementById("modalTitle").textContent =
-        "Edit Match";
-
-    document.getElementById("team1Input").value =
-        match.team1 || "";
-
-    document.getElementById("team2Input").value =
-        match.team2 || "";
-
-    document.getElementById("tournamentInput").value =
-        match.tournament || "";
-
-    document.getElementById("venueInput").value =
-        match.venue || "";
-
-    document.getElementById("dateTimeInput").value =
-        match.dateTime || "";
-
-    document.getElementById("statusInput").value =
-        match.status || "UPCOMING";
-
-    document
-        .getElementById("matchModal")
-        .classList.add("show");
-
-    setTimeout(function() {
-        document.getElementById("team1Input").focus();
-    }, 100);
-}
-
-
-/* =========================================================
-   CLOSE MODAL
-========================================================= */
-
-function closeMatchModal() {
-
-    document
-        .getElementById("matchModal")
-        .classList.remove("show");
-
-    editingId = null;
-}
-
-
-/* =========================================================
-   SAVE MATCH
-========================================================= */
-
-document
-    .getElementById("matchForm")
-    .addEventListener("submit", function(event) {
-
-        event.preventDefault();
-
-        /*
-           DIRECTLY READ NATIVE INPUT VALUES.
-           No Alpine.
-           No x-model.
-           No reactive input.
-        */
-
-        const team1 =
-            document
-                .getElementById("team1Input")
-                .value
-                .trim();
-
-        const team2 =
-            document
-                .getElementById("team2Input")
-                .value
-                .trim();
-
-        const tournament =
-            document
-                .getElementById("tournamentInput")
-                .value
-                .trim();
-
-        const venue =
-            document
-                .getElementById("venueInput")
-                .value
-                .trim();
-
-        const dateTime =
-            document
-                .getElementById("dateTimeInput")
-                .value
-                .trim();
-
-        const status =
-            document
-                .getElementById("statusInput")
-                .value;
-
-        if (!team1) {
-            alert("Please enter Team 1.");
-            document.getElementById("team1Input").focus();
-            return;
-        }
-
-        if (!team2) {
-            alert("Please enter Team 2.");
-            document.getElementById("team2Input").focus();
-            return;
-        }
-
-        if (!tournament) {
-            alert("Please enter tournament.");
-            return;
-        }
-
-        if (!venue) {
-            alert("Please enter venue.");
-            return;
-        }
-
-        if (!dateTime) {
-            alert("Please enter date and time.");
-            return;
-        }
-
-
-        /* EDIT */
-        if (editingId !== null) {
-
-            const index =
-                matches.findIndex(function(item) {
-                    return item.id === editingId;
-                });
-
-            if (index !== -1) {
-
-                matches[index].team1 = team1;
-                matches[index].team2 = team2;
-                matches[index].tournament = tournament;
-                matches[index].venue = venue;
-                matches[index].dateTime = dateTime;
-                matches[index].status = status;
+document.addEventListener('alpine:init', () => {
+
+    Alpine.data('matchManagement', () => ({
+
+        matches: [
+
+            {
+                id: 1,
+                team1: 'IND',
+                team2: 'AUS',
+                team1Img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCpgOi6_Hnpno3_9vor0naDTMKGZs7jrUrcZ-4I03lqz1_trXT6x8Dbhnpcw_d3xiNpOWW9-C32qLKM4MaKoQMCOPO8VRLAPvgg1E-9QDLMNp3jOMHj9MMhBxAK92h4t7ENriO23nqbQC0Dz77xkHopAw_RPfMibU0e-9VDoom3TF8OqoXNgazxEDa_Ot6DKUS3thg_ECVF7VQwaKvGsJLCMRFVawz_W5Tnicd-f1LaN_YgKN4_dfVQCw',
+                team2Img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB4oF7tnnbh2LIYiRMFBste_2hggiApa3rVbw17RvyjhV2pgrGi2ZqsF4mlMH7EovMlYgHNoa-909WGpAdTdo0AO3ISXhSXspFVXwp2WcLLAoBZi1xLTmBBJ9OCvEcp_-TjyNV8LeD30HfrXTzgPW4mbjv1i9InpODpBNAOF7VP2gt9hcvxz3sws65dpJiYCCjU49f6CqD_xD8glGiEPLVOyRQNEm7-uxpUwRy5Ujh_EOiYnmPTNV67g',
+                tournament: 'T20 World Cup',
+                venue: 'Melbourne Cricket Ground',
+                dateTime: 'Oct 24, 14:00 UTC',
+                status: 'LIVE',
+                rawDate: '2023-10-24'
+            },
+
+            {
+                id: 2,
+                team1: 'ENG',
+                team2: 'RSA',
+                team1Img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAaj1lpofTfIE7mGLpWLbkYM5HbTuUXTlXpKlW3AlfjVN3OiajqaKDOgkh6elqdmO_urlIHmy3-AmbJcpWPJjHbjmm0llmKIL2ythhozWc2haniKIYHve-ttDw6Dbzq1BRyUppwCsu5rFAJob-g5oU_r6ZlHpfbiuriLeCJaUdy3HoWiC7JKDEa20n9h9xv1bKFnbDvmvbyM3Qo-sC4iv840Mtcn_scC_UCk3RokSj_IgnLY6RRe13cqA',
+                team2Img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAsUL82mufVwMOyOQnoFu3ihuaOgarLjK2YgEKG-LpUWkf_eh5m1RjOCeY6a-QLx96jAk3PnTQ82taxJSbq_wv-QAVNpy5bh9Ui5u5odONNl9HeledWPBk_dVZ8yAeT2mkyt9csC2uXHo-9iwwawpEOfXq5xQSGsppU4uBiO6B3uE1m-jTq_oQe2fwDVCGoD8o8xgZtzg2wZkDhGHGcl_x0OxTDfBu5XvLr7Iv_xk2fpKAuKZRLFxyFUA',
+                tournament: 'T20 World Cup',
+                venue: 'Sydney Cricket Ground',
+                dateTime: 'Oct 25, 09:30 UTC',
+                status: 'UPCOMING',
+                rawDate: '2023-10-25'
+            },
+
+            {
+                id: 3,
+                team1: 'MI',
+                team2: 'CSK',
+                team1Img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuACK2m4eLvOUmVf1nOXY9QN0A05TT6iQLhyAC_0kpfNPsvapUJxE5VISRYYiT0FAl2p4QWlh77qqfXNddWhr4GY5sRY6fDXlVrRNUvOP9zdzC_YyJwwgj48F7Najl8gfMSorp1gxDNtwC8MkTGQ12Gi13vBemoYJ74ww6N7MzqgXAJSKBMu0COeapbBCFyfElV5ec4yuHsH4hxjWO-3s9HogtwSXKmDysfjjm3F2GpjY4N3m2mrWdEFCA',
+                team2Img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD6BOJ2-ZsbIVp-wCwYD8Lts0HfrJige-5AYrXlxmGcf-gF3xezJYptWVwuPoAlrpwxBGw4jV35gUbDRLlTUyXKwvB2ZeVQ0sYva5YkQbnr2KPMZuUWydHyDuEKELMVbTN1IY2GqtEEKoLBhmzVSVy11Bk85qoPFxN2ORHIul0zRCO0NY0LUoHVRLCQOL_J7Glmlg9Xa8WQrV_xpmkJ5BUHggtlL1-VnyqRzyBJdfwgl9UKmWs5I7AMA',
+                tournament: 'Indian Premier League',
+                venue: 'Wankhede Stadium',
+                dateTime: 'Oct 25, 14:00 UTC',
+                status: 'DELAYED',
+                rawDate: '2023-10-25'
+            },
+
+            {
+                id: 4,
+                team1: 'NZ',
+                team2: 'PAK',
+                team1Img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD02zH7MFG_guF6NBRbrG3WX81otRh_rh_zU_5nf4ZZuM-gngSYTXcXUGSxTghTpFx3vwe5eu9VE2av-qfjfJ7eIjetX56YSaUBJoi3CZgean6VZQ_YHQEVzCuI6bqIk3XrUoy1taEx9oNj2Jff1ciMsTlJdk6M2aryJRoggPUChaQPgSyQip8I7jszvKmEG0xGF5b-zdV-mT2f3cChblaIqo6jItSJwhjVZhNbLXXj1hPuuLv3Z1UHBQ',
+                team2Img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA7O8I6mlHVm41mPVOMSQopLt3B4W6CEoTBQf-rBhXFYroSIfyrZTkuhA9ErRYgQEHQ45pg5a4YXRdF-4mSZ62Zog4cObsKF4UfBSH1i9luRjHJcngVzn7eAf5zRbMeyPEqKOieYGI6KbKNOqctVujgTz55VhO6_eaGqtBlvEnhTYDUKq7n210N-gTVxvRNTnakiThqUwdZPvm1SuycAipa4fOw_SrQscAwVmXuvOUJocr6n8LWA6Tv7w',
+                tournament: 'T20 World Cup',
+                venue: 'Brisbane Cricket Ground',
+                dateTime: 'Oct 23, 10:00 UTC',
+                status: 'COMPLETED',
+                rawDate: '2023-10-23'
+            },
+
+            {
+                id: 5,
+                team1: 'BAN',
+                team2: 'AFG',
+                team1Img: 'https://via.placeholder.com/24',
+                team2Img: 'https://via.placeholder.com/24',
+                tournament: 'T20 World Cup',
+                venue: 'Adelaide Oval',
+                dateTime: 'Oct 26, 05:00 UTC',
+                status: 'UPCOMING',
+                rawDate: '2023-10-26'
             }
 
-        }
+        ],
 
-        /* ADD */
-        else {
+        searchQuery: '',
 
-            matches.unshift({
+        filters: {
+            status: '',
+            tournament: '',
+            date: ''
+        },
 
-                id: Date.now(),
+        currentPage: 1,
 
-                team1: team1,
+        itemsPerPage: 4,
 
-                team2: team2,
+        isModalOpen: false,
 
-                tournament: tournament,
+        modalMode: 'add',
 
-                venue: venue,
+        editingMatch: {
+            id: null,
+            team1: '',
+            team2: '',
+            tournament: '',
+            venue: '',
+            dateTime: '',
+            status: 'UPCOMING'
+        },
 
-                dateTime: dateTime,
 
-                status: status,
+        /* =====================================================
+           FILTERED MATCHES
+        ===================================================== */
 
-                rawDate: ""
+        get filteredMatches() {
+
+            return this.matches.filter(match => {
+
+                const matchesSearch =
+                    this.searchQuery === '' ||
+                    `${match.team1} ${match.team2} ${match.tournament}`
+                        .toLowerCase()
+                        .includes(this.searchQuery.toLowerCase());
+
+                const matchesStatus =
+                    this.filters.status === '' ||
+                    match.status === this.filters.status;
+
+                const matchesTournament =
+                    this.filters.tournament === '' ||
+                    match.tournament === this.filters.tournament;
+
+                const matchesDate =
+                    this.filters.date === '' ||
+                    (match.rawDate && match.rawDate === this.filters.date);
+
+                return (
+                    matchesSearch &&
+                    matchesStatus &&
+                    matchesTournament &&
+                    matchesDate
+                );
             });
+        },
+
+
+        /* =====================================================
+           TOTAL PAGES
+        ===================================================== */
+
+        get totalPages() {
+
+            return Math.max(
+                1,
+                Math.ceil(
+                    this.filteredMatches.length /
+                    this.itemsPerPage
+                )
+            );
+        },
+
+
+        /* =====================================================
+           PAGINATED MATCHES
+        ===================================================== */
+
+        get paginatedMatches() {
+
+            const start =
+                (this.currentPage - 1) *
+                this.itemsPerPage;
+
+            const end =
+                start +
+                this.itemsPerPage;
+
+            return this.filteredMatches.slice(
+                start,
+                end
+            );
+        },
+
+
+        /* =====================================================
+           PAGINATION START
+        ===================================================== */
+
+        get paginationStart() {
+
+            if (this.filteredMatches.length === 0) {
+                return 0;
+            }
+
+            return (
+                (this.currentPage - 1) *
+                this.itemsPerPage
+            ) + 1;
+        },
+
+
+        /* =====================================================
+           PAGINATION END
+        ===================================================== */
+
+        get paginationEnd() {
+
+            return Math.min(
+                this.currentPage *
+                this.itemsPerPage,
+                this.filteredMatches.length
+            );
+        },
+
+
+        /* =====================================================
+           DELETE
+        ===================================================== */
+
+        deleteMatch(id) {
+
+            if (
+                confirm(
+                    'Are you sure you want to delete this match?'
+                )
+            ) {
+
+                this.matches =
+                    this.matches.filter(
+                        match => match.id !== id
+                    );
+
+                if (
+                    this.currentPage >
+                    this.totalPages
+                ) {
+
+                    this.currentPage =
+                        this.totalPages;
+                }
+            }
+        },
+
+
+        /* =====================================================
+           OPEN MODAL
+        ===================================================== */
+
+        openModal(mode, match = null) {
+
+            this.modalMode = mode;
+
+            if (
+                mode === 'edit' &&
+                match
+            ) {
+
+                this.editingMatch = {
+                    ...match
+                };
+
+            } else {
+
+                this.editingMatch = {
+
+                    id: Date.now(),
+
+                    team1: '',
+
+                    team2: '',
+
+                    tournament: '',
+
+                    venue: '',
+
+                    dateTime: '',
+
+                    status: 'UPCOMING',
+
+                    team1Img:
+                        'https://via.placeholder.com/24',
+
+                    team2Img:
+                        'https://via.placeholder.com/24'
+                };
+            }
+
+
+            this.isModalOpen = true;
+
+
+            /*
+             * VERY IMPORTANT:
+             * Team inputs are native inputs.
+             * We only set their initial value here.
+             * We NEVER modify them while the user is typing.
+             */
+
+            this.$nextTick(() => {
+
+                const team1 =
+                    document.getElementById(
+                        'team1Input'
+                    );
+
+                const team2 =
+                    document.getElementById(
+                        'team2Input'
+                    );
+
+                if (team1) {
+                    team1.value =
+                        this.editingMatch.team1 || '';
+                }
+
+                if (team2) {
+                    team2.value =
+                        this.editingMatch.team2 || '';
+                }
+
+            });
+
+        },
+
+
+        /* =====================================================
+           CLOSE MODAL
+        ===================================================== */
+
+        closeModal() {
+
+            this.isModalOpen = false;
+        },
+
+
+        /* =====================================================
+           SAVE MATCH
+        ===================================================== */
+
+        saveMatch() {
+
+            /*
+             * READ DIRECTLY FROM THE REAL INPUT ELEMENT.
+             * Alpine does NOT control Team 1 / Team 2.
+             */
+
+            const team1Element =
+                document.getElementById(
+                    'team1Input'
+                );
+
+            const team2Element =
+                document.getElementById(
+                    'team2Input'
+                );
+
+
+            const team1 =
+                team1Element
+                    ? team1Element.value.trim()
+                    : '';
+
+            const team2 =
+                team2Element
+                    ? team2Element.value.trim()
+                    : '';
+
+
+            if (!team1) {
+
+                alert(
+                    'Please enter Team 1.'
+                );
+
+                if (team1Element) {
+                    team1Element.focus();
+                }
+
+                return;
+            }
+
+
+            if (!team2) {
+
+                alert(
+                    'Please enter Team 2.'
+                );
+
+                if (team2Element) {
+                    team2Element.focus();
+                }
+
+                return;
+            }
+
+
+            /*
+             * Put the values into Alpine ONLY WHEN SAVE IS CLICKED.
+             */
+
+            this.editingMatch.team1 =
+                team1;
+
+            this.editingMatch.team2 =
+                team2;
+
+
+            if (
+                this.modalMode === 'add'
+            ) {
+
+                this.matches.unshift({
+                    ...this.editingMatch
+                });
+
+            } else {
+
+                const index =
+                    this.matches.findIndex(
+                        match =>
+                            match.id ===
+                            this.editingMatch.id
+                    );
+
+                if (index !== -1) {
+
+                    this.matches[index] = {
+                        ...this.editingMatch
+                    };
+                }
+            }
+
+
+            this.closeModal();
+        },
+
+
+        /* =====================================================
+           INITIALIZE
+        ===================================================== */
+
+        init() {
+
+            this.$watch(
+                'filters',
+                () => {
+                    this.currentPage = 1;
+                },
+                {
+                    deep: true
+                }
+            );
+
+
+            this.$watch(
+                'searchQuery',
+                () => {
+                    this.currentPage = 1;
+                }
+            );
+
         }
 
-        closeMatchModal();
+    }));
 
-        currentPage = 1;
-
-        renderMatches();
-    });
-
-
-/* =========================================================
-   DELETE
-========================================================= */
-
-function deleteMatch(id) {
-
-    const confirmed =
-        confirm(
-            "Are you sure you want to delete this match?"
-        );
-
-    if (!confirmed) {
-        return;
-    }
-
-    matches =
-        matches.filter(function(match) {
-            return match.id !== id;
-        });
-
-    renderMatches();
-}
-
-
-/* =========================================================
-   PAGINATION
-========================================================= */
-
-function previousPage() {
-
-    if (currentPage > 1) {
-
-        currentPage--;
-
-        renderMatches();
-    }
-}
-
-
-function nextPage() {
-
-    const filtered =
-        getFilteredMatches();
-
-    const totalPages =
-        Math.max(
-            1,
-            Math.ceil(
-                filtered.length / itemsPerPage
-            )
-        );
-
-    if (currentPage < totalPages) {
-
-        currentPage++;
-
-        renderMatches();
-    }
-}
-
-
-/* =========================================================
-   CLOSE MODAL WHEN CLICKING BACKDROP
-========================================================= */
-
-document
-    .getElementById("matchModal")
-    .addEventListener("click", function(event) {
-
-        if (event.target === this) {
-            closeMatchModal();
-        }
-    });
-
-
-/* =========================================================
-   ESC KEY CLOSE
-========================================================= */
-
-document.addEventListener(
-    "keydown",
-    function(event) {
-
-        if (
-            event.key === "Escape" &&
-            document
-                .getElementById("matchModal")
-                .classList
-                .contains("show")
-        ) {
-            closeMatchModal();
-        }
-    }
-);
-
-
-/* =========================================================
-   INITIAL RENDER
-========================================================= */
-
-renderMatches();
+});
 
 </script>
 
