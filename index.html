@@ -1,363 +1,164 @@
 <!DOCTYPE html>
-
-<html class="dark" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<html lang="en" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>BAAZIGAR LIVE — Admin Dashboard</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              "colors": {
-                      "on-error-container": "#ffdad6",
-                      "on-primary-fixed": "#141f00",
-                      "primary-fixed-dim": "#a1d800",
-                      "on-tertiary": "#51221d",
-                      "table-row-hover": "#1a1b1f",
-                      "on-secondary-fixed-variant": "#46464b",
-                      "on-primary-fixed-variant": "#384e00",
-                      "surface-container-highest": "#343439",
-                      "primary": "#ffffff",
-                      "error-container": "#93000a",
-                      "surface-bright": "#38393d",
-                      "on-surface-variant": "#c3caac",
-                      "primary-fixed": "#b8f600",
-                      "on-primary-container": "#506e00",
-                      "on-secondary-container": "#b5b4ba",
-                      "error": "#ffb4ab",
-                      "inverse-primary": "#4b6700",
-                      "surface-container-lowest": "#0d0e12",
-                      "on-tertiary-fixed-variant": "#6c3832",
-                      "inverse-surface": "#e3e2e7",
-                      "border-subtle": "#343539",
-                      "surface-container": "#1e1f24",
-                      "secondary-container": "#46464b",
-                      "tertiary-container": "#ffdad5",
-                      "on-secondary": "#2f3034",
-                      "on-background": "#e3e2e7",
-                      "outline": "#8d9479",
-                      "on-error": "#690005",
-                      "on-surface": "#e3e2e7",
-                      "on-secondary-fixed": "#1a1b1f",
-                      "secondary": "#c7c6cb",
-                      "on-tertiary-container": "#8f544e",
-                      "background": "#121317",
-                      "outline-variant": "#434933",
-                      "surface-dim": "#121317",
-                      "tertiary": "#ffffff",
-                      "secondary-fixed": "#e3e2e7",
-                      "inverse-on-surface": "#2f3035",
-                      "critical-red": "#ffb4ab",
-                      "primary-container": "#b8f600",
-                      "surface-variant": "#343439",
-                      "surface-container-high": "#292a2e",
-                      "success-neon": "#bfff00",
-                      "on-primary": "#263500",
-                      "tertiary-fixed-dim": "#ffb4ab",
-                      "surface": "#121317",
-                      "tertiary-fixed": "#ffdad5",
-                      "surface-tint": "#a1d800",
-                      "surface-container-low": "#1a1b20",
-                      "on-tertiary-fixed": "#360e0a",
-                      "secondary-fixed-dim": "#c7c6cb",
-                      "sidebar-bg": "#0d0e12"
-              },
-              "borderRadius": {
-                      "DEFAULT": "0.125rem",
-                      "lg": "0.25rem",
-                      "xl": "0.5rem",
-                      "full": "0.75rem"
-              },
-              "spacing": {
-                      "stack-sm": "0.5rem",
-                      "edge-margin": "2rem",
-                      "stack-md": "1rem",
-                      "gutter": "1.5rem",
-                      "sidebar-width": "260px"
-              },
-              "fontFamily": {
-                      "headline-md": ["Inter"],
-                      "body-md": ["Inter"],
-                      "body-sm": ["Inter"],
-                      "label-caps": ["Inter"],
-                      "headline-xl": ["Inter"],
-                      "mono-data": ["Inter"]
-              },
-              "fontSize": {
-                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
-                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
-                      "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
-                      "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.06em", "fontWeight": "700"}],
-                      "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                      "mono-data": ["14px", {"lineHeight": "20px", "fontWeight": "500"}]
-              }
-            },
-          },
-        }
-    </script>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0" rel="stylesheet">
+
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        bg:"#121317",
+        panel:"#1e1f24",
+        panel2:"#292a2e",
+        line:"#343539",
+        text:"#e3e2e7",
+        muted:"#c3caac",
+        neon:"#b8f600",
+        danger:"#ff4d4d"
+      }
+    }
+  }
+}
+</script>
+
 <style>
-        body {
-            background-color: #121317;
-            color: #e3e2e7;
-            font-family: 'Inter', sans-serif;
-        }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .card-level-2 {
-            background-color: #1e1f23;
-            border: 1px solid #343539;
-            border-radius: 0.25rem;
-        }
-    </style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:#121317;
+  color:#e3e2e7;
+  font-family:Inter,sans-serif;
+}
+.material-symbols-outlined{
+  font-size:22px;
+  vertical-align:middle;
+}
+button,a{transition:.18s}
+.card{
+  background:#1e1f24;
+  border:1px solid #343539;
+  border-radius:8px;
+}
+.input{
+  width:100%;
+  background:#121317;
+  border:1px solid #434933;
+  color:#fff;
+  padding:12px;
+  border-radius:6px;
+  outline:none;
+}
+.input:focus{
+  border-color:#b8f600;
+}
+.btn{
+  background:#b8f600;
+  color:#141f00;
+  font-weight:800;
+  padding:11px 16px;
+  border-radius:6px;
+}
+.btn:hover{background:#a1d800}
+.btn-dark{
+  background:#292a2e;
+  border:1px solid #434933;
+  color:#e3e2e7;
+  padding:10px 15px;
+  border-radius:6px;
+}
+.btn-danger{
+  background:#421b1d;
+  color:#ffb4ab;
+  border:1px solid #71383a;
+  padding:9px 13px;
+  border-radius:6px;
+}
+.nav-active{
+  background:rgba(184,246,0,.10);
+  color:#b8f600;
+  border-left:4px solid #b8f600;
+}
+.page{display:none}
+.page.active{display:block}
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.75);
+  z-index:100;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.overlay.show{display:flex}
+.modal{
+  width:100%;
+  max-width:520px;
+  background:#1e1f24;
+  border:1px solid #434933;
+  border-radius:10px;
+  padding:24px;
+}
+@media(max-width:800px){
+  aside{transform:translateX(-100%);transition:.2s}
+  aside.open{transform:translateX(0)}
+  main{margin-left:0!important}
+  header{left:0!important}
+  .mobile-menu{display:block!important}
+}
+</style>
 </head>
-<body class="bg-background text-on-background min-h-screen flex">
-<!-- SideNavBar -->
-<nav class="fixed inset-y-0 left-0 z-50 flex flex-col w-[260px] bg-surface-container-lowest border-r border-outline-variant transition-colors duration-200 ease-in-out">
+
+<body>
+
+<!-- SIDEBAR -->
+<aside id="sidebar"
+class="fixed left-0 top-0 bottom-0 z-50 w-[260px] bg-[#0d0e12] border-r border-[#343539] flex flex-col">
+
 <div class="p-6">
-<h1 class="font-headline-md text-headline-md font-black text-primary tracking-tighter">BAAZIGAR LIVE LINE</h1>
-<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">Admin Control Panel</p>
+  <div class="text-xl font-black tracking-tight text-white">
+    BAAZIGAR LIVE LINE
+  </div>
+  <div class="text-xs font-bold tracking-widest text-[#c3caac] mt-2">
+    ADMIN CONTROL PANEL
+  </div>
 </div>
-<div class="px-6 mb-6">
-<button class="w-full bg-primary-fixed text-on-primary-fixed py-2 rounded font-mono-data text-mono-data hover:bg-primary-fixed-dim transition-colors flex items-center justify-center gap-2">
-<span class="material-symbols-outlined text-[18px]">add</span>
-                New Match
-            </button>
+
+<div class="px-5 mb-5">
+  <button onclick="openNewMatch()" class="btn w-full flex items-center justify-center gap-2">
+    <span class="material-symbols-outlined">add</span>
+    New Match
+  </button>
 </div>
-<ul class="flex-1 overflow-y-auto font-body-md text-body-md">
-<li>
-<a class="flex items-center gap-3 text-primary-fixed bg-primary-container/10 border-l-4 border-primary-fixed px-6 py-3 font-bold transition-all" href="#">
-<span class="material-symbols-outlined text-[20px]">dashboard</span>
-                    Dashboard
-                </a>
-</li>
-<li>
-<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high px-6 py-3 transition-all" href="#">
-<span class="material-symbols-outlined text-[20px]">sports_cricket</span>
-                    Match Management
-                </a>
-</li>
-<li>
-<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high px-6 py-3 transition-all" href="#">
-<span class="material-symbols-outlined text-[20px]">event_note</span>
-                    Series
-                </a>
-</li>
-<li>
-<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high px-6 py-3 transition-all" href="#">
-<span class="material-symbols-outlined text-[20px]">groups</span>
-                    Teams
-                </a>
-</li>
-<li>
-<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high px-6 py-3 transition-all" href="#">
-<span class="material-symbols-outlined text-[20px]">person_search</span>
-                    Players
-                </a>
-</li>
-<li>
-<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high px-6 py-3 transition-all" href="#">
-<span class="material-symbols-outlined text-[20px]">api</span>
-                    API Settings
-                </a>
-</li>
-<li>
-<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high px-6 py-3 transition-all" href="#">
-<span class="material-symbols-outlined text-[20px]">manage_accounts</span>
-                    User Management
-                </a>
-</li>
-</ul>
-<ul class="mt-auto border-t border-outline-variant font-body-md text-body-md">
-<li>
-<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high px-6 py-3 transition-all" href="#">
-<span class="material-symbols-outlined text-[20px]">settings</span>
-                    Settings
-                </a>
-</li>
-<li>
-<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-high px-6 py-3 transition-all text-error" href="#">
-<span class="material-symbols-outlined text-[20px]">logout</span>
-                    Logout
-                </a>
-</li>
-</ul>
-</nav>
-<!-- Main Content Area -->
-<div class="flex-1 ml-[260px] flex flex-col min-h-screen">
-<!-- TopNavBar -->
-<header class="fixed top-0 right-0 left-[260px] h-16 z-40 flex items-center justify-between px-edge-margin bg-surface-dim border-b border-outline-variant transition-colors duration-200 ease-in-out">
-<div class="flex items-center gap-4">
-<span class="font-headline-md text-headline-md font-bold text-primary">BAAZIGAR LIVE LINE</span>
-</div>
-<div class="flex items-center gap-6">
-<div class="flex items-center gap-2 text-success-neon font-label-caps text-label-caps bg-success-neon/10 px-3 py-1.5 rounded border border-success-neon/30">
-<span class="w-2 h-2 rounded-full bg-success-neon animate-pulse"></span>
-                    API STATUS: ACTIVE
-                </div>
-<div class="flex items-center gap-4 text-on-surface-variant">
-<button class="hover:text-primary transition-colors scale-95 active:scale-100 transition-transform">
-<span class="material-symbols-outlined">BAAZIGAR LIVE LINE</span>
-</button>
-<button class="hover:text-primary transition-colors scale-95 active:scale-100 transition-transform">
-<span class="material-symbols-outlined">BAAZIGAR LIVE LINE</span>
-</button>
-<button class="hover:text-primary transition-colors scale-95 active:scale-100 transition-transform">
-<span class="material-symbols-outlined">BAAZIGAR LIVE LINE</span>
-</button>
-</div>
-<img alt="Admin Avatar" class="w-8 h-8 rounded-full border border-border-subtle object-cover" data-alt="A small, high-contrast avatar image of a male administrator wearing a dark futuristic headset, lit by neon lime green monitor glow, set against a deep black background in a command center style." src="https://lh3.googleusercontent.com/aida/AEtjO1WHMuY8FVX7z0jYVNL8ABzNAAOE97MTiD5xLXItsFKpQFiOCQl5TtXWq71u6JF83vNNEv1dsSU8Y1EBrxMPa3z2khloiURSl-91vCzgHxsSxy3RuuTpdPdvyCRxDgzfMprrX0nqzfaNnk6EtrbQ5Q2LyXufi108eWr4mzYdaneiXE7TpaHb47laAEsikzgB64sS2BPimpqjZa01gGwMSE1Ij-J013meCFqoPi-A23y43pDKLzkYibnPsBrH"/>
-</div>
-</header>
-<!-- Main Canvas -->
-<main class="flex-1 pt-[88px] px-edge-margin pb-edge-margin bg-background">
-<div class="flex items-center justify-between mb-stack-md">
-<h2 class="font-headline-xl text-headline-xl text-primary">Overview</h2>
-<div class="text-on-surface-variant font-label-caps text-label-caps">LAST UPDATED: JUST NOW</div>
-</div>
-<!-- KPI Row -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-gutter">
-<div class="card-level-2 p-6 flex flex-col justify-between">
-<div class="flex items-center justify-between text-on-surface-variant font-label-caps text-label-caps mb-stack-sm">
-<span>TOTAL USERS</span>
-<span class="material-symbols-outlined text-[16px]">group</span>
-</div>
-<div class="flex items-end justify-between">
-<span class="font-headline-xl text-headline-xl text-primary font-mono-data text-mono-data text-[32px]">12.4k</span>
-<span class="text-success-neon font-body-sm text-body-sm flex items-center">
-<span class="material-symbols-outlined text-[16px]">arrow_upward</span> 2.1%
-                        </span>
-</div>
-</div>
-<div class="card-level-2 p-6 flex flex-col justify-between border-l-4 border-l-primary-fixed">
-<div class="flex items-center justify-between text-on-surface-variant font-label-caps text-label-caps mb-stack-sm">
-<span>LIVE MATCHES</span>
-<span class="material-symbols-outlined text-[16px] text-primary-fixed">sports_cricket</span>
-</div>
-<div class="flex items-end justify-between">
-<span class="font-headline-xl text-headline-xl text-primary font-mono-data text-mono-data text-[32px]">4</span>
-<span class="text-primary-fixed font-body-sm text-body-sm flex items-center">
-                            ACTIVE NOW
-                        </span>
-</div>
-</div>
-<div class="card-level-2 p-6 flex flex-col justify-between">
-<div class="flex items-center justify-between text-on-surface-variant font-label-caps text-label-caps mb-stack-sm">
-<span>UPCOMING MATCHES</span>
-<span class="material-symbols-outlined text-[16px]">event</span>
-</div>
-<div class="flex items-end justify-between">
-<span class="font-headline-xl text-headline-xl text-primary font-mono-data text-mono-data text-[32px]">12</span>
-<span class="text-on-surface-variant font-body-sm text-body-sm flex items-center">
-                            TODAY
-                        </span>
-</div>
-</div>
-<div class="card-level-2 p-6 flex flex-col justify-between">
-<div class="flex items-center justify-between text-on-surface-variant font-label-caps text-label-caps mb-stack-sm">
-<span>ACTIVE SERIES</span>
-<span class="material-symbols-outlined text-[16px]">view_timeline</span>
-</div>
-<div class="flex items-end justify-between">
-<span class="font-headline-xl text-headline-xl text-primary font-mono-data text-mono-data text-[32px]">3</span>
-<span class="text-success-neon font-body-sm text-body-sm flex items-center">
-                            STABLE
-                        </span>
-</div>
-</div>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter mb-gutter">
-<!-- API Status -->
-<div class="lg:col-span-2 flex flex-col gap-gutter">
-<h3 class="font-label-caps text-label-caps text-on-surface-variant border-b border-border-subtle pb-2">DATA STREAMS</h3>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
-<div class="card-level-2 p-6">
-<div class="flex items-center justify-between mb-4">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-primary-fixed">api</span>
-<span class="font-headline-md text-headline-md text-primary">Cricket Data</span>
-</div>
-<div class="flex items-center gap-1.5 px-2 py-1 bg-success-neon/10 text-success-neon rounded font-label-caps text-label-caps border border-success-neon/20">
-<span class="w-1.5 h-1.5 rounded-full bg-success-neon"></span>
-                                    CONNECTED
-                                </div>
-</div>
-<div class="flex items-center justify-between pt-4 border-t border-border-subtle">
-<span class="font-label-caps text-label-caps text-on-surface-variant">LATENCY</span>
-<span class="font-mono-data text-mono-data text-primary">120ms</span>
-</div>
-</div>
-<div class="card-level-2 p-6">
-<div class="flex items-center justify-between mb-4">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-secondary-container">swap_calls</span>
-<span class="font-headline-md text-headline-md text-primary">Odds Data</span>
-</div>
-<div class="flex items-center gap-1.5 px-2 py-1 bg-success-neon/10 text-success-neon rounded font-label-caps text-label-caps border border-success-neon/20">
-<span class="w-1.5 h-1.5 rounded-full bg-success-neon"></span>
-                                    CONNECTED
-                                </div>
-</div>
-<div class="flex items-center justify-between pt-4 border-t border-border-subtle">
-<span class="font-label-caps text-label-caps text-on-surface-variant">LATENCY</span>
-<span class="font-mono-data text-mono-data text-secondary">340ms</span>
-</div>
-</div>
-</div>
-</div>
-<!-- Activity Feed -->
-<div class="lg:col-span-1 flex flex-col gap-gutter">
-<h3 class="font-label-caps text-label-caps text-on-surface-variant border-b border-border-subtle pb-2 flex justify-between">
-                        SYSTEM LOGS
-                        <span class="text-primary-fixed cursor-pointer">VIEW ALL</span>
-</h3>
-<div class="card-level-2 overflow-hidden flex flex-col h-[280px]">
-<div class="flex-1 overflow-y-auto p-4 space-y-4">
-<div class="flex items-start gap-3">
-<div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center flex-shrink-0 text-primary-fixed">
-<span class="material-symbols-outlined text-[16px]">sports_score</span>
-</div>
-<div>
-<p class="font-body-sm text-body-sm text-primary"><span class="font-mono-data text-mono-data">IND vs AUS</span>: Score updated to 124/2 (15.2)</p>
-<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">2 MINS AGO</p>
-</div>
-</div>
-<div class="flex items-start gap-3">
-<div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center flex-shrink-0 text-secondary">
-<span class="material-symbols-outlined text-[16px]">person_add</span>
-</div>
-<div>
-<p class="font-body-sm text-body-sm text-primary">New user registration: <span class="font-mono-data text-mono-data">usr_892x</span></p>
-<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">5 MINS AGO</p>
-</div>
-</div>
-<div class="flex items-start gap-3">
-<div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center flex-shrink-0 text-primary-fixed">
-<span class="material-symbols-outlined text-[16px]">sports_score</span>
-</div>
-<div>
-<p class="font-body-sm text-body-sm text-primary"><span class="font-mono-data text-mono-data">ENG vs SA</span>: Wicket! Root b Rabada.</p>
-<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">12 MINS AGO</p>
-</div>
-</div>
-<div class="flex items-start gap-3">
-<div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center flex-shrink-0 text-secondary">
-<span class="material-symbols-outlined text-[16px]">person_add</span>
-</div>
-<div>
-<p class="font-body-sm text-body-sm text-primary">New user registration: <span class="font-mono-data text-mono-data">usr_441q</span></p>
-<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">18 MINS AGO</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</main>
-</div>
-</body></html>
+
+<nav class="flex-1 overflow-y-auto">
+
+<a onclick="showPage('dashboard')" data-page="dashboard"
+class="nav flex items-center gap-3 px-6 py-3 cursor-pointer nav-active">
+<span class="material-symbols-outlined">dashboard</span>
+Dashboard
+</a>
+
+<a onclick="showPage('matches')" data-page="matches"
+class="nav flex items-center gap-3 px-6 py-3 cursor-pointer text-[#c3caac] hover:bg-[#292a2e]">
+<span class="material-symbols-outlined">sports_cricket</span>
+Match Management
+</a>
+
+<a onclick="showPage('series')" data-page="series"
+class="nav flex items-center gap-3 px-6 py-3 cursor-pointer text-[#c3caac] hover:bg-[#292a2e]">
+<span class="material-symbols-outlined">event_note</span>
+Series
+</a>
+
+<a onclick="showPage('teams')" data-page="teams"
+class="nav flex items-center gap-3 px-6 py-3 cursor-pointer text-[#c3caac] hover:bg-[#292a2e]">
+<span class
