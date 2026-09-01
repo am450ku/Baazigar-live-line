@@ -3,1026 +3,707 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BAAZIGAR LIVE LINE — Admin Panel</title>
+<title>BAAZIGAR LIVE LINE — Admin Dashboard</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0" rel="stylesheet">
 
-<style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  background:#0d0f12;
-  color:#e8eadf;
-  font-family:Inter,sans-serif;
+<script>
+tailwind.config = {
+    darkMode: "class",
+    theme: {
+        extend: {
+            colors: {
+                bg: "#0d0f12",
+                panel: "#17191e",
+                panel2: "#1d2025",
+                line: "#30343b",
+                text: "#f5f7f8",
+                muted: "#b9bea8",
+                lime: "#baff00",
+                lime2: "#9fe600",
+                danger: "#ffaaa5"
+            }
+        }
+    }
 }
-button,a{transition:.2s}
-.material-symbols-outlined{
-  font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;
-}
-::-webkit-scrollbar{width:6px}
-::-webkit-scrollbar-thumb{background:#343a25;border-radius:10px}
+</script>
 
-.card{
-  background:#1a1c20;
-  border:1px solid #30332f;
-  border-radius:12px;
+<style>
+* {
+    box-sizing: border-box;
 }
-.input{
-  width:100%;
-  background:#111317;
-  border:1px solid #383b38;
-  color:#fff;
-  padding:12px 14px;
-  border-radius:8px;
-  outline:none;
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
 }
-.input:focus{border-color:#bfff00}
-.btn{
-  background:#bfff00;
-  color:#111600;
-  font-weight:800;
-  padding:11px 16px;
-  border-radius:8px;
+
+body {
+    background: #0d0f12;
+    color: #f5f7f8;
+    font-family: Inter, sans-serif;
+    overflow-x: hidden;
 }
-.btn:hover{background:#d1ff4d}
-.btn-dark{
-  background:#24272b;
-  color:#fff;
-  border:1px solid #3b3e42;
-  padding:11px 16px;
-  border-radius:8px;
+
+.material-symbols-outlined {
+    font-family: "Material Symbols Outlined";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: "liga";
+    -webkit-font-smoothing: antialiased;
 }
-.btn-danger{
-  background:#5d161b;
-  color:#ffb4ab;
-  border:1px solid #8e3030;
-  padding:10px 14px;
-  border-radius:8px;
+
+.sidebar {
+    width: 270px;
+    background: #0a0c0f;
+    border-right: 1px solid #30343b;
 }
-.nav-active{
-  background:rgba(191,255,0,.12);
-  color:#bfff00;
-  border-left:4px solid #bfff00;
+
+.main-area {
+    margin-left: 270px;
 }
-.modal-bg{
-  background:rgba(0,0,0,.75);
-  backdrop-filter:blur(5px);
+
+.topbar {
+    left: 270px;
 }
-.hidden-page{display:none!important}
+
+.card {
+    background: #191b20;
+    border: 1px solid #30343b;
+    border-radius: 16px;
+}
+
+.nav-item {
+    transition: .2s ease;
+}
+
+.nav-item:hover {
+    background: rgba(186,255,0,.08);
+    color: #baff00;
+}
+
+.nav-active {
+    background: rgba(186,255,0,.12);
+    color: #baff00 !important;
+    border-left: 4px solid #baff00;
+}
+
+.overlay {
+    display: none;
+}
+
+@media (max-width: 900px) {
+
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform .25s ease;
+        width: 290px;
+        z-index: 100;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .main-area {
+        margin-left: 0;
+    }
+
+    .topbar {
+        left: 0;
+    }
+
+    .overlay.show {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.65);
+        z-index: 90;
+    }
+
+    .desktop-logo {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .topbar {
+        height: 86px;
+    }
+
+    .content {
+        padding: 115px 18px 40px !important;
+    }
+
+    .page-title {
+        font-size: 42px !important;
+        line-height: 1.05;
+    }
+
+    .kpi-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .data-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .api-status {
+        font-size: 11px;
+        padding: 9px 10px;
+    }
+
+    .brand-mobile {
+        display: block !important;
+    }
+}
+
+.brand-mobile {
+    display: none;
+}
 </style>
 </head>
 
 <body>
 
-<!-- MOBILE HEADER -->
-<header class="lg:hidden fixed top-0 left-0 right-0 z-40 h-16 bg-[#0d0f12] border-b border-[#30332f] flex items-center justify-between px-4">
-  <button onclick="toggleSidebar()" class="text-white">
-    <span class="material-symbols-outlined text-3xl">menu</span>
-  </button>
-
-  <div class="font-black text-lg">
-    BAAZIGAR <span class="text-[#bfff00]">LIVE LINE</span>
-  </div>
-
-  <div class="w-9 h-9 rounded-full bg-[#bfff00] text-black flex items-center justify-center font-black">
-    A
-  </div>
-</header>
+<!-- MOBILE OVERLAY -->
+<div id="overlay" class="overlay" onclick="closeSidebar()"></div>
 
 <!-- SIDEBAR -->
 <aside id="sidebar"
-class="fixed z-50 top-0 bottom-0 left-0 w-[270px] bg-[#0b0d10] border-r border-[#30332f] flex flex-col transform -translate-x-full lg:translate-x-0 transition-transform">
+class="sidebar fixed top-0 left-0 bottom-0 flex flex-col z-50">
 
-  <div class="p-6">
-    <div class="text-xl font-black tracking-tight">
-      BAAZIGAR <span class="text-[#bfff00]">LIVE LINE</span>
+    <!-- BRAND -->
+    <div class="px-6 pt-8 pb-6">
+        <div class="text-[25px] font-black tracking-tight leading-tight">
+            BAAZIGAR <span class="text-lime">LIVE LINE</span>
+        </div>
+
+        <div class="text-[12px] tracking-[.22em] text-muted mt-3">
+            ADMIN CONTROL PANEL
+        </div>
     </div>
-    <div class="text-xs text-[#aeb59a] mt-2 uppercase tracking-widest">
-      Admin Control Panel
+
+    <!-- NEW MATCH -->
+    <div class="px-5 mb-7">
+        <button
+            onclick="newMatch()"
+            class="w-full h-14 rounded-xl bg-lime text-black font-bold text-lg flex items-center justify-center gap-3 hover:bg-lime2 transition">
+            <span class="material-symbols-outlined">add</span>
+            New Match
+        </button>
     </div>
-  </div>
 
-  <div class="px-5 mb-5">
-    <button onclick="openNewMatch()" class="btn w-full flex items-center justify-center gap-2">
-      <span class="material-symbols-outlined">add</span>
-      New Match
-    </button>
-  </div>
+    <!-- NAVIGATION -->
+    <nav class="flex-1">
 
-  <nav class="flex-1 overflow-y-auto">
+        <button onclick="selectNav(this,'Dashboard')"
+        class="nav-item nav-active w-full flex items-center gap-4 px-6 py-4 text-lg">
+            <span class="material-symbols-outlined">dashboard</span>
+            <span>Dashboard</span>
+        </button>
 
-    <button onclick="showPage('dashboard')" data-page="dashboard"
-      class="nav-btn w-full flex items-center gap-3 px-6 py-3 text-left nav-active">
-      <span class="material-symbols-outlined">dashboard</span>
-      Dashboard
-    </button>
+        <button onclick="selectNav(this,'Match Management')"
+        class="nav-item w-full flex items-center gap-4 px-6 py-4 text-lg text-muted">
+            <span class="material-symbols-outlined">sports_cricket</span>
+            <span>Match Management</span>
+        </button>
 
-    <button onclick="showPage('matches')" data-page="matches"
-      class="nav-btn w-full flex items-center gap-3 px-6 py-3 text-left text-[#bfc4b2] hover:bg-[#202329]">
-      <span class="material-symbols-outlined">sports_cricket</span>
-      Match Management
-    </button>
+        <button onclick="selectNav(this,'Series')"
+        class="nav-item w-full flex items-center gap-4 px-6 py-4 text-lg text-muted">
+            <span class="material-symbols-outlined">event_note</span>
+            <span>Series</span>
+        </button>
 
-    <button onclick="showPage('series')" data-page="series"
-      class="nav-btn w-full flex items-center gap-3 px-6 py-3 text-left text-[#bfc4b2] hover:bg-[#202329]">
-      <span class="material-symbols-outlined">event_note</span>
-      Series
-    </button>
+        <button onclick="selectNav(this,'Teams')"
+        class="nav-item w-full flex items-center gap-4 px-6 py-4 text-lg text-muted">
+            <span class="material-symbols-outlined">groups</span>
+            <span>Teams</span>
+        </button>
 
-    <button onclick="showPage('teams')" data-page="teams"
-      class="nav-btn w-full flex items-center gap-3 px-6 py-3 text-left text-[#bfc4b2] hover:bg-[#202329]">
-      <span class="material-symbols-outlined">groups</span>
-      Teams
-    </button>
+        <button onclick="selectNav(this,'Players')"
+        class="nav-item w-full flex items-center gap-4 px-6 py-4 text-lg text-muted">
+            <span class="material-symbols-outlined">person_search</span>
+            <span>Players</span>
+        </button>
 
-    <button onclick="showPage('players')" data-page="players"
-      class="nav-btn w-full flex items-center gap-3 px-6 py-3 text-left text-[#bfc4b2] hover:bg-[#202329]">
-      <span class="material-symbols-outlined">person_search</span>
-      Players
-    </button>
+        <button onclick="selectNav(this,'API Settings')"
+        class="nav-item w-full flex items-center gap-4 px-6 py-4 text-lg text-muted">
+            <span class="material-symbols-outlined">api</span>
+            <span>API Settings</span>
+        </button>
 
-    <button onclick="showPage('api')" data-page="api"
-      class="nav-btn w-full flex items-center gap-3 px-6 py-3 text-left text-[#bfc4b2] hover:bg-[#202329]">
-      <span class="material-symbols-outlined">api</span>
-      API Settings
-    </button>
+        <button onclick="selectNav(this,'User Management')"
+        class="nav-item w-full flex items-center gap-4 px-6 py-4 text-lg text-muted">
+            <span class="material-symbols-outlined">manage_accounts</span>
+            <span>User Management</span>
+        </button>
 
-    <button onclick="showPage('users')" data-page="users"
-      class="nav-btn w-full flex items-center gap-3 px-6 py-3 text-left text-[#bfc4b2] hover:bg-[#202329]">
-      <span class="material-symbols-outlined">manage_accounts</span>
-      User Management
-    </button>
+    </nav>
 
-  </nav>
+    <!-- BOTTOM -->
+    <div class="border-t border-line">
 
-  <div class="border-t border-[#30332f]">
+        <button onclick="selectNav(this,'Settings')"
+        class="nav-item w-full flex items-center gap-4 px-6 py-4 text-lg text-muted">
+            <span class="material-symbols-outlined">settings</span>
+            <span>Settings</span>
+        </button>
 
-    <button onclick="showPage('settings')"
-      data-page="settings"
-      class="nav-btn w-full flex items-center gap-3 px-6 py-3 text-left text-[#bfc4b2] hover:bg-[#202329]">
-      <span class="material-symbols-outlined">settings</span>
-      Settings
-    </button>
+        <button onclick="logout()"
+        class="nav-item w-full flex items-center gap-4 px-6 py-4 text-lg text-danger">
+            <span class="material-symbols-outlined">logout</span>
+            <span>Logout</span>
+        </button>
 
-    <button onclick="logout()" class="w-full flex items-center gap-3 px-6 py-3 text-left text-[#ffb4ab] hover:bg-[#35171b]">
-      <span class="material-symbols-outlined">logout</span>
-      Logout
-    </button>
-
-  </div>
+    </div>
 </aside>
 
+
 <!-- MAIN -->
-<div class="lg:ml-[270px] min-h-screen">
+<div class="main-area min-h-screen">
 
-<!-- DESKTOP TOP BAR -->
-<header class="hidden lg:flex fixed top-0 right-0 left-[270px] z-30 h-16 bg-[#0d0f12] border-b border-[#30332f] items-center justify-between px-8">
+    <!-- TOP BAR -->
+    <header
+    class="topbar fixed top-0 right-0 h-[86px] bg-bg border-b border-line z-40 flex items-center justify-between px-5 md:px-8">
 
-  <div class="font-bold text-lg">BAAZIGAR LIVE LINE</div>
+        <div class="flex items-center gap-4">
 
-  <div class="flex items-center gap-5">
+            <!-- MOBILE MENU -->
+            <button
+                onclick="openSidebar()"
+                class="lg:hidden w-11 h-11 flex items-center justify-center">
+                <span class="material-symbols-outlined text-[30px]">
+                    menu
+                </span>
+            </button>
 
-    <div class="px-4 py-2 rounded-lg border border-[#617b00] bg-[#bfff00]/10 text-[#bfff00] text-xs font-bold flex items-center gap-2">
-      <span class="w-2 h-2 bg-[#bfff00] rounded-full animate-pulse"></span>
-      API STATUS: <span id="apiStatusTop">ACTIVE</span>
-    </div>
-
-    <div class="w-9 h-9 rounded-full bg-[#bfff00] text-black flex items-center justify-center font-black">
-      A
-    </div>
-
-  </div>
-</header>
-
-<main class="pt-20 lg:pt-24 px-4 sm:px-6 lg:px-8 pb-10">
-
-<!-- DASHBOARD -->
-<section id="page-dashboard">
-
-  <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-8">
-
-    <div>
-      <h1 class="text-4xl sm:text-5xl font-black">Overview</h1>
-      <p class="text-[#aeb59a] mt-2">BAAZIGAR LIVE control center</p>
-    </div>
-
-    <div class="text-xs font-bold text-[#aeb59a]">
-      LAST UPDATED: <span id="lastUpdated">JUST NOW</span>
-    </div>
-
-  </div>
-
-  <!-- KPI -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
-
-    <div class="card p-6">
-      <div class="flex justify-between text-[#bfc4b2] text-xs font-bold tracking-widest">
-        TOTAL USERS
-        <span class="material-symbols-outlined">group</span>
-      </div>
-      <div class="text-4xl font-black mt-8" id="totalUsers">1</div>
-    </div>
-
-    <div class="card p-6 border-l-4 border-l-[#bfff00]">
-      <div class="flex justify-between text-[#bfc4b2] text-xs font-bold tracking-widest">
-        LIVE MATCHES
-        <span class="material-symbols-outlined text-[#bfff00]">sports_cricket</span>
-      </div>
-      <div class="text-4xl font-black mt-8" id="liveMatches">0</div>
-    </div>
-
-    <div class="card p-6">
-      <div class="flex justify-between text-[#bfc4b2] text-xs font-bold tracking-widest">
-        UPCOMING MATCHES
-        <span class="material-symbols-outlined">event</span>
-      </div>
-      <div class="text-4xl font-black mt-8" id="upcomingMatches">0</div>
-    </div>
-
-    <div class="card p-6">
-      <div class="flex justify-between text-[#bfc4b2] text-xs font-bold tracking-widest">
-        ACTIVE SERIES
-        <span class="material-symbols-outlined">view_timeline</span>
-      </div>
-      <div class="text-4xl font-black mt-8" id="activeSeries">0</div>
-    </div>
-
-  </div>
-
-  <!-- DATA + LOGS -->
-  <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-
-    <div class="xl:col-span-2">
-
-      <div class="flex justify-between items-center border-b border-[#30332f] pb-3 mb-4">
-        <h2 class="text-sm font-bold tracking-widest text-[#bfc4b2]">
-          DATA STREAMS
-        </h2>
-        <span class="text-xs text-[#bfff00]">SYSTEM ONLINE</span>
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-4">
-
-        <div class="card p-6">
-          <div class="flex justify-between items-center">
-            <div class="flex gap-3 items-center">
-              <span class="material-symbols-outlined text-[#bfff00]">api</span>
-              <span class="font-bold">Cricket Data</span>
+            <div class="desktop-logo font-black text-xl tracking-tight">
+                BAAZIGAR <span class="text-lime">LIVE LINE</span>
             </div>
-            <span class="text-xs text-[#bfff00]">● CONNECTED</span>
-          </div>
 
-          <div class="border-t border-[#30332f] mt-6 pt-4 flex justify-between text-sm">
-            <span class="text-[#aeb59a]">LATENCY</span>
-            <span>120ms</span>
-          </div>
+            <div class="brand-mobile font-black text-lg tracking-tight">
+                BAAZIGAR <span class="text-lime">LIVE LINE</span>
+            </div>
+
         </div>
 
-        <div class="card p-6">
-          <div class="flex justify-between items-center">
-            <div class="flex gap-3 items-center">
-              <span class="material-symbols-outlined text-[#bfff00]">swap_calls</span>
-              <span class="font-bold">Odds Data</span>
-            </div>
-            <span class="text-xs text-[#bfff00]">● CONNECTED</span>
-          </div>
+        <div class="flex items-center gap-3 md:gap-6">
 
-          <div class="border-t border-[#30332f] mt-6 pt-4 flex justify-between text-sm">
-            <span class="text-[#aeb59a]">LATENCY</span>
-            <span>340ms</span>
-          </div>
+            <!-- API -->
+            <div class="api-status flex items-center gap-2 text-lime border border-lime/40 bg-lime/10 rounded-lg px-3 py-2 font-bold">
+                <span class="w-2.5 h-2.5 rounded-full bg-lime animate-pulse"></span>
+                <span>API STATUS: ACTIVE</span>
+            </div>
+
+            <!-- ADMIN -->
+            <div class="w-12 h-12 rounded-full bg-lime text-black flex items-center justify-center font-black text-xl">
+                A
+            </div>
+
         </div>
 
-      </div>
-
-    </div>
-
-    <div>
-
-      <div class="border-b border-[#30332f] pb-3 mb-4">
-        <h2 class="text-sm font-bold tracking-widest text-[#bfc4b2]">
-          SYSTEM LOGS
-        </h2>
-      </div>
-
-      <div id="logs" class="card p-4 space-y-4 max-h-[330px] overflow-y-auto"></div>
-
-    </div>
-
-  </div>
-
-</section>
+    </header>
 
 
-<!-- MATCHES -->
-<section id="page-matches" class="hidden-page">
+    <!-- CONTENT -->
+    <main class="content px-8 pt-[115px] pb-12">
 
-  <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
-    <div>
-      <h1 class="text-4xl font-black">Match Management</h1>
-      <p class="text-[#aeb59a] mt-2">Create and manage cricket matches</p>
-    </div>
+        <!-- HEADER -->
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-9">
 
-    <button onclick="openNewMatch()" class="btn flex items-center justify-center gap-2">
-      <span class="material-symbols-outlined">add</span>
-      New Match
-    </button>
-  </div>
+            <div>
+                <h1 class="page-title text-6xl font-black tracking-tight">
+                    Overview
+                </h1>
 
-  <div id="matchesList" class="grid gap-4"></div>
+                <p class="text-muted text-lg mt-3">
+                    BAAZIGAR LIVE control center
+                </p>
+            </div>
 
-</section>
+            <div class="text-muted text-sm tracking-wider">
+                LAST UPDATED:
+                <span id="clock">--:--:--</span>
+            </div>
 
-
-<!-- SERIES -->
-<section id="page-series" class="hidden-page">
-
-  <div class="flex justify-between items-center mb-6">
-    <div>
-      <h1 class="text-4xl font-black">Series</h1>
-      <p class="text-[#aeb59a] mt-2">Manage cricket series</p>
-    </div>
-
-    <button onclick="addSeries()" class="btn">+ Add Series</button>
-  </div>
-
-  <div id="seriesList" class="grid md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
-
-</section>
+        </div>
 
 
-<!-- TEAMS -->
-<section id="page-teams" class="hidden-page">
+        <!-- KPI -->
+        <div class="kpi-grid grid grid-cols-4 gap-5 mb-7">
 
-  <div class="flex justify-between items-center mb-6">
-    <div>
-      <h1 class="text-4xl font-black">Teams</h1>
-      <p class="text-[#aeb59a] mt-2">Manage cricket teams</p>
-    </div>
+            <!-- USERS -->
+            <div class="card p-6 min-h-[210px] flex flex-col justify-between">
 
-    <button onclick="addTeam()" class="btn">+ Add Team</button>
-  </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-muted font-bold tracking-wide">
+                        TOTAL USERS
+                    </span>
 
-  <div id="teamsList" class="grid sm:grid-cols-2 xl:grid-cols-4 gap-4"></div>
+                    <span class="material-symbols-outlined text-muted">
+                        group
+                    </span>
+                </div>
 
-</section>
+                <div>
+                    <div class="text-5xl font-black">
+                        1
+                    </div>
 
+                    <div class="text-muted text-sm mt-2">
+                        Registered users
+                    </div>
+                </div>
 
-<!-- PLAYERS -->
-<section id="page-players" class="hidden-page">
-
-  <div class="flex justify-between items-center mb-6">
-    <div>
-      <h1 class="text-4xl font-black">Players</h1>
-      <p class="text-[#aeb59a] mt-2">Manage player database</p>
-    </div>
-
-    <button onclick="addPlayer()" class="btn">+ Add Player</button>
-  </div>
-
-  <div class="card overflow-hidden">
-    <div id="playersList"></div>
-  </div>
-
-</section>
+            </div>
 
 
-<!-- API -->
-<section id="page-api" class="hidden-page">
+            <!-- LIVE -->
+            <div class="card p-6 min-h-[210px] flex flex-col justify-between border-l-4 border-l-lime">
 
-  <h1 class="text-4xl font-black mb-2">API Settings</h1>
-  <p class="text-[#aeb59a] mb-6">Configure your live data providers</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-muted font-bold tracking-wide">
+                        LIVE MATCHES
+                    </span>
 
-  <div class="card p-6 max-w-2xl">
+                    <span class="material-symbols-outlined text-lime">
+                        sports_cricket
+                    </span>
+                </div>
 
-    <label class="block text-sm font-bold mb-2">Cricket API Key</label>
-    <input id="cricketApi" class="input mb-5" type="password" placeholder="Enter API key">
+                <div>
+                    <div id="liveMatches" class="text-5xl font-black">
+                        0
+                    </div>
 
-    <label class="block text-sm font-bold mb-2">Odds API Key</label>
-    <input id="oddsApi" class="input mb-5" type="password" placeholder="Enter API key">
+                    <div class="text-lime text-sm font-bold mt-2">
+                        ACTIVE NOW
+                    </div>
+                </div>
 
-    <label class="flex items-center gap-3 mb-6">
-      <input id="apiEnabled" type="checkbox" class="w-5 h-5 accent-lime-400">
-      <span>Enable live API connection</span>
-    </label>
-
-    <button onclick="saveApi()" class="btn">Save API Settings</button>
-
-  </div>
-
-</section>
-
-
-<!-- USERS -->
-<section id="page-users" class="hidden-page">
-
-  <div class="flex justify-between items-center mb-6">
-    <div>
-      <h1 class="text-4xl font-black">User Management</h1>
-      <p class="text-[#aeb59a] mt-2">Manage admin users</p>
-    </div>
-
-    <button onclick="addUser()" class="btn">+ Add User</button>
-  </div>
-
-  <div id="usersList" class="grid gap-4"></div>
-
-</section>
+            </div>
 
 
-<!-- SETTINGS -->
-<section id="page-settings" class="hidden-page">
+            <!-- UPCOMING -->
+            <div class="card p-6 min-h-[210px] flex flex-col justify-between">
 
-  <h1 class="text-4xl font-black mb-2">Settings</h1>
-  <p class="text-[#aeb59a] mb-6">Dashboard preferences</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-muted font-bold tracking-wide">
+                        UPCOMING MATCHES
+                    </span>
 
-  <div class="card p-6 max-w-2xl space-y-6">
+                    <span class="material-symbols-outlined text-muted">
+                        event
+                    </span>
+                </div>
 
-    <div>
-      <label class="block font-bold mb-2">Dashboard Name</label>
-      <input id="dashboardName" class="input" value="BAAZIGAR LIVE LINE">
-    </div>
+                <div>
+                    <div id="upcomingMatches" class="text-5xl font-black">
+                        0
+                    </div>
 
-    <div>
-      <label class="block font-bold mb-2">Admin Name</label>
-      <input id="adminName" class="input" value="Admin">
-    </div>
+                    <div class="text-muted text-sm mt-2">
+                        TODAY
+                    </div>
+                </div>
 
-    <div class="flex items-center justify-between">
-      <div>
-        <div class="font-bold">Live Notifications</div>
-        <div class="text-sm text-[#aeb59a]">Show system notifications</div>
-      </div>
-      <input id="notifications" type="checkbox" checked class="w-5 h-5 accent-lime-400">
-    </div>
+            </div>
 
-    <button onclick="saveSettings()" class="btn">Save Settings</button>
 
-  </div>
+            <!-- SERIES -->
+            <div class="card p-6 min-h-[210px] flex flex-col justify-between">
 
-</section>
+                <div class="flex justify-between items-center">
+                    <span class="text-muted font-bold tracking-wide">
+                        ACTIVE SERIES
+                    </span>
 
-</main>
+                    <span class="material-symbols-outlined text-muted">
+                        view_timeline
+                    </span>
+                </div>
+
+                <div>
+                    <div class="text-5xl font-black">
+                        3
+                    </div>
+
+                    <div class="text-lime text-sm font-bold mt-2">
+                        STABLE
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- LOWER SECTION -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- DATA STREAMS -->
+            <section class="lg:col-span-2">
+
+                <div class="flex items-center justify-between border-b border-line pb-3 mb-5">
+                    <h2 class="text-sm font-bold tracking-[.15em] text-muted">
+                        DATA STREAMS
+                    </h2>
+
+                    <span class="text-xs text-lime">
+                        SYSTEM ONLINE
+                    </span>
+                </div>
+
+
+                <div class="data-grid grid grid-cols-2 gap-5">
+
+                    <!-- CRICKET -->
+                    <div class="card p-6">
+
+                        <div class="flex items-center justify-between gap-3">
+
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-lime">
+                                    api
+                                </span>
+
+                                <span class="font-bold text-lg">
+                                    Cricket Data
+                                </span>
+                            </div>
+
+                            <span class="text-xs text-lime border border-lime/30 bg-lime/10 rounded px-2 py-1">
+                                CONNECTED
+                            </span>
+
+                        </div>
+
+                        <div class="border-t border-line mt-6 pt-4 flex justify-between">
+                            <span class="text-xs text-muted font-bold">
+                                LATENCY
+                            </span>
+
+                            <span class="font-mono">
+                                120ms
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- ODDS -->
+                    <div class="card p-6">
+
+                        <div class="flex items-center justify-between gap-3">
+
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-lime">
+                                    swap_calls
+                                </span>
+
+                                <span class="font-bold text-lg">
+                                    Odds Data
+                                </span>
+                            </div>
+
+                            <span class="text-xs text-lime border border-lime/30 bg-lime/10 rounded px-2 py-1">
+                                CONNECTED
+                            </span>
+
+                        </div>
+
+                        <div class="border-t border-line mt-6 pt-4 flex justify-between">
+                            <span class="text-xs text-muted font-bold">
+                                LATENCY
+                            </span>
+
+                            <span class="font-mono">
+                                340ms
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- SYSTEM LOG -->
+            <section>
+
+                <div class="flex items-center justify-between border-b border-line pb-3 mb-5">
+
+                    <h2 class="text-sm font-bold tracking-[.15em] text-muted">
+                        SYSTEM LOGS
+                    </h2>
+
+                    <button onclick="viewLogs()" class="text-xs text-lime font-bold">
+                        VIEW ALL
+                    </button>
+
+                </div>
+
+
+                <div class="card overflow-hidden">
+
+                    <div class="p-5 space-y-5">
+
+                        <div class="flex gap-3">
+
+                            <div class="w-9 h-9 rounded-lg bg-panel2 flex items-center justify-center text-lime shrink-0">
+                                <span class="material-symbols-outlined text-lg">
+                                    check_circle
+                                </span>
+                            </div>
+
+                            <div>
+                                <p class="text-sm">
+                                    Cricket data API connected successfully.
+                                </p>
+
+                                <p class="text-[10px] text-muted mt-1">
+                                    JUST NOW
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="flex gap-3">
+
+                            <div class="w-9 h-9 rounded-lg bg-panel2 flex items-center justify-center text-lime shrink-0">
+                                <span class="material-symbols-outlined text-lg">
+                                    settings
+                                </span>
+                            </div>
+
+                            <div>
+                                <p class="text-sm">
+                                    Admin dashboard initialized.
+                                </p>
+
+                                <p class="text-[10px] text-muted mt-1">
+                                    2 MINS AGO
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="flex gap-3">
+
+                            <div class="w-9 h-9 rounded-lg bg-panel2 flex items-center justify-center text-muted shrink-0">
+                                <span class="material-symbols-outlined text-lg">
+                                    person_add
+                                </span>
+                            </div>
+
+                            <div>
+                                <p class="text-sm">
+                                    New user registration detected.
+                                </p>
+
+                                <p class="text-[10px] text-muted mt-1">
+                                    5 MINS AGO
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
 </div>
 
 
-<!-- NEW MATCH MODAL -->
-<div id="matchModal" class="hidden fixed inset-0 z-[100] modal-bg flex items-center justify-center p-4">
-
-  <div class="card w-full max-w-lg p-6">
-
-    <div class="flex justify-between items-center mb-6">
-      <h2 class="text-2xl font-black">Create New Match</h2>
-
-      <button onclick="closeModal()" class="text-[#aeb59a]">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-    </div>
-
-    <div class="space-y-4">
-
-      <div>
-        <label class="block text-sm font-bold mb-2">Team 1</label>
-        <input id="team1" class="input" placeholder="India">
-      </div>
-
-      <div>
-        <label class="block text-sm font-bold mb-2">Team 2</label>
-        <input id="team2" class="input" placeholder="Australia">
-      </div>
-
-      <div>
-        <label class="block text-sm font-bold mb-2">Match Date</label>
-        <input id="matchDate" class="input" type="date">
-      </div>
-
-      <div>
-        <label class="block text-sm font-bold mb-2">Match Status</label>
-        <select id="matchStatus" class="input">
-          <option value="upcoming">Upcoming</option>
-          <option value="live">Live</option>
-          <option value="completed">Completed</option>
-        </select>
-      </div>
-
-      <button onclick="createMatch()" class="btn w-full">
-        Create Match
-      </button>
-
-    </div>
-
-  </div>
-</div>
-
-
+<!-- JAVASCRIPT -->
 <script>
 
-const defaultData = {
-  matches: [],
-  series: [
-    {name:"No active series",status:"Inactive"}
-  ],
-  teams: [
-    {name:"India",code:"IND"},
-    {name:"Australia",code:"AUS"}
-  ],
-  players: [
-    {name:"Add your players",team:"—",role:"—"}
-  ],
-  users: [
-    {name:"Admin",email:"admin@baazigar.live",role:"Administrator"}
-  ],
-  logs: [
-    "System initialized successfully",
-    "Admin dashboard loaded",
-    "Waiting for live match data"
-  ],
-  api:{
-    cricket:"",
-    odds:"",
-    enabled:false
-  }
-};
-
-function loadData(){
-  const saved=localStorage.getItem("baazigarData");
-  if(!saved){
-    localStorage.setItem("baazigarData",JSON.stringify(defaultData));
-    return JSON.parse(JSON.stringify(defaultData));
-  }
-  return JSON.parse(saved);
+function openSidebar() {
+    document.getElementById("sidebar").classList.add("open");
+    document.getElementById("overlay").classList.add("show");
 }
 
-let data=loadData();
-
-function saveData(){
-  localStorage.setItem("baazigarData",JSON.stringify(data));
+function closeSidebar() {
+    document.getElementById("sidebar").classList.remove("open");
+    document.getElementById("overlay").classList.remove("show");
 }
 
-function addLog(text){
-  data.logs.unshift(text);
-  data.logs=data.logs.slice(0,20);
-  saveData();
-  renderAll();
+function selectNav(button, name) {
+
+    document.querySelectorAll(".nav-item").forEach(item => {
+        item.classList.remove("nav-active");
+    });
+
+    button.classList.add("nav-active");
+
+    if (window.innerWidth <= 900) {
+        closeSidebar();
+    }
+
+    if (name !== "Dashboard") {
+        alert(name + " section is ready to be connected.");
+    }
 }
 
-function showPage(page){
-
-  document.querySelectorAll("section[id^='page-']").forEach(el=>{
-    el.classList.add("hidden-page");
-  });
-
-  const target=document.getElementById("page-"+page);
-  if(target) target.classList.remove("hidden-page");
-
-  document.querySelectorAll(".nav-btn").forEach(btn=>{
-    btn.classList.remove("nav-active");
-    btn.classList.add("text-[#bfc4b2]");
-  });
-
-  const active=document.querySelector(`[data-page="${page}"]`);
-
-  if(active){
-    active.classList.add("nav-active");
-    active.classList.remove("text-[#bfc4b2]");
-  }
-
-  if(window.innerWidth<1024){
-    document.getElementById("sidebar").classList.add("-translate-x-full");
-  }
-
-  renderAll();
+function newMatch() {
+    alert("New Match panel will open here.");
 }
 
-function toggleSidebar(){
-  document.getElementById("sidebar").classList.toggle("-translate-x-full");
+function viewLogs() {
+    alert("Full system logs will open here.");
 }
 
-function openNewMatch(){
-  document.getElementById("matchModal").classList.remove("hidden");
-  document.getElementById("matchDate").value=new Date().toISOString().split("T")[0];
+function logout() {
+    const confirmLogout = confirm("Are you sure you want to logout?");
+
+    if (confirmLogout) {
+        alert("Logout functionality can now be connected to your authentication system.");
+    }
 }
 
-function closeModal(){
-  document.getElementById("matchModal").classList.add("hidden");
+function updateClock() {
+
+    const now = new Date();
+
+    const time = now.toLocaleTimeString("en-IN", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true
+    });
+
+    document.getElementById("clock").textContent = time;
 }
 
-function createMatch(){
-
-  const t1=document.getElementById("team1").value.trim();
-  const t2=document.getElementById("team2").value.trim();
-  const date=document.getElementById("matchDate").value;
-  const status=document.getElementById("matchStatus").value;
-
-  if(!t1 || !t2 || !date){
-    alert("Please fill Team 1, Team 2 and Match Date.");
-    return;
-  }
-
-  data.matches.push({
-    id:Date.now(),
-    team1:t1,
-    team2:t2,
-    date:date,
-    status:status,
-    score1:"0/0",
-    score2:"0/0"
-  });
-
-  addLog(`New match created: ${t1} vs ${t2}`);
-
-  closeModal();
-
-  document.getElementById("team1").value="";
-  document.getElementById("team2").value="";
-
-  showPage("matches");
-}
-
-function deleteMatch(id){
-
-  if(!confirm("Delete this match?")) return;
-
-  data.matches=data.matches.filter(m=>m.id!==id);
-
-  addLog("Match deleted");
-
-  renderAll();
-}
-
-function toggleMatch(id){
-
-  const match=data.matches.find(m=>m.id===id);
-
-  if(!match)return;
-
-  if(match.status==="live"){
-    match.status="completed";
-  }else{
-    match.status="live";
-  }
-
-  addLog(`${match.team1} vs ${match.team2} status changed to ${match.status}`);
-
-  saveData();
-  renderAll();
-}
-
-function addSeries(){
-
-  const name=prompt("Enter series name:");
-
-  if(!name)return;
-
-  data.series.push({
-    name:name,
-    status:"Active"
-  });
-
-  addLog(`Series added: ${name}`);
-}
-
-function addTeam(){
-
-  const name=prompt("Enter team name:");
-
-  if(!name)return;
-
-  const code=prompt("Enter team code:") || name.substring(0,3).toUpperCase();
-
-  data.teams.push({
-    name:name,
-    code:code
-  });
-
-  addLog(`Team added: ${name}`);
-}
-
-function addPlayer(){
-
-  const name=prompt("Player name:");
-
-  if(!name)return;
-
-  const team=prompt("Team:") || "—";
-  const role=prompt("Role:") || "Player";
-
-  data.players.push({
-    name:name,
-    team:team,
-    role:role
-  });
-
-  addLog(`Player added: ${name}`);
-}
-
-function addUser(){
-
-  const name=prompt("User name:");
-
-  if(!name)return;
-
-  const email=prompt("Email:");
-
-  if(!email)return;
-
-  data.users.push({
-    name:name,
-    email:email,
-    role:"Staff"
-  });
-
-  addLog(`User added: ${name}`);
-}
-
-function saveApi(){
-
-  data.api.cricket=document.getElementById("cricketApi").value;
-  data.api.odds=document.getElementById("oddsApi").value;
-  data.api.enabled=document.getElementById("apiEnabled").checked;
-
-  saveData();
-
-  document.getElementById("apiStatusTop").textContent=
-    data.api.enabled ? "ACTIVE" : "OFFLINE";
-
-  addLog("API settings saved");
-
-  alert("API settings saved.");
-}
-
-function saveSettings(){
-
-  localStorage.setItem(
-    "dashboardName",
-    document.getElementById("dashboardName").value
-  );
-
-  localStorage.setItem(
-    "adminName",
-    document.getElementById("adminName").value
-  );
-
-  localStorage.setItem(
-    "notifications",
-    document.getElementById("notifications").checked
-  );
-
-  addLog("Dashboard settings updated");
-
-  alert("Settings saved.");
-}
-
-function logout(){
-
-  if(confirm("Are you sure you want to logout?")){
-    alert("Logout system is ready. Connect your authentication backend to make this a real secure logout.");
-  }
-
-}
-
-function renderDashboard(){
-
-  const live=data.matches.filter(m=>m.status==="live").length;
-
-  const upcoming=data.matches.filter(m=>m.status==="upcoming").length;
-
-  document.getElementById("totalUsers").textContent=data.users.length;
-
-  document.getElementById("liveMatches").textContent=live;
-
-  document.getElementById("upcomingMatches").textContent=upcoming;
-
-  document.getElementById("activeSeries").textContent=
-    data.series.filter(s=>s.status==="Active").length;
-
-  document.getElementById("lastUpdated").textContent=
-    new Date().toLocaleTimeString();
-
-  document.getElementById("apiStatusTop").textContent=
-    data.api.enabled ? "ACTIVE" : "OFFLINE";
-
-  document.getElementById("logs").innerHTML=data.logs.map(log=>`
-    <div class="flex gap-3">
-      <div class="w-2 h-2 rounded-full bg-[#bfff00] mt-2 flex-shrink-0"></div>
-      <div>
-        <div class="text-sm">${escapeHtml(log)}</div>
-        <div class="text-[10px] text-[#858b7a] mt-1">${new Date().toLocaleTimeString()}</div>
-      </div>
-    </div>
-  `).join("");
-}
-
-function renderMatches(){
-
-  const el=document.getElementById("matchesList");
-
-  if(!data.matches.length){
-    el.innerHTML=`
-      <div class="card p-10 text-center">
-        <span class="material-symbols-outlined text-5xl text-[#666]">sports_cricket</span>
-        <h3 class="text-xl font-bold mt-3">No Matches</h3>
-        <p class="text-[#92988a] mt-2">Create your first match using New Match.</p>
-      </div>
-    `;
-    return;
-  }
-
-  el.innerHTML=data.matches.map(m=>`
-
-    <div class="card p-5">
-
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-
-        <div>
-          <div class="text-xs text-[#aeb59a] uppercase tracking-widest">
-            ${escapeHtml(m.date)}
-          </div>
-
-          <div class="text-xl font-black mt-2">
-            ${escapeHtml(m.team1)}
-            <span class="text-[#72776d] mx-2">VS</span>
-            ${escapeHtml(m.team2)}
-          </div>
-
-          <div class="mt-2 text-sm">
-            ${m.score1} &nbsp; | &nbsp; ${m.score2}
-          </div>
-        </div>
-
-        <div class="flex flex-wrap gap-2">
-
-          <span class="px-3 py-2 rounded-lg text-xs font-bold
-          ${m.status==="live"
-            ?"bg-[#bfff00]/10 text-[#bfff00]"
-            :"bg-[#282b2f] text-[#bfc4b2]"}">
-            ${m.status.toUpperCase()}
-          </span>
-
-          <button onclick="toggleMatch(${m.id})" class="btn-dark">
-            ${m.status==="live" ? "Finish" : "Make Live"}
-          </button>
-
-          <button onclick="deleteMatch(${m.id})" class="btn-danger">
-            Delete
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  `).join("");
-}
-
-function renderSeries(){
-
-  document.getElementById("seriesList").innerHTML=data.series.map(s=>`
-
-    <div class="card p-6">
-
-      <div class="flex justify-between items-start">
-
-        <div>
-          <div class="text-xl font-bold">${escapeHtml(s.name)}</div>
-          <div class="text-sm text-[#aeb59a] mt-2">
-            Cricket Series
-          </div>
-        </div>
-
-        <span class="text-xs font-bold
-        ${s.status==="Active"?"text-[#bfff00]":"text-[#777]"}">
-          ● ${s.status}
-        </span>
-
-      </div>
-
-    </div>
-
-  `).join("");
-}
-
-function renderTeams(){
-
-  document.getElementById("teamsList").innerHTML=data.teams.map(t=>`
-
-    <div class="card p-6 text-center">
-
-      <div class="w-14 h-14 mx-auto rounded-full bg-[#bfff00]/10 flex items-center justify-center text-[#bfff00] font-black text-lg">
-        ${escapeHtml(t.code)}
-      </div>
-
-      <div class="font-bold text-lg mt-4">${escapeHtml(t.name)}</div>
-
-      <div class="text-xs text-[#858b7a] mt-1">
-        Team Code: ${escapeHtml(t.code)}
-      </div>
-
-    </div>
-
-  `).join("");
-}
-
-function renderPlayers(){
-
-  document.getElementById("playersList").innerHTML=`
-
-    <div class="grid grid-cols-3 gap-3 px-5 py-4 text-xs font-bold text-[#aeb59a] border-b border-[#30332f]">
-      <div>PLAYER</div>
-      <div>TEAM</div>
-      <div>ROLE</div>
-    </div>
-
-    ${data.players.map(p=>`
-
-      <div class="grid grid-cols-3 gap-3 px-5 py-4 border-b border-[#292c2f]">
-
-        <div class="font-bold">${escapeHtml(p.name)}</div>
-
-        <div class="text-[#bfc4b2]">${escapeHtml(p.team)}</div>
-
-        <div class="text-[#bfc4b2]">${escapeHtml(p.role)}</div>
-
-      </div>
-
-    `).join("")}
-
-  `;
-}
-
-function renderUsers(){
-
-  document.getElementById("usersList").innerHTML=data.users.map(u=>`
-
-    <div class="card p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-
-      <div class="flex items-center gap-4">
-
-        <div class="w-11 h-11 rounded-full bg-[#bfff00] text-black flex items-center justify-center font-black">
-          ${escapeHtml(u.name.charAt(0).toUpperCase())}
-        </div>
-
-        <div>
-          <div class="font-bold">${escapeHtml(u.name)}</div>
-          <div class="text-sm text-[#909688]">${escapeHtml(u.email)}</div>
-        </div>
-
-      </div>
-
-      <span class="text-xs text-[#bfff00] font-bold">
-        ${escapeHtml(u.role)}
-      </span>
-
-    </div>
-
-  `).join("");
-}
-
-function loadSettings(){
-
-  const name=localStorage.getItem("dashboardName");
-  const admin=localStorage.getItem("adminName");
-  const notifications=localStorage.getItem("notifications");
-
-  if(name)document.getElementById("dashboardName").value=name;
-
-  if(admin)document.getElementById("adminName").value=admin;
-
-  if(notifications!==null)
-    document.getElementById("notifications").checked=notifications==="true";
-
-  document.getElementById("cricketApi").value=data.api.cricket;
-  document.getElementById("oddsApi").value=data.api.odds;
-  document.getElementById("apiEnabled").checked=data.api.enabled;
-}
-
-function renderAll(){
-
-  saveData();
-
-  renderDashboard();
-  renderMatches();
-  renderSeries();
-  renderTeams();
-  renderPlayers();
-  renderUsers();
-  loadSettings();
-}
-
-function escapeHtml(text){
-
-  return String(text)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
-
-renderAll();
+updateClock();
+setInterval(updateClock, 1000);
 
 </script>
 
